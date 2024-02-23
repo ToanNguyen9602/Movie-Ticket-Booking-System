@@ -1,0 +1,327 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:mytags="http://www.mytags.vn" th:fragment="content(title, mainContent)">
+
+<head>
+	<!-- Basic Page Needs -->
+	<meta charset="utf-8">
+	<title>AMovie</title>
+	<meta name="description" content="A Template by Gozha.net">
+	<meta name="keywords" content="HTML, CSS, JavaScript">
+	<meta name="author" content="Gozha.net">
+
+	<!-- Mobile Specific Metas-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="telephone=no" name="format-detection">
+
+	<!-- Fonts -->
+	<!-- Font awesome - icon font -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<!-- Roboto -->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,700' rel='stylesheet' type='text/css'>
+	<!-- Open Sans -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:800italic' rel='stylesheet' type='text/css'>
+
+	<!-- Stylesheets -->
+
+	<!-- Mobile menu -->
+	<link th:href="@{/user/css/gozha-nav.css}" rel="stylesheet" />
+	<!-- Select -->
+	<link th:href="@{/user/css/external/jquery.selectbox.css}" rel="stylesheet" />
+
+	<!-- Slider Revolution CSS Files -->
+	<link rel="stylesheet" type="text/css" th:href="@{/user/revolution/css/settings.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/user/revolution/css/layers.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/user/revolution/css/navigation.css}">
+
+	<!-- Custom -->
+	<link th:href="@{/user/css/style.css}" rel="stylesheet" />
+
+	<!-- Custom -->
+	<link th:href="@{/user/css/style.css?v=1}" rel="stylesheet" />
+	<!-- Modernizr -->
+	<script th:src="@{/user/js/external/modernizr.custom.js}"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- Banner -->
+
+		<!-- Header section -->
+		<header class="header-wrapper">
+			<div class="container">
+				<!-- Logo link-->
+				<a th:href="@{/}" class="logo">
+					<img alt='logo' th:src="@{/user/images/logo.png}">
+				</a>
+
+				<!-- Main website navigation-->
+				<nav id="navigation-box">
+					<!-- Toggle for mobile menu mode -->
+					<a href="#" id="navigation-toggle">
+						<span class="menu-icon">
+							<span class="icon-toggle" role="button" aria-label="Toggle Navigation">
+								<span class="lines"></span>
+							</span>
+						</span>
+					</a>
+
+					<!-- Link navigation -->
+					<ul id="navigation">
+						<li>
+							<span class="sub-nav-toggle plus"></span>
+							<a href="#">Film</a>
+							<ul>
+								<li class="menu__nav-item"><a th:href="@{/film/index}">Now showing</a></li>
+								<li class="menu__nav-item"><a href="coming-soon.html">Coming soon</a></li>
+
+							</ul>
+						</li>
+						<li>
+							<span class="sub-nav-toggle plus"></span>
+							<a href="page-elements.html">Pages</a>
+							<ul>
+								<li class="menu__nav-item"><a th:href="@{/contact/index}">Contact us</a></li>
+							</ul>
+						</li>
+						<li>
+							<span class="sub-nav-toggle plus"></span>
+							<a href="page-elements.html">Booking steps</a>
+							<ul>
+								<li class="menu__nav-item"><a th:href="@{/bookseat/interest}">Cinema interest</a></li>
+								<li class="menu__nav-item"><a th:href="@{/bookseat/index}">Booking seat</a></li>
+								<li class="menu__nav-item"><a href="book3-buy.html">Booking step 3 (buy)</a></li>
+								<li class="menu__nav-item"><a href="book3-reserve.html">Booking step 3 (reserve)</a>
+								</li>
+								<li class="menu__nav-item"><a href="book-final.html">Final ticket view</a></li>
+							</ul>
+						</li>
+						<li>
+							<span class="sub-nav-toggle plus"></span>
+							<a href="gallery-four.html">Blog</a>
+						</li>
+						<li>
+							<span class="sub-nav-toggle plus"></span>
+							<a href="news-left.html">Cinema</a>
+						</li>
+
+					</ul>
+				</nav>
+
+				<!-- Additional header buttons / Auth and direct link to booking-->
+				<div class="control-panel">
+					<button type="button" class="btn btn-md btn--warning btn--book login-window" data-toggle="modal"
+						data-target="#exampleModalCenter">
+						Sign in
+					</button>
+					<button type="button" class="btn btn-md btn--warning btn--book login-window" data-toggle="modal"
+						data-target="#exampleModalCenters">
+						REGISTER
+					</button>
+
+				</div>
+
+			</div>
+		</header>
+
+		<!-- Search bar -->
+		<div class="search-wrapper">
+			<div class="container container--add">
+				<form id="search-form" method="get" class="search">
+					<input type="text" class="search__field" placeholder="Search">
+					<select name="sorting_item" id="search-sort" class="search__sort" tabindex="0">
+						<option value="1" selected="selected">By title</option>
+						<option value="2">By year</option>
+						<option value="3">By producer</option>
+					</select>
+					<button type="submit" class="btn btn-md btn--danger search__button">Search a movie</button>
+				</form>
+			</div>
+		</div>
+
+
+
+		<!-- Main content -->
+		<div th:replace="${mainContent}"></div>
+		<!-- Main content -->
+		<div class="clearfix"></div>
+
+		<footer class="footer-wrapper">
+			<section class="container">
+				<div class="col-xs-4 col-md-2 footer-nav">
+					<ul class="nav-link">
+						<li><a href="#" class="nav-link__item">Cities</a></li>
+						<li><a href="movie-list-left.html" class="nav-link__item">Movies</a></li>
+						<li><a href="trailer.html" class="nav-link__item">Trailers</a></li>
+						<li><a href="rates-left.html" class="nav-link__item">Rates</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-4 col-md-2 footer-nav">
+					<ul class="nav-link">
+						<li><a href="coming-soon.html" class="nav-link__item">Coming soon</a></li>
+						<li><a href="cinema-list.html" class="nav-link__item">Cinemas</a></li>
+						<li><a href="offers.html" class="nav-link__item">Best offers</a></li>
+						<li><a href="news-left.html" class="nav-link__item">News</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-4 col-md-2 footer-nav">
+					<ul class="nav-link">
+						<li><a href="#" class="nav-link__item">Terms of use</a></li>
+						<li><a href="gallery-four.html" class="nav-link__item">Gallery</a></li>
+						<li><a href="contact.html" class="nav-link__item">Contacts</a></li>
+						<li><a href="page-elements.html" class="nav-link__item">Shortcodes</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<div class="footer-info">
+						<p class="heading-special--small">A.Movie<br><span class="title-edition">in the social
+								media</span></p>
+
+						<div class="social">
+							<a href='#' class="social__variant fa fa-facebook"></a>
+							<a href='#' class="social__variant fa fa-twitter"></a>
+							<a href='#' class="social__variant fa fa-vk"></a>
+							<a href='#' class="social__variant fa fa-instagram"></a>
+							<a href='#' class="social__variant fa fa-tumblr"></a>
+							<a href='#' class="social__variant fa fa-pinterest"></a>
+						</div>
+
+						<div class="clearfix"></div>
+						<p class="copy">&copy; A.Movie, 2013. All rights reserved. Done by Olia Gozha</p>
+					</div>
+				</div>
+			</section>
+		</footer>
+	</div>
+
+	<!-- open/close -->
+	<!-- Button trigger modal -->
+
+
+	<!-- Modal Sign in -->
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<form id="login-form" class="login" method='get' novalidate=''>
+					<p class="login__title">sign in <br><span class="login-edition">welcome to A.Movie</span></p>
+
+
+
+					<p class="login__tracker"> </p>
+
+					<div class="field-wrap">
+						<input type='text' placeholder='Username' name='user-email' class="login__input" required>
+						<input type='password' placeholder='Password' name='user-password' class="login__input"
+							required>
+
+						<input id='#informed' class='login__check styled'>
+						<label for='#informed' class='login__check-info'> </label>
+					</div>
+
+					<div class="login__control">
+						<button type='submit' class="btn btn-md btn--warning btn--wider">sign in</button>
+						<a href="#" class="login__tracker form__tracker">Forgot password?</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Register -->
+	<div class="modal fade" id="exampleModalCenters" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<form id="login-form" class="login" method='get' novalidate=''>
+					<p class="login__title">Register <br><span class="login-edition">welcome to A.Movie</span></p>
+
+
+
+					<p class="login__tracker"> </p>
+
+					<div class="field-wrap">
+						<input type='text' placeholder='Username' name='user-email' class="login__input" required>
+						<input type='password' placeholder='Password' name='user-password' class="login__input"
+							required>
+
+						<input id='#informed' class='login__check styled'>
+						<label for='#informed' class='login__check-info'> </label>
+					</div>
+
+					<div class="login__control">
+						<button type='submit' class="btn btn-md btn--warning btn--wider">sign up</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- JavaScript-->
+	<!-- jQuery 3.1.1-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script th:src="@{/user/js/external/jquery-3.1.1.min.js}"><\/script>')</script>
+	<!-- Migrate -->
+	<script th:src="@{/user/js/external/jquery-migrate-1.2.1.min.js}"></script>
+	<!-- Bootstrap 3-->
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+
+	<!-- Slider Revolution core JavaScript files -->
+	<script type="text/javascript" th:src="@{/user/revolution/js/jquery.themepunch.tools.min.js}"></script>
+	<script type="text/javascript" th:src="@{/user/revolution/js/jquery.themepunch.revolution.min.js}"></script>
+
+	<!-- Slider Revolution extension scripts. -->
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.actions.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.carousel.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.kenburn.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.layeranimation.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.migration.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.navigation.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.parallax.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.slideanims.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/user/revolution/js/extensions/revolution.extension.video.min.js}"></script>
+
+	<!-- Mobile menu -->
+	<script th:src="@{/user/js/jquery.mobile.menu.js}"></script>
+	<!-- Select -->
+	<script th:src="@{/user/js/external/jquery.selectbox-0.2.min.js}"></script>
+	<!-- Stars rate -->
+	<script th:src="@{/user/js/external/jquery.raty.js}"></script>
+
+	<!-- Form element -->
+	<script th:src="@{/user/js/external/form-element.js}"></script>
+	<!-- Form validation -->
+	<script th:src="@{/user/js/form.js}"></script>
+
+	<!-- Twitter feed -->
+	<script th:src="@{/user/js/external/twitterfeed.js}"></script>
+
+	<!-- Custom -->
+	<script th:src="@{/user/js/custom.js}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			init_Home();
+		});
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			init_BookingTwo();
+		});
+	</script>
+</body>
+
+</html>
