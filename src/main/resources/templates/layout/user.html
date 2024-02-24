@@ -43,6 +43,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" 
+	integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
 
 </head>
 
@@ -75,8 +78,8 @@
 							<span class="sub-nav-toggle plus"></span>
 							<a href="#">Film</a>
 							<ul>
-								<li class="menu__nav-item"><a th:href="@{/film/index}">Now showing</a></li>
-								<li class="menu__nav-item"><a href="coming-soon.html">Coming soon</a></li>
+								<li class="menu__nav-item"><a th:href="@{/film/nowshowing}">Now showing</a></li>
+								<li class="menu__nav-item"><a th:href="@{/film/comingsoon}">Coming soon</a></li>
 
 							</ul>
 						</li>
@@ -101,11 +104,11 @@
 						</li>
 						<li>
 							<span class="sub-nav-toggle plus"></span>
-							<a href="gallery-four.html">Blog</a>
+							<a th:href="@{/blog/index}">Blog</a>
 						</li>
 						<li>
 							<span class="sub-nav-toggle plus"></span>
-							<a href="news-left.html">Cinema</a>
+							<a th:href="@{/cinema/index}">Cinema</a>
 						</li>
 
 					</ul>
@@ -262,12 +265,12 @@
 
 	<!-- JavaScript-->
 	<!-- jQuery 3.1.1-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script th:src="@{/user/https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js}"></script>
 	<script>window.jQuery || document.write('<script th:src="@{/user/js/external/jquery-3.1.1.min.js}"><\/script>')</script>
 	<!-- Migrate -->
 	<script th:src="@{/user/js/external/jquery-migrate-1.2.1.min.js}"></script>
 	<!-- Bootstrap 3-->
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+	<script th:src="@{/user/http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js}"></script>
 
 	<!-- Slider Revolution core JavaScript files -->
 	<script type="text/javascript" th:src="@{/user/revolution/js/jquery.themepunch.tools.min.js}"></script>
@@ -320,6 +323,16 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 			init_BookingTwo();
+		});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			init_MovieList();
+		});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			init_BookingOne();
 		});
 	</script>
 </body>

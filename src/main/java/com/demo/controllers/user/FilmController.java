@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping({ "film"})
 public class FilmController {
 
-	@GetMapping(value = { "", "index", "/" })
+	@GetMapping(value = { "", "comingsoon", "/" })
 	public String index() {
-		return "film/index";
+		return "film/comingsoon";
 	}
+	@GetMapping(value = { "", "nowshowing", "/" })
+	public String nowshowing() {
+		return "film/nowshowing";
+	}
+	
 	
 	 
 }
