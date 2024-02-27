@@ -12,5 +12,10 @@ public class DashboardController {
 		return "admin/dashboard";
 	}
 	
+	@RequestMapping(value = {"add"}, method = RequestMethod.GET)
+	public String add() {
+		return "admin/add";
+	}
+	
 	
 }

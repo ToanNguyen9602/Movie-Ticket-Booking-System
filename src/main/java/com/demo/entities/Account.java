@@ -19,6 +19,7 @@ public class Account implements java.io.Serializable {
 	private String email;
 	private String phone;
 	private String address;
+	private boolean status;
 	private Set<Booking> bookings = new HashSet<Booking>(0);
 	private Set<Role> roles = new HashSet<Role>(0);
 	private Set<Blogs> blogses = new HashSet<Blogs>(0);
@@ -26,16 +27,17 @@ public class Account implements java.io.Serializable {
 	public Account() {
 	}
 
-	public Account(String username, String password, String fullname, String email, String phone, String address) {
+	public Account(String username, String password, String fullname, String email, String phone, String address, boolean status) {
 		this.username = username;
 		this.password = password;
 		this.fullname = fullname;
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
+		this.status = status;
 	}
 
-	public Account(String username, String password, String fullname, String email, String phone, String address,
+	public Account(String username, String password, String fullname, String email, String phone, String address,boolean status,
 			Set<Booking> bookings, Set<Role> roles, Set<Blogs> blogses) {
 		this.username = username;
 		this.password = password;
@@ -43,6 +45,7 @@ public class Account implements java.io.Serializable {
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
+		this.status = status;
 		this.bookings = bookings;
 		this.roles = roles;
 		this.blogses = blogses;
@@ -58,6 +61,15 @@ public class Account implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	@Column(name = "status", nullable = false)
+	public boolean isStatus() {
+		return this.status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	@Column(name = "username", nullable = false)
