@@ -22,7 +22,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
-	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.cors(cor -> cor.disable())
