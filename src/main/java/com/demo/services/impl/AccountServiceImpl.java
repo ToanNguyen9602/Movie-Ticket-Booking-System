@@ -1,18 +1,12 @@
-package com.demo.services;
-
-import java.util.ArrayList;
-import java.util.List;
-
+package com.demo.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
 import com.demo.repositories.AccountRepository;
+import com.demo.services.AccountService;
 
 @Service
 public class AccountServiceImpl implements AccountService {

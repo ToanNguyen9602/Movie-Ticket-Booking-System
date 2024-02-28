@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.demo.entities.Cinema;
 import com.demo.entities.Movie;
 import com.demo.entities.Role;
 
@@ -11,6 +12,8 @@ import com.demo.entities.Role;
 
 
 public interface MovieService {
-	public boolean save(Movie movie);
-	
+	boolean save(Movie movie);
+
+	List<Movie> findAllMovie();
+	List<Movie> searchMoviesByTitle(String title);
 }
