@@ -80,9 +80,11 @@ public class Voucher implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "booking_voucher", catalog = "booking_online", joinColumns = {
-			@JoinColumn(name = "voucher_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "booking_id", nullable = false, updatable = false) })
+    @JoinTable(
+        name = "booking_voucher",
+        joinColumns = @JoinColumn(name = "voucher_id", nullable = false, insertable = true, updatable = true),
+        inverseJoinColumns = @JoinColumn(name = "booking_id", nullable = false, insertable = true, updatable = true)
+    )
 	public Set<Booking> getBookings() {
 		return this.bookings;
 	}

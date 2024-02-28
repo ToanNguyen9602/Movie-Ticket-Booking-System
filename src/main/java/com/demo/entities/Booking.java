@@ -93,11 +93,12 @@ public class Booking implements java.io.Serializable {
 	public void setFoodBookingDetailses(Set<FoodBookingDetails> foodBookingDetailses) {
 		this.foodBookingDetailses = foodBookingDetailses;
 	}
-
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "booking_voucher", catalog = "booking_online", joinColumns = {
-			@JoinColumn(name = "booking_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "voucher_id", nullable = false, updatable = false) })
+	@JoinTable(
+	    name = "booking_voucher",
+	    joinColumns = @JoinColumn(name = "booking_id", nullable = false, insertable = true, updatable = true),
+	    inverseJoinColumns = @JoinColumn(name = "voucher_id", nullable = false, insertable = true, updatable = true)
+	)
 	public Set<Voucher> getVouchers() {
 		return this.vouchers;
 	}

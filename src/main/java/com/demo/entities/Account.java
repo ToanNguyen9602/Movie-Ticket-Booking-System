@@ -136,9 +136,11 @@ public class Account implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "account_role", catalog = "booking_online", joinColumns = {
-			@JoinColumn(name = "account_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "role_id", nullable = false, updatable = false) })
+	@JoinTable(
+	    name = "account_role",
+	    joinColumns = @JoinColumn(name = "account_id", nullable = false, insertable = true, updatable = true),
+	    inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false, insertable = true, updatable = true)
+	)
 	public Set<Role> getRoles() {
 		return this.roles;
 	}
