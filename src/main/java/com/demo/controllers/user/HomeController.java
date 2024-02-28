@@ -17,7 +17,6 @@ public class HomeController {
 	@RequestMapping(value = { "", "index", "/" }, method = RequestMethod.GET)
 	public String index(ModelMap modelMap) {
 		 modelMap.put("movies", movieService.findAllMovie()); 
-		 int a;
 		return "home/index";
 	}
 	 
