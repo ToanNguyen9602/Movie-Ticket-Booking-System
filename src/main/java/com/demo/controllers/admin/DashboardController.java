@@ -59,7 +59,7 @@ public class DashboardController {
 				redirectAttributes.addFlashAttribute("msg", "ok");
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "Fail");
-				return "redirect:/account/register";
+				return "redirect:/admin/movie/addmovie";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
