@@ -6,15 +6,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping({ "admin" })
 public class DashboardController {
-	
 	@RequestMapping(value = {"dashboard"}, method = RequestMethod.GET)
 	public String index() {
 		return "admin/dashboard";
 	}
 	
-	@RequestMapping(value = {"add"}, method = RequestMethod.GET)
-	public String add() {
-		return "admin/add";
+	@RequestMapping(value = {"addAccount"}, method = RequestMethod.GET)
+	public String addAccount() {
+		return "admin/account/add";
 	}
 	
 	
