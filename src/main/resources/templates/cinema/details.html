@@ -11,17 +11,14 @@
 		<div class="col-sm-12">
 			<div class="row">
 				<div class='icon-block col-sm-12'>
-					<h2 class="heading heading--top">City</h2>
+					<h2 class="heading heading--top">CGV </h2>
 					<div class="container">
 						<div>
 							<ul style="list-style: none; display: flex;">
-
-								<li th:each="city : ${cities}" style="padding: 40;">
-						<a th:href="@{'/cinema/details/' + ${city.id}}" th:text="${city.name}"></a>
-
+								<li th:each="cinema : ${cinemas}" style="padding: 40;">
+									<a th:text="${cinema.name}">
+									</a>
 								</li>
-
-
 							</ul>
 						</div>
 					</div>

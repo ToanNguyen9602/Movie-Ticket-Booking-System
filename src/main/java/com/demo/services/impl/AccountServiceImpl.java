@@ -1,4 +1,4 @@
-package com.demo.services;
+package com.demo.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.demo.repositories.AccountRepository;
+import com.demo.services.AccountService;
 
 @Service
 public class AccountServiceImpl implements AccountService {
