@@ -22,7 +22,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 744c4ba1b7ec8db29dbd51d70d4b4ae05539f971
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.cors(cor -> cor.disable())
@@ -73,4 +76,8 @@ public class SecurityConfiguration {
 		return new BCryptPasswordEncoder();
 	}
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 744c4ba1b7ec8db29dbd51d70d4b4ae05539f971
