@@ -14,5 +14,5 @@ import com.demo.entities.Role;
 
 public interface FoodService {
 	public boolean save(Food food);
-	
+	public Iterable<Food> findAllfood();
 }

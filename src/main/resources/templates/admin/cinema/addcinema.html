@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+
+<head>
+	<title></title>
+</head>
+
+<body>
+
+	<main class="main">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2>Add new Cinema</h2>
+					</div>
+				</div>
+				<!-- end main title -->
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
+				<!-- form -->
+				<div class="col-12">
+					<form th:action="@{/admin/addcinema}" class="form" method="post">
+						<div class="row">
+							<div class="col-12 col-md-7 form__content">
+								<div class="row">
+									<div class="col-12">
+										<div class="form__group">
+											<input type="text" th:field="${cinema.name}" class="form__input"
+												placeholder="Name Cinema">
+										</div>
+									</div>
+
+									<div class="col-12">
+										<div class="form__group">
+											<textarea id="text" th:field="${cinema.address}" name="text"
+												class="form__textarea" placeholder="Address"></textarea>
+										</div>
+									</div>
+
+									<div class="col-12 col-lg-6">
+										<div class="form__group">
+											<select class="js-example-basic-multiple" id="genre"
+												th:field="${cinema.city}">
+												<option th:each="city:${citys}" th:value="${city.id}"
+													th:text="${city.name}"></option>
+											</select>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+
+							<div class="col-12">
+								<div class="row">
+									<div class="col-12">
+										<input type="submit" value="Publish" class="form__btn" />
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- end form -->
+			</div>
+		</div>
+	</main>
+
+
+</body>

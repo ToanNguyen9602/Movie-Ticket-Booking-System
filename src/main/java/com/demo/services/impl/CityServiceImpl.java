@@ -23,8 +23,16 @@ public class CityServiceImpl implements CityService {
 	@Override
 	public boolean save(City city) {
 		try {
-			cityRepository.save(city);
-			return true;
+
+			if (cityRepository.existsByName(city.getName())) {
+				// Thành phố đã tồn tại trong cơ sở dữ liệu
+				return false;
+			} else {
+				// Thêm thành phố mới vào cơ sở dữ liệu
+				cityRepository.save(city);
+				return true;
+			}
+
 		} catch (Exception e) {
 			return false;
 		}

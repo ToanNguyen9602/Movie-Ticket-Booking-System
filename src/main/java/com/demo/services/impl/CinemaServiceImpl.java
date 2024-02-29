@@ -17,8 +17,16 @@ public class CinemaServiceImpl implements CinemaService {
 	@Override
 	public boolean save(Cinema cinema) {
 		try {
-			cinemaRepository.save(cinema);
-			return true;
+
+			if (cinemaRepository.existsByName(cinema.getName())) {
+				
+				return false;
+			} else {
+				
+				cinemaRepository.save(cinema);
+				return true;
+			}
+
 		} catch (Exception e) {
 			return false;
 		}

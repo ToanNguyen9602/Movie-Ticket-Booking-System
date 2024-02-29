@@ -13,4 +13,6 @@ import com.demo.entities.Cinema;
 public interface CinemaRepository extends CrudRepository<Cinema, Integer> {
 	@Query("from Cinema where city.id = :cityid")
 	public List<Cinema> findCinemasByCityId(@Param("cityid") int cityid);
+	
+	boolean existsByName(String name);
 }

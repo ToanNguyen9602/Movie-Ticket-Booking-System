@@ -11,5 +11,7 @@ import com.demo.entities.City;
 public interface CityRepository extends CrudRepository<City, Integer> {
 	@Query("from City ")
 	public Iterable<City> findByAll();
+	
+	boolean existsByName(String name);
 
 }

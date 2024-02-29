@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+
+<head>
+	<title></title>
+</head>
+
+<body>
+
+	<main class="main">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2>Add new Food </h2>
+					</div>
+				</div>
+				<!-- end main title -->
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
+				<!-- form -->
+				<div class="col-12">
+					<form th:action="@{/admin/addfood}" enctype="multipart/form-data" class="form" method="post">
+						<div class="row">
+							<div class="col-12 col-md-5 form__cover">
+								<div class="row">
+									<div class="col-12 col-sm-6 col-md-12">
+										<div class="form__img">
+											<label for="form__img-upload">Photo</label>
+											<input id="form__img-upload" name="file" type="file"
+												accept=".png, .jpg, .jpeg">
+											<img id="form__img" src="#" alt=" ">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-12 col-md-7 form__content">
+								<div class="row">
+									<div class="col-12">
+										<div class="form__group">
+											<h4 style="color: aliceblue;">Name Food</h4>
+											<input type="text" th:field="${food.name}" class="form__input"
+												placeholder="Name">
+										</div>
+									</div>
+
+									<div class="col-12">
+										<div class="form__group">
+											<h4 style="color: aliceblue;">Price</h4><input type="text" th:field="${food.price}" class="form__input"
+												placeholder="Price">
+										</div>
+									</div>
+
+							<div class="col-12">
+								<div class="row">
+									<div class="col-12">
+										<input type="submit" value="Publish" class="form__btn" />
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- end form -->
+			</div>
+		</div>
+	</main>
+
+
+</body>

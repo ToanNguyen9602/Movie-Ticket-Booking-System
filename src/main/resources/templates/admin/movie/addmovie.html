@@ -1,11 +1,12 @@
-  <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+
 <head>
-<title></title>
+	<title></title>
 </head>
+
 <body>
-  
- <main class="main">
+
+	<main class="main">
 		<div class="container-fluid">
 			<div class="row">
 				<!-- main title -->
@@ -15,7 +16,9 @@
 					</div>
 				</div>
 				<!-- end main title -->
-
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
 				<!-- form -->
 				<div class="col-12">
 					<form th:action="@{/admin/addmovie}" enctype="multipart/form-data" class="form" method="post">
@@ -25,7 +28,8 @@
 									<div class="col-12 col-sm-6 col-md-12">
 										<div class="form__img">
 											<label for="form__img-upload">Poster</label>
-											<input id="form__img-upload" name="file" type="file" accept=".png, .jpg, .jpeg">
+											<input id="form__img-upload" name="file" type="file"
+												accept=".png, .jpg, .jpeg">
 											<img id="form__img" src="#" alt=" ">
 										</div>
 									</div>
@@ -36,44 +40,51 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="form__group">
-											<input type="text" th:field="${phim.title}"  class="form__input" placeholder="Title">
+											<input type="text" th:field="${phim.title}" class="form__input"
+												placeholder="Title">
 										</div>
 									</div>
 
 									<div class="col-12">
 										<div class="form__group">
-											<textarea id="text" th:field="${phim.description}" name="text" class="form__textarea" placeholder="Description"></textarea>
+											<textarea id="text" th:field="${phim.description}" name="text"
+												class="form__textarea" placeholder="Description"></textarea>
 										</div>
 									</div>
 
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
-											<input type="text" th:field="${phim.releaseDate}" class="form__input" placeholder="Release_date">
+											<input type="text" th:field="${phim.releaseDate}" class="form__input"
+												placeholder="Release_date">
 										</div>
 									</div>
 
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
-											<input type="text" th:field="${phim.duration}" class="form__input" placeholder="Running timed in minutes">
+											<input type="text" th:field="${phim.duration}" class="form__input"
+												placeholder="Running timed in minutes">
 										</div>
 									</div>
 
-									
+
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
-											<input type="text" th:field="${phim.director}" class="form__input" placeholder="director">
+											<input type="text" th:field="${phim.director}" class="form__input"
+												placeholder="director">
 										</div>
 									</div>
-									
+
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
-											<input type="text" th:field="${phim.rated}" class="form__input" placeholder="Age">
+											<input type="text" th:field="${phim.rated}" class="form__input"
+												placeholder="Age">
 										</div>
 									</div>
 
 									<div class="col-12 col-lg-6">
 										<div class="form__group">
-											<select class="js-example-basic-multiple" id="country" multiple="multiple" th:field="${phim.language}">
+											<select class="js-example-basic-multiple" id="country" multiple="multiple"
+												th:field="${phim.language}">
 												<option value="Afghanistan">Afghanistan</option>
 												<option value="Åland Islands">Åland Islands</option>
 												<option value="Albania">Albania</option>
@@ -114,7 +125,8 @@
 												<option value="Canada">Canada</option>
 												<option value="Cape Verde">Cape Verde</option>
 												<option value="Cayman Islands">Cayman Islands</option>
-												<option value="Central African Republic">Central African Republic</option>
+												<option value="Central African Republic">Central African Republic
+												</option>
 												<option value="Chad">Chad</option>
 												<option value="Chile">Chile</option>
 												<option value="China">China</option>
@@ -183,7 +195,8 @@
 												<option value="Korea">Korea</option>
 												<option value="Kuwait">Kuwait</option>
 												<option value="Kyrgyzstan">Kyrgyzstan</option>
-												<option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
+												<option value="Lao People's Democratic Republic">Lao People's Democratic
+													Republic</option>
 												<option value="Latvia">Latvia</option>
 												<option value="Lebanon">Lebanon</option>
 												<option value="Lesotho">Lesotho</option>
@@ -226,7 +239,8 @@
 												<option value="Nigeria">Nigeria</option>
 												<option value="Niue">Niue</option>
 												<option value="Norfolk Island">Norfolk Island</option>
-												<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+												<option value="Northern Mariana Islands">Northern Mariana Islands
+												</option>
 												<option value="Norway">Norway</option>
 												<option value="Oman">Oman</option>
 												<option value="Pakistan">Pakistan</option>
@@ -279,7 +293,8 @@
 												<option value="Tunisia">Tunisia</option>
 												<option value="Turkey">Turkey</option>
 												<option value="Turkmenistan">Turkmenistan</option>
-												<option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+												<option value="Turks and Caicos Islands">Turks and Caicos Islands
+												</option>
 												<option value="Tuvalu">Tuvalu</option>
 												<option value="Uganda">Uganda</option>
 												<option value="Ukraine">Ukraine</option>
@@ -301,7 +316,8 @@
 
 									<div class="col-12 col-lg-6">
 										<div class="form__group">
-											<select class="js-example-basic-multiple" th:field="${phim.genre}" id="genre" multiple="multiple">
+											<select class="js-example-basic-multiple" th:field="${phim.genre}"
+												id="genre" multiple="multiple">
 												<option value="Action">Action</option>
 												<option value="Animation">Animation</option>
 												<option value="Comedy">Comedy</option>
@@ -320,26 +336,28 @@
 									</div>
 
 									<div class="col-12">
-										<div >
-											<input type="text" th:field="${phim.casters}" class="form__input" placeholder="casters">
+										<div>
+											<input type="text" th:field="${phim.casters}" class="form__input"
+												placeholder="casters">
 										</div>
 									</div>
-									
+
 								</div>
-								
+
 							</div>
 
 							<div class="col-12">
-										<div class="form__group form__group--link">
-											<input type="text" th:field="${phim.trailer}" class="form__input" placeholder="Trailer">
-										</div>
-									</div>
-							
+								<div class="form__group form__group--link">
+									<input type="text" th:field="${phim.trailer}" class="form__input"
+										placeholder="Trailer">
+								</div>
+							</div>
+
 							<div class="col-12">
 								<div class="row">
 									<div class="col-12">
-										<input type="submit" value="Publish" class="form__btn"/>
-										
+										<input type="submit" value="Publish" class="form__btn" />
+
 									</div>
 								</div>
 							</div>
@@ -350,6 +368,6 @@
 			</div>
 		</div>
 	</main>
-        
-        
+
+
 </body>

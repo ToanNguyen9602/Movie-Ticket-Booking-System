@@ -8,5 +8,5 @@ import com.demo.entities.Food;
 
 @Repository
 public interface FoodRepository extends CrudRepository<Food, Integer> {
-
+	boolean existsByName(String name);
 }
