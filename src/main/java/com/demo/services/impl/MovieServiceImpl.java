@@ -14,7 +14,6 @@ public class MovieServiceImpl implements MovieService {
 	@Autowired
 	private MovieRepository movieRepository;
 
-	
 	@Override
 	public boolean save(Movie movie) { 
 		try {
@@ -35,5 +34,14 @@ public class MovieServiceImpl implements MovieService {
 	public List<Movie> findAllMovie() {
 		return movieRepository.findAll();
 	}
+
+
+	@Override
+	public List<Movie> findMovieById(int id) {
+		return movieRepository.findMovieById(id);
+	}
+
+
+	
 
 }

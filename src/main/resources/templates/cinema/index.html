@@ -17,7 +17,7 @@
 							<ul style="list-style: none; display: flex;">
 
 								<li th:each="city : ${cities}" style="padding: 40;">
-						<a th:href="@{'/cinema/details/' + ${city.id}}" th:text="${city.name}"></a>
+									<a th:href="@{'/cinema/details/' + ${city.id}}" th:text="${city.name}"></a>
 
 								</li>
 

@@ -8,10 +8,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.demo.entities.Cinema;
 import com.demo.entities.Movie;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
-	@Query("from Movie where title like %:title%") // ua dau can dau, name cungx dau cos can name 
+	@Query("from Movie where title like %:title%") 
 	public List<Movie> searchMoviesByTitle(@Param("title") String title); 
+	
+	@Query("from Movie where id = :id")
+	public List<Movie> findMovieById(@Param("id") int id);
 }
