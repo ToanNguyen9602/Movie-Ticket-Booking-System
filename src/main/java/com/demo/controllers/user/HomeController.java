@@ -28,14 +28,16 @@ public class HomeController {
 	@GetMapping(value = "details/{id}")
 	public String details(ModelMap modelMap, @PathVariable("id") int id) {
 		modelMap.put("movies", movieService.findMovieById(id));
+		modelMap.put("cities", cityService.findAll());
 		return "home/details";
 	}
-
-	@RequestMapping(value = { "interest/{id}" }, method = RequestMethod.GET)
-	public String interest(ModelMap modelMap, @PathVariable("id") int id) {
-		modelMap.put("cities", cityService.findAll());
-		modelMap.put("movies", movieService.findMovieById(id));
-		return "home/interest";
+	@GetMapping(value = "choosehall/{city_id}")
+	public String choosehall(ModelMap modelMap, @PathVariable("city_id") int city_id ) {
+		modelMap.put("cinemas", cityService.findCinemasByCityId(city_id));
+		return "home/choosehall";
 	}
+	 
+
+
  
 }
