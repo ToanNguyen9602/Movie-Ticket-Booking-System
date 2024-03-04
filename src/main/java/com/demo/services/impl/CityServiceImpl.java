@@ -24,7 +24,7 @@ public class CityServiceImpl implements CityService {
 	public boolean save(City city) {
 		try {
 
-			if (cityRepository.existsByName(city.getCityName())) {
+			if (cityRepository.existsByName(city.getName())) {
 				// Thành phố đã tồn tại trong cơ sở dữ liệu
 				return false;
 			} else {

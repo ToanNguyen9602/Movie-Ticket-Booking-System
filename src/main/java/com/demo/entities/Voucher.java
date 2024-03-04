@@ -1,6 +1,7 @@
 package com.demo.entities;
-// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -12,68 +13,72 @@ import jakarta.persistence.*;
 @Table(name = "voucher")
 public class Voucher implements java.io.Serializable {
 
-	private Integer vouId;
-	private String vouName;
-	private double vouDiscount;
-	private String vouExpiry;
+	private Integer id;
+	private String name;
+	private double discount;
+	private Date expiry;
 	private Set<Booking> bookings = new HashSet<Booking>(0);
 
 	public Voucher() {
 	}
 
-	public Voucher(String vouName, double vouDiscount, String vouExpiry) {
-		this.vouName = vouName;
-		this.vouDiscount = vouDiscount;
-		this.vouExpiry = vouExpiry;
+	public Voucher(String name, double discount, Date expiry) {
+		this.name = name;
+		this.discount = discount;
+		this.expiry = expiry;
 	}
 
-	public Voucher(String vouName, double vouDiscount, String vouExpiry, Set<Booking> bookings) {
-		this.vouName = vouName;
-		this.vouDiscount = vouDiscount;
-		this.vouExpiry = vouExpiry;
+	public Voucher(String name, double discount, Date expiry, Set<Booking> bookings) {
+		this.name = name;
+		this.discount = discount;
+		this.expiry = expiry;
 		this.bookings = bookings;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
-	@Column(name = "vou_id", unique = true, nullable = false)
-	public Integer getVouId() {
-		return this.vouId;
+	@Column(name = "id", unique = true, nullable = false)
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setVouId(Integer vouId) {
-		this.vouId = vouId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	@Column(name = "vou_name", nullable = false, length = 250)
-	public String getVouName() {
-		return this.vouName;
+	@Column(name = "name", nullable = false)
+	public String getName() {
+		return this.name;
 	}
 
-	public void setVouName(String vouName) {
-		this.vouName = vouName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	@Column(name = "vou_discount", nullable = false, precision = 22, scale = 0)
-	public double getVouDiscount() {
-		return this.vouDiscount;
+	@Column(name = "discount", nullable = false, precision = 22, scale = 0)
+	public double getDiscount() {
+		return this.discount;
 	}
 
-	public void setVouDiscount(double vouDiscount) {
-		this.vouDiscount = vouDiscount;
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
 
-	@Column(name = "vou_expiry", nullable = false, length = 250)
-	public String getVouExpiry() {
-		return this.vouExpiry;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "expiry", nullable = false, length = 10)
+	public Date getExpiry() {
+		return this.expiry;
 	}
 
-	public void setVouExpiry(String vouExpiry) {
-		this.vouExpiry = vouExpiry;
+	public void setExpiry(Date expiry) {
+		this.expiry = expiry;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "voucher")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "voucher_booking", catalog = "booking_online", joinColumns = {
+			@JoinColumn(name = "voucher_id", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "booking_id", nullable = false, updatable = false) })
 	public Set<Booking> getBookings() {
 		return this.bookings;
 	}

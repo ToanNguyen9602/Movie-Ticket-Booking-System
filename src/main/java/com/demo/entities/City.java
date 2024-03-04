@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,41 +12,41 @@ import jakarta.persistence.*;
 @Table(name = "city")
 public class City implements java.io.Serializable {
 
-	private Integer cityId;
-	private String cityName;
+	private Integer id;
+	private String name;
 	private Set<Cinema> cinemas = new HashSet<Cinema>(0);
 
 	public City() {
 	}
 
-	public City(String cityName) {
-		this.cityName = cityName;
+	public City(String name) {
+		this.name = name;
 	}
 
-	public City(String cityName, Set<Cinema> cinemas) {
-		this.cityName = cityName;
+	public City(String name, Set<Cinema> cinemas) {
+		this.name = name;
 		this.cinemas = cinemas;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
-	@Column(name = "city_id", unique = true, nullable = false)
-	public Integer getCityId() {
-		return this.cityId;
+	@Column(name = "id", unique = true, nullable = false)
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setCityId(Integer cityId) {
-		this.cityId = cityId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	@Column(name = "city_name", nullable = false, length = 250)
-	public String getCityName() {
-		return this.cityName;
+	@Column(name = "name", nullable = false)
+	public String getName() {
+		return this.name;
 	}
 
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "city")

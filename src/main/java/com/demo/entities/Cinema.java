@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,48 +12,47 @@ import jakarta.persistence.*;
 @Table(name = "cinema")
 public class Cinema implements java.io.Serializable {
 
-	private Integer cineId;
+	private Integer id;
 	private City city;
-	private String cineName;
-	private String cineAddress;
-	private String cinePhoto;
+	private String name;
+	private String address;
+	private String photo;
 	private Set<Hall> halls = new HashSet<Hall>(0);
-	private Set<Movie> movies = new HashSet<Movie>(0);
+	private Set<Shows> showses = new HashSet<Shows>(0);
 
 	public Cinema() {
 	}
 
-	public Cinema(City city, String cineName, String cineAddress, String cinePhoto) {
+	public Cinema(City city, String name, String address, String photo) {
 		this.city = city;
-		this.cineName = cineName;
-		this.cineAddress = cineAddress;
-		this.cinePhoto = cinePhoto;
+		this.name = name;
+		this.address = address;
+		this.photo = photo;
 	}
 
-	public Cinema(City city, String cineName, String cineAddress, String cinePhoto, Set<Hall> halls,
-			Set<Movie> movies) {
+	public Cinema(City city, String name, String address, String photo, Set<Hall> halls, Set<Shows> showses) {
 		this.city = city;
-		this.cineName = cineName;
-		this.cineAddress = cineAddress;
-		this.cinePhoto = cinePhoto;
+		this.name = name;
+		this.address = address;
+		this.photo = photo;
 		this.halls = halls;
-		this.movies = movies;
+		this.showses = showses;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
-	@Column(name = "cine_id", unique = true, nullable = false)
-	public Integer getCineId() {
-		return this.cineId;
+	@Column(name = "id", unique = true, nullable = false)
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setCineId(Integer cineId) {
-		this.cineId = cineId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cine_city_id", nullable = false)
+	@JoinColumn(name = "city_id", nullable = false)
 	public City getCity() {
 		return this.city;
 	}
@@ -62,31 +61,31 @@ public class Cinema implements java.io.Serializable {
 		this.city = city;
 	}
 
-	@Column(name = "cine_name", nullable = false, length = 250)
-	public String getCineName() {
-		return this.cineName;
+	@Column(name = "name", nullable = false)
+	public String getName() {
+		return this.name;
 	}
 
-	public void setCineName(String cineName) {
-		this.cineName = cineName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	@Column(name = "cine_address", nullable = false, length = 250)
-	public String getCineAddress() {
-		return this.cineAddress;
+	@Column(name = "address", nullable = false, length = 65535)
+	public String getAddress() {
+		return this.address;
 	}
 
-	public void setCineAddress(String cineAddress) {
-		this.cineAddress = cineAddress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	@Column(name = "cine_photo", nullable = false, length = 250)
-	public String getCinePhoto() {
-		return this.cinePhoto;
+	@Column(name = "photo", nullable = false)
+	public String getPhoto() {
+		return this.photo;
 	}
 
-	public void setCinePhoto(String cinePhoto) {
-		this.cinePhoto = cinePhoto;
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinema")
@@ -98,16 +97,13 @@ public class Cinema implements java.io.Serializable {
 		this.halls = halls;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "cinemamovie", catalog = "booking_online", joinColumns = {
-			@JoinColumn(name = "cine_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "mov_id", nullable = false, updatable = false) })
-	public Set<Movie> getMovies() {
-		return this.movies;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinema")
+	public Set<Shows> getShowses() {
+		return this.showses;
 	}
 
-	public void setMovies(Set<Movie> movies) {
-		this.movies = movies;
+	public void setShowses(Set<Shows> showses) {
+		this.showses = showses;
 	}
 
 }

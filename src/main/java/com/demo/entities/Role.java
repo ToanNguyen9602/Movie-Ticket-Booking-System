@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,41 +12,41 @@ import jakarta.persistence.*;
 @Table(name = "role")
 public class Role implements java.io.Serializable {
 
-	private Integer roleId;
-	private String roleName;
+	private Integer id;
+	private String name;
 	private Set<Account> accounts = new HashSet<Account>(0);
 
 	public Role() {
 	}
 
-	public Role(String roleName) {
-		this.roleName = roleName;
+	public Role(String name) {
+		this.name = name;
 	}
 
-	public Role(String roleName, Set<Account> accounts) {
-		this.roleName = roleName;
+	public Role(String name, Set<Account> accounts) {
+		this.name = name;
 		this.accounts = accounts;
 	}
 
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
-	@Column(name = "role_id", unique = true, nullable = false)
-	public Integer getRoleId() {
-		return this.roleId;
+	@Column(name = "id", unique = true, nullable = false)
+	public Integer getId() {
+		return this.id;
 	}
 
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	@Column(name = "role_name", nullable = false, length = 250)
-	public String getRoleName() {
-		return this.roleName;
+	@Column(name = "name", nullable = false)
+	public String getName() {
+		return this.name;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

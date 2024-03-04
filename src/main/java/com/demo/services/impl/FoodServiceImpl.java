@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.demo.entities.Food;
+import com.demo.entities.FoodMenu;
 import com.demo.entities.Movie;
 import com.demo.repositories.FoodRepository;
 import com.demo.services.FoodService;
@@ -18,10 +18,10 @@ public class FoodServiceImpl implements FoodService {
 	private FoodRepository foodRepository;
 
 	@Override
-	public boolean save(Food food) {
+	public boolean save(FoodMenu food) {
 		try {
 
-			if (foodRepository.existsByName(food.getFoodName())) {
+			if (foodRepository.existsByName(food.getName())) {
 				
 				return false;
 			} else {
@@ -36,7 +36,7 @@ public class FoodServiceImpl implements FoodService {
 	}
 
 	@Override
-	public Iterable<Food> findAllfood() {
+	public Iterable<FoodMenu> findAllfood() {
 		// TODO Auto-generated method stub
 		return foodRepository.findAll();
 	}

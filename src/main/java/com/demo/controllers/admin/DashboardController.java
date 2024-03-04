@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.entities.Cinema;
 import com.demo.entities.City;
-import com.demo.entities.Food;
+import com.demo.entities.FoodMenu;
 import com.demo.entities.Movie;
 import com.demo.helpers.FileHelper;
 import com.demo.services.CinemaService;
@@ -79,9 +79,9 @@ public class DashboardController {
 				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-				movie.setMovPoster(filename);
+				movie.setPoster(filename);
 			} else {
-				movie.setMovPoster("no-image.jpg");
+				movie.setPoster("no-image.jpg");
 			}
 			if (movieService.save(movie)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
@@ -147,13 +147,13 @@ public class DashboardController {
 
 	@RequestMapping(value = { "addfood" }, method = RequestMethod.GET)
 	public String AddFood(ModelMap modelMap) {
-		Food food = new Food();
+		FoodMenu food = new FoodMenu();
 		modelMap.put("food", food);
 		return "admin/food/addfood";
 	}
 	
 	@RequestMapping(value = "addfood", method = RequestMethod.POST)
-	public String AddFood(@ModelAttribute("food") Food food, RedirectAttributes redirectAttributes,
+	public String AddFood(@ModelAttribute("food") FoodMenu food, RedirectAttributes redirectAttributes,
 			@RequestParam("file") MultipartFile file) {
 		try {
 			if (file != null && file.getSize() > 0) {
@@ -164,9 +164,9 @@ public class DashboardController {
 				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-				food.setFoodPhoto(filename);
+				food.setPhoto(filename);
 			} else {
-				food.setFoodPhoto("no-image.jpg");
+				food.setPhoto("no-image.jpg");
 			}
 			if (foodService.save(food)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
