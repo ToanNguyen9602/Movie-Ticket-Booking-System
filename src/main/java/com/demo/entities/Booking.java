@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Feb 26, 2024, 2:16:25 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,48 +16,49 @@ import jakarta.persistence.*;
 @Table(name = "booking")
 public class Booking implements java.io.Serializable {
 
-	private Integer id;
+	private Integer bkId;
 	private Account account;
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date created;
-	private boolean status;
-	private Set<FoodBookingDetails> foodBookingDetailses = new HashSet<FoodBookingDetails>(0);
-	private Set<Voucher> vouchers = new HashSet<Voucher>(0);
+	private Voucher voucher;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date bkCreated;
+	private boolean bkStatus;
 	private Set<BookingDetails> bookingDetailses = new HashSet<BookingDetails>(0);
+	private Set<FoodBooking> foodBookings = new HashSet<FoodBooking>(0);
 
 	public Booking() {
 	}
 
-	public Booking(Account account, Date created, boolean status) {
+	public Booking(Account account, Voucher voucher, Date bkCreated, boolean bkStatus) {
 		this.account = account;
-		this.created = created;
-		this.status = status;
+		this.voucher = voucher;
+		this.bkCreated = bkCreated;
+		this.bkStatus = bkStatus;
 	}
 
-	public Booking(Account account, Date created, boolean status, Set<FoodBookingDetails> foodBookingDetailses,
-			Set<Voucher> vouchers, Set<BookingDetails> bookingDetailses) {
+	public Booking(Account account, Voucher voucher, Date bkCreated, boolean bkStatus,
+			Set<BookingDetails> bookingDetailses, Set<FoodBooking> foodBookings) {
 		this.account = account;
-		this.created = created;
-		this.status = status;
-		this.foodBookingDetailses = foodBookingDetailses;
-		this.vouchers = vouchers;
+		this.voucher = voucher;
+		this.bkCreated = bkCreated;
+		this.bkStatus = bkStatus;
 		this.bookingDetailses = bookingDetailses;
+		this.foodBookings = foodBookings;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
+	@Column(name = "bk_id", unique = true, nullable = false)
+	public Integer getBkId() {
+		return this.bkId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setBkId(Integer bkId) {
+		this.bkId = bkId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "account_id", nullable = false)
+	@JoinColumn(name = "acc_id", nullable = false)
 	public Account getAccount() {
 		return this.account;
 	}
@@ -66,45 +67,33 @@ public class Booking implements java.io.Serializable {
 		this.account = account;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "created", nullable = false, length = 10)
-	public Date getCreated() {
-		return this.created;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "vou_id", nullable = false)
+	public Voucher getVoucher() {
+		return this.voucher;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
+	public void setVoucher(Voucher voucher) {
+		this.voucher = voucher;
 	}
 
-	@Column(name = "status", nullable = false)
-	public boolean isStatus() {
-		return this.status;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "bk_created", nullable = false, length = 26)
+	public Date getBkCreated() {
+		return this.bkCreated;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setBkCreated(Date bkCreated) {
+		this.bkCreated = bkCreated;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "booking")
-	public Set<FoodBookingDetails> getFoodBookingDetailses() {
-		return this.foodBookingDetailses;
+	@Column(name = "bk_status", nullable = false)
+	public boolean isBkStatus() {
+		return this.bkStatus;
 	}
 
-	public void setFoodBookingDetailses(Set<FoodBookingDetails> foodBookingDetailses) {
-		this.foodBookingDetailses = foodBookingDetailses;
-	}
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-	    name = "booking_voucher",
-	    joinColumns = @JoinColumn(name = "booking_id", nullable = false, insertable = true, updatable = true),
-	    inverseJoinColumns = @JoinColumn(name = "voucher_id", nullable = false, insertable = true, updatable = true)
-	)
-	public Set<Voucher> getVouchers() {
-		return this.vouchers;
-	}
-
-	public void setVouchers(Set<Voucher> vouchers) {
-		this.vouchers = vouchers;
+	public void setBkStatus(boolean bkStatus) {
+		this.bkStatus = bkStatus;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "booking")
@@ -114,6 +103,15 @@ public class Booking implements java.io.Serializable {
 
 	public void setBookingDetailses(Set<BookingDetails> bookingDetailses) {
 		this.bookingDetailses = bookingDetailses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "booking")
+	public Set<FoodBooking> getFoodBookings() {
+		return this.foodBookings;
+	}
+
+	public void setFoodBookings(Set<FoodBooking> foodBookings) {
+		this.foodBookings = foodBookings;
 	}
 
 }

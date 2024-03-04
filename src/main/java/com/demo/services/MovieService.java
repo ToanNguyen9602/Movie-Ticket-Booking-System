@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.demo.entities.Cinema;
 import com.demo.entities.Movie;
-import com.demo.entities.MovieShow;
 import com.demo.entities.Role;
 
 

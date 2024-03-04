@@ -18,7 +18,7 @@ public class CinemaServiceImpl implements CinemaService {
 	public boolean save(Cinema cinema) {
 		try {
 
-			if (cinemaRepository.existsByName(cinema.getName())) {
+			if (cinemaRepository.existsByName(cinema.getCineName())) {
 				
 				return false;
 			} else {

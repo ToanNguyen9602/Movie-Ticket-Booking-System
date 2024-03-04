@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Feb 26, 2024, 2:16:25 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,49 +12,47 @@ import jakarta.persistence.*;
 @Table(name = "role")
 public class Role implements java.io.Serializable {
 
-	private Integer id;
-	private String name;
+	private Integer roleId;
+	private String roleName;
 	private Set<Account> accounts = new HashSet<Account>(0);
 
 	public Role() {
 	}
 
-	public Role(String name) {
-		this.name = name;
+	public Role(String roleName) {
+		this.roleName = roleName;
 	}
 
-	public Role(String name, Set<Account> accounts) {
-		this.name = name;
+	public Role(String roleName, Set<Account> accounts) {
+		this.roleName = roleName;
 		this.accounts = accounts;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
+	@Column(name = "role_id", unique = true, nullable = false)
+	public Integer getRoleId() {
+		return this.roleId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
-	@Column(name = "name", nullable = false)
-	public String getName() {
-		return this.name;
+	@Column(name = "role_name", nullable = false, length = 250)
+	public String getRoleName() {
+		return this.roleName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-	    name = "account_role",
-	    joinColumns = @JoinColumn(name = "role_id", nullable = false, insertable = true, updatable = true),
-	    inverseJoinColumns = @JoinColumn(name = "account_id", nullable = false, insertable = true, updatable = true)
-	)
+	@JoinTable(name = "account_role", catalog = "booking_online", joinColumns = {
+			@JoinColumn(name = "role_id", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "account_id", nullable = false, updatable = false) })
 	public Set<Account> getAccounts() {
 		return this.accounts;
 	}

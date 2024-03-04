@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Feb 26, 2024, 2:16:25 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,74 +12,74 @@ import jakarta.persistence.*;
 @Table(name = "food")
 public class Food implements java.io.Serializable {
 
-	private Integer id;
-	private String name;
-	private double price;
-	private String photo;
-	private Set<FoodBookingDetails> foodBookingDetailses = new HashSet<FoodBookingDetails>(0);
+	private Integer foodId;
+	private String foodName;
+	private double foodPrice;
+	private String foodPhoto;
+	private Set<FoodBooking> foodBookings = new HashSet<FoodBooking>(0);
 
 	public Food() {
 	}
 
-	public Food(String name, double price, String photo) {
-		this.name = name;
-		this.price = price;
-		this.photo = photo;
+	public Food(String foodName, double foodPrice, String foodPhoto) {
+		this.foodName = foodName;
+		this.foodPrice = foodPrice;
+		this.foodPhoto = foodPhoto;
 	}
 
-	public Food(String name, double price, String photo, Set<FoodBookingDetails> foodBookingDetailses) {
-		this.name = name;
-		this.price = price;
-		this.photo = photo;
-		this.foodBookingDetailses = foodBookingDetailses;
+	public Food(String foodName, double foodPrice, String foodPhoto, Set<FoodBooking> foodBookings) {
+		this.foodName = foodName;
+		this.foodPrice = foodPrice;
+		this.foodPhoto = foodPhoto;
+		this.foodBookings = foodBookings;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
+	@Column(name = "food_id", unique = true, nullable = false)
+	public Integer getFoodId() {
+		return this.foodId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setFoodId(Integer foodId) {
+		this.foodId = foodId;
 	}
 
-	@Column(name = "name", nullable = false)
-	public String getName() {
-		return this.name;
+	@Column(name = "food_name", nullable = false, length = 250)
+	public String getFoodName() {
+		return this.foodName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFoodName(String foodName) {
+		this.foodName = foodName;
 	}
 
-	@Column(name = "price", nullable = false, precision = 22, scale = 0)
-	public double getPrice() {
-		return this.price;
+	@Column(name = "food_price", nullable = false, precision = 22, scale = 0)
+	public double getFoodPrice() {
+		return this.foodPrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setFoodPrice(double foodPrice) {
+		this.foodPrice = foodPrice;
 	}
 
-	@Column(name = "photo", nullable = false)
-	public String getPhoto() {
-		return this.photo;
+	@Column(name = "food_photo", nullable = false, length = 250)
+	public String getFoodPhoto() {
+		return this.foodPhoto;
 	}
 
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setFoodPhoto(String foodPhoto) {
+		this.foodPhoto = foodPhoto;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
-	public Set<FoodBookingDetails> getFoodBookingDetailses() {
-		return this.foodBookingDetailses;
+	public Set<FoodBooking> getFoodBookings() {
+		return this.foodBookings;
 	}
 
-	public void setFoodBookingDetailses(Set<FoodBookingDetails> foodBookingDetailses) {
-		this.foodBookingDetailses = foodBookingDetailses;
+	public void setFoodBookings(Set<FoodBooking> foodBookings) {
+		this.foodBookings = foodBookings;
 	}
 
 }

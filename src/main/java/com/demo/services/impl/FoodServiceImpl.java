@@ -21,7 +21,7 @@ public class FoodServiceImpl implements FoodService {
 	public boolean save(Food food) {
 		try {
 
-			if (foodRepository.existsByName(food.getName())) {
+			if (foodRepository.existsByName(food.getFoodName())) {
 				
 				return false;
 			} else {

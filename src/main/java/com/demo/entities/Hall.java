@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Feb 26, 2024, 2:16:25 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,39 +12,44 @@ import jakarta.persistence.*;
 @Table(name = "hall")
 public class Hall implements java.io.Serializable {
 
-	private Integer id;
+	private Integer hallid;
 	private Cinema cinema;
-	private String name;
+	private String hallName;
+	private int hallSeats;
+	private Set<Movieshow> movieshows = new HashSet<Movieshow>(0);
 	private Set<Seat> seats = new HashSet<Seat>(0);
 
 	public Hall() {
 	}
 
-	public Hall(Cinema cinema, String name) {
+	public Hall(Cinema cinema, String hallName, int hallSeats) {
 		this.cinema = cinema;
-		this.name = name;
+		this.hallName = hallName;
+		this.hallSeats = hallSeats;
 	}
 
-	public Hall(Cinema cinema, String name, Set<Seat> seats) {
+	public Hall(Cinema cinema, String hallName, int hallSeats, Set<Movieshow> movieshows, Set<Seat> seats) {
 		this.cinema = cinema;
-		this.name = name;
+		this.hallName = hallName;
+		this.hallSeats = hallSeats;
+		this.movieshows = movieshows;
 		this.seats = seats;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
+	@Column(name = "hallid", unique = true, nullable = false)
+	public Integer getHallid() {
+		return this.hallid;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setHallid(Integer hallid) {
+		this.hallid = hallid;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cinema_id", nullable = false)
+	@JoinColumn(name = "cine_id", nullable = false)
 	public Cinema getCinema() {
 		return this.cinema;
 	}
@@ -53,13 +58,31 @@ public class Hall implements java.io.Serializable {
 		this.cinema = cinema;
 	}
 
-	@Column(name = "name", nullable = false)
-	public String getName() {
-		return this.name;
+	@Column(name = "hall_name", nullable = false, length = 250)
+	public String getHallName() {
+		return this.hallName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setHallName(String hallName) {
+		this.hallName = hallName;
+	}
+
+	@Column(name = "hall_seats", nullable = false)
+	public int getHallSeats() {
+		return this.hallSeats;
+	}
+
+	public void setHallSeats(int hallSeats) {
+		this.hallSeats = hallSeats;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "hall")
+	public Set<Movieshow> getMovieshows() {
+		return this.movieshows;
+	}
+
+	public void setMovieshows(Set<Movieshow> movieshows) {
+		this.movieshows = movieshows;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "hall")

@@ -79,9 +79,9 @@ public class DashboardController {
 				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-				movie.setPoster(filename);
+				movie.setMovPoster(filename);
 			} else {
-				movie.setPoster("no-image.jpg");
+				movie.setMovPoster("no-image.jpg");
 			}
 			if (movieService.save(movie)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
@@ -164,9 +164,9 @@ public class DashboardController {
 				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-				food.setPhoto(filename);
+				food.setFoodPhoto(filename);
 			} else {
-				food.setPhoto("no-image.jpg");
+				food.setFoodPhoto("no-image.jpg");
 			}
 			if (foodService.save(food)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");

@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Feb 26, 2024, 2:16:25 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,42 +12,48 @@ import jakarta.persistence.*;
 @Table(name = "cinema")
 public class Cinema implements java.io.Serializable {
 
-	private Integer id;
+	private Integer cineId;
 	private City city;
-	private String name;
-	private String address;
+	private String cineName;
+	private String cineAddress;
+	private String cinePhoto;
 	private Set<Hall> halls = new HashSet<Hall>(0);
+	private Set<Movie> movies = new HashSet<Movie>(0);
 
 	public Cinema() {
 	}
 
-	public Cinema(City city, String name, String address) {
+	public Cinema(City city, String cineName, String cineAddress, String cinePhoto) {
 		this.city = city;
-		this.name = name;
-		this.address = address;
+		this.cineName = cineName;
+		this.cineAddress = cineAddress;
+		this.cinePhoto = cinePhoto;
 	}
 
-	public Cinema(City city, String name, String address, Set<Hall> halls) {
+	public Cinema(City city, String cineName, String cineAddress, String cinePhoto, Set<Hall> halls,
+			Set<Movie> movies) {
 		this.city = city;
-		this.name = name;
-		this.address = address;
+		this.cineName = cineName;
+		this.cineAddress = cineAddress;
+		this.cinePhoto = cinePhoto;
 		this.halls = halls;
+		this.movies = movies;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
+	@Column(name = "cine_id", unique = true, nullable = false)
+	public Integer getCineId() {
+		return this.cineId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setCineId(Integer cineId) {
+		this.cineId = cineId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "city_id", nullable = false)
+	@JoinColumn(name = "cine_city_id", nullable = false)
 	public City getCity() {
 		return this.city;
 	}
@@ -56,22 +62,31 @@ public class Cinema implements java.io.Serializable {
 		this.city = city;
 	}
 
-	@Column(name = "name", nullable = false)
-	public String getName() {
-		return this.name;
+	@Column(name = "cine_name", nullable = false, length = 250)
+	public String getCineName() {
+		return this.cineName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCineName(String cineName) {
+		this.cineName = cineName;
 	}
 
-	@Column(name = "address", nullable = false, length = 65535)
-	public String getAddress() {
-		return this.address;
+	@Column(name = "cine_address", nullable = false, length = 250)
+	public String getCineAddress() {
+		return this.cineAddress;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setCineAddress(String cineAddress) {
+		this.cineAddress = cineAddress;
+	}
+
+	@Column(name = "cine_photo", nullable = false, length = 250)
+	public String getCinePhoto() {
+		return this.cinePhoto;
+	}
+
+	public void setCinePhoto(String cinePhoto) {
+		this.cinePhoto = cinePhoto;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cinema")
@@ -81,6 +96,18 @@ public class Cinema implements java.io.Serializable {
 
 	public void setHalls(Set<Hall> halls) {
 		this.halls = halls;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "cinemamovie", catalog = "booking_online", joinColumns = {
+			@JoinColumn(name = "cine_id", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "mov_id", nullable = false, updatable = false) })
+	public Set<Movie> getMovies() {
+		return this.movies;
+	}
+
+	public void setMovies(Set<Movie> movies) {
+		this.movies = movies;
 	}
 
 }

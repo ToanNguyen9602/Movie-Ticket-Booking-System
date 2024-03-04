@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Feb 26, 2024, 2:16:25 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 3, 2024, 9:42:09 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,175 +16,174 @@ import jakarta.persistence.*;
 @Table(name = "movie")
 public class Movie implements java.io.Serializable {
 
-	private Integer id;
-	private String title;
-	private int duration;
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date releaseDate;
-	private String genre;
-	private String rated;
-	private String director;
-	private String casters;
-	private String description;
-	private String language;
-	private String poster;
-	private String trailer;
-	private Set<MovieShow> movieShows = new HashSet<MovieShow>(0);
+	private Integer movId;
+	private String movTitle;
+	private String movDuration;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date movReleaseDate;
+	private String movGenre;
+	private String movDirector;
+	private String movCasters;
+	private String movDescription;
+	private String movLanguage;
+	private String movPoster;
+	private String movTrailer;
+	private Set<Movieshow> movieshows = new HashSet<Movieshow>(0);
+	private Set<Cinema> cinemas = new HashSet<Cinema>(0);
 
 	public Movie() {
 	}
 
-	public Movie(String title, int duration, Date releaseDate, String genre, String rated, String director,
-			String casters, String description, String language, String poster, String trailer) {
-		this.title = title;
-		this.duration = duration;
-		this.releaseDate = releaseDate;
-		this.genre = genre;
-		this.rated = rated;
-		this.director = director;
-		this.casters = casters;
-		this.description = description;
-		this.language = language;
-		this.poster = poster;
-		this.trailer = trailer;
+	public Movie(String movTitle, String movDuration, Date movReleaseDate, String movGenre, String movDirector,
+			String movCasters, String movDescription, String movLanguage, String movPoster, String movTrailer) {
+		this.movTitle = movTitle;
+		this.movDuration = movDuration;
+		this.movReleaseDate = movReleaseDate;
+		this.movGenre = movGenre;
+		this.movDirector = movDirector;
+		this.movCasters = movCasters;
+		this.movDescription = movDescription;
+		this.movLanguage = movLanguage;
+		this.movPoster = movPoster;
+		this.movTrailer = movTrailer;
 	}
 
-	public Movie(String title, int duration, Date releaseDate, String genre, String rated, String director,
-			String casters, String description, String language, String poster, String trailer,
-			Set<MovieShow> movieShows) {
-		this.title = title;
-		this.duration = duration;
-		this.releaseDate = releaseDate;
-		this.genre = genre;
-		this.rated = rated;
-		this.director = director;
-		this.casters = casters;
-		this.description = description;
-		this.language = language;
-		this.poster = poster;
-		this.trailer = trailer;
-		this.movieShows = movieShows;
+	public Movie(String movTitle, String movDuration, Date movReleaseDate, String movGenre, String movDirector,
+			String movCasters, String movDescription, String movLanguage, String movPoster, String movTrailer,
+			Set<Movieshow> movieshows, Set<Cinema> cinemas) {
+		this.movTitle = movTitle;
+		this.movDuration = movDuration;
+		this.movReleaseDate = movReleaseDate;
+		this.movGenre = movGenre;
+		this.movDirector = movDirector;
+		this.movCasters = movCasters;
+		this.movDescription = movDescription;
+		this.movLanguage = movLanguage;
+		this.movPoster = movPoster;
+		this.movTrailer = movTrailer;
+		this.movieshows = movieshows;
+		this.cinemas = cinemas;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
-	@Column(name = "id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
+	@Column(name = "mov_id", unique = true, nullable = false)
+	public Integer getMovId() {
+		return this.movId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setMovId(Integer movId) {
+		this.movId = movId;
 	}
 
-	@Column(name = "title", nullable = false)
-	public String getTitle() {
-		return this.title;
+	@Column(name = "mov_title", nullable = false, length = 250)
+	public String getMovTitle() {
+		return this.movTitle;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setMovTitle(String movTitle) {
+		this.movTitle = movTitle;
 	}
 
-	@Column(name = "duration", nullable = false)
-	public int getDuration() {
-		return this.duration;
+	@Column(name = "mov_duration", nullable = false, length = 250)
+	public String getMovDuration() {
+		return this.movDuration;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setMovDuration(String movDuration) {
+		this.movDuration = movDuration;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "release_date", nullable = false, length = 10)
-	public Date getReleaseDate() {
-		return this.releaseDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "mov_release_date", nullable = false, length = 26)
+	public Date getMovReleaseDate() {
+		return this.movReleaseDate;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
+	public void setMovReleaseDate(Date movReleaseDate) {
+		this.movReleaseDate = movReleaseDate;
 	}
 
-	@Column(name = "genre", nullable = false)
-	public String getGenre() {
-		return this.genre;
+	@Column(name = "mov_genre", nullable = false, length = 250)
+	public String getMovGenre() {
+		return this.movGenre;
 	}
 
-	public void setGenre(String genre) {
-		this.genre = genre;
+	public void setMovGenre(String movGenre) {
+		this.movGenre = movGenre;
 	}
 
-	@Column(name = "rated", nullable = false)
-	public String getRated() {
-		return this.rated;
+	@Column(name = "mov_director", nullable = false, length = 250)
+	public String getMovDirector() {
+		return this.movDirector;
 	}
 
-	public void setRated(String rated) {
-		this.rated = rated;
+	public void setMovDirector(String movDirector) {
+		this.movDirector = movDirector;
 	}
 
-	@Column(name = "director", nullable = false)
-	public String getDirector() {
-		return this.director;
+	@Column(name = "mov_casters", nullable = false, length = 250)
+	public String getMovCasters() {
+		return this.movCasters;
 	}
 
-	public void setDirector(String director) {
-		this.director = director;
+	public void setMovCasters(String movCasters) {
+		this.movCasters = movCasters;
 	}
 
-	@Column(name = "casters", nullable = false)
-	public String getCasters() {
-		return this.casters;
+	@Column(name = "mov_description", nullable = false, length = 250)
+	public String getMovDescription() {
+		return this.movDescription;
 	}
 
-	public void setCasters(String casters) {
-		this.casters = casters;
+	public void setMovDescription(String movDescription) {
+		this.movDescription = movDescription;
 	}
 
-	@Column(name = "description", nullable = false, length = 65535)
-	public String getDescription() {
-		return this.description;
+	@Column(name = "mov_language", nullable = false, length = 250)
+	public String getMovLanguage() {
+		return this.movLanguage;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setMovLanguage(String movLanguage) {
+		this.movLanguage = movLanguage;
 	}
 
-	@Column(name = "language", nullable = false)
-	public String getLanguage() {
-		return this.language;
+	@Column(name = "mov_poster", nullable = false, length = 250)
+	public String getMovPoster() {
+		return this.movPoster;
 	}
 
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setMovPoster(String movPoster) {
+		this.movPoster = movPoster;
 	}
 
-	@Column(name = "poster", nullable = false)
-	public String getPoster() {
-		return this.poster;
+	@Column(name = "mov_trailer", nullable = false, length = 250)
+	public String getMovTrailer() {
+		return this.movTrailer;
 	}
 
-	public void setPoster(String poster) {
-		this.poster = poster;
-	}
-
-	@Column(name = "trailer", nullable = false)
-	public String getTrailer() {
-		return this.trailer;
-	}
-
-	public void setTrailer(String trailer) {
-		this.trailer = trailer;
+	public void setMovTrailer(String movTrailer) {
+		this.movTrailer = movTrailer;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "movie")
-	public Set<MovieShow> getMovieShows() {
-		return this.movieShows;
+	public Set<Movieshow> getMovieshows() {
+		return this.movieshows;
 	}
 
-	public void setMovieShows(Set<MovieShow> movieShows) {
-		this.movieShows = movieShows;
+	public void setMovieshows(Set<Movieshow> movieshows) {
+		this.movieshows = movieshows;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "movies")
+	public Set<Cinema> getCinemas() {
+		return this.cinemas;
+	}
+
+	public void setCinemas(Set<Cinema> cinemas) {
+		this.cinemas = cinemas;
 	}
 
 }
