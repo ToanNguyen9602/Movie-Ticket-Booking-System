@@ -41,7 +41,7 @@ public class Booking implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
@@ -91,9 +91,7 @@ public class Booking implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "voucher_booking", catalog = "booking_online", joinColumns = {
-			@JoinColumn(name = "booking_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "voucher_id", nullable = false, updatable = false) })
+	@JoinTable(name = "voucher_booking", joinColumns = @JoinColumn(name = "booking_id", insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "voucher_id", insertable = false, updatable = false))
 	public Set<Voucher> getVouchers() {
 		return this.vouchers;
 	}

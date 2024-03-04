@@ -53,7 +53,7 @@ public class Account implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
@@ -137,9 +137,7 @@ public class Account implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "account_role", catalog = "booking_online", joinColumns = {
-			@JoinColumn(name = "account_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "role_id", nullable = false, updatable = false) })
+	@JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id", insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "role_id", insertable = false, updatable = false))
 	public Set<Role> getRoles() {
 		return this.roles;
 	}

@@ -45,7 +45,11 @@ public class MovieShow implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bd_id", nullable = false)
+	@JoinColumns({
+        @JoinColumn(name = "booking_id", referencedColumnName = "booking_id"),
+        @JoinColumn(name = "movie_show_id", referencedColumnName = "movie_show_id"),
+        @JoinColumn(name = "seats_id", referencedColumnName = "seats_id")
+    })
 	public BookingDetails getBookingDetails() {
 		return this.bookingDetails;
 	}
@@ -59,6 +63,7 @@ public class MovieShow implements java.io.Serializable {
 	public Shows getShows() {
 		return this.shows;
 	}
+	
 
 	public void setShows(Shows shows) {
 		this.shows = shows;

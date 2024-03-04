@@ -573,8 +573,22 @@ function init_BookingTwo () {
                     e.preventDefault();
                     var place = $(this).attr('data-place');
                     var ticketPrice = $(this).attr('data-price');
-
-                    if(! $(e.target).hasClass('sits-state--your')){
+					console.log("=== Seat ===")
+					console.log(place)
+					console.log(ticketPrice)
+					var totalSeats = 20;
+					var seatPerRow = 20;
+					var i = 65
+					for(var currentRow = 1; currentRow <= totalSeats/seatPerRow; currentRow++){
+						var temp = ""
+						const c = String.fromCharCode(i);
+						for(var j = 1; j <= seatPerRow; j++){
+							temp += c+j + " == "
+						}
+						console.log(temp)
+						i++;
+					}
+                    /*if(! $(e.target).hasClass('sits-state--your')){
 
                         if (! $(this).hasClass('sits-state--not') ) {
                             $(this).addClass('sits-state--your');
@@ -643,7 +657,7 @@ function init_BookingTwo () {
                     });
 
                     //data element set 
-                    sits.val(chooseSits.substr(2));
+                    sits.val(chooseSits.substr(2));*/
                 });
 
 				//--- Step for data  ---//
