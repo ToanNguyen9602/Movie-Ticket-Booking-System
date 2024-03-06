@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Home Page', ~{this :: .container})}">
+<html xmlns:th="http://www.thymeleaf.org"th:replace="~{layout/user :: content(${movie.title}, ~{this :: .container})}">
 
 <head>
 	<title></title>
@@ -12,7 +12,7 @@
 			<!-- Movie preview item -->
 
 			<!-- Movie preview item main  -->
-			<div class="movie movie--preview release" th:each="movie : ${movies}">
+			<div class="movie movie--preview release">
 				<div class="col-sm-5 col-md-3">
 					<div class="movie__images">
 						<img alt='' th:src="@{'/images/' + ${movie.poster}}">

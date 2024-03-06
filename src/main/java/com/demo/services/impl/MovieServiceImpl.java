@@ -37,7 +37,7 @@ public class MovieServiceImpl implements MovieService {
 
 
 	@Override
-	public List<Movie> findMovieById(int id) {
+	public Movie findMovieById(int id) {
 		return movieRepository.findMovieById(id);
 	}
 

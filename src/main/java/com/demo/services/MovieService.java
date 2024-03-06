@@ -18,5 +18,5 @@ public interface MovieService {
 	
 	List<Movie> searchMoviesByTitle(String title);
 	
-	public List<Movie> findMovieById(int id);
+	public Movie findMovieById(int id);
 }

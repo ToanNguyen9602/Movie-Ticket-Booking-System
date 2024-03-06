@@ -27,7 +27,7 @@ public class HomeController {
 
 	@GetMapping(value = "details/{id}")
 	public String details(ModelMap modelMap, @PathVariable("id") int id) {
-		modelMap.put("movies", movieService.findMovieById(id));
+		modelMap.put("movie", movieService.findMovieById(id));
 		modelMap.put("cities", cityService.findAll());
 		return "home/details";
 	}
@@ -36,6 +36,8 @@ public class HomeController {
 		modelMap.put("cinemas", cityService.findCinemasByCityId(city_id));
 		return "home/choosehall";
 	}
+	
+	
 	 
 
 

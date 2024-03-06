@@ -47,7 +47,7 @@ public class SecurityConfiguration {
 							Map<String, String> defaultRedirectUrlByRole = new HashMap<>();
 							defaultRedirectUrlByRole.put("ROLE_ADMIN", "/admin/homepage/index");
 							defaultRedirectUrlByRole.put("ROLE_STAFF", "/admin/homepage/index");
-							defaultRedirectUrlByRole.put("ROLE_PROCESS_STAFF", "/admin/homepage/index");
+							defaultRedirectUrlByRole.put("ROLE_USER", "/admin/homepage/index");
 
 							String url = "/admin/homepage/index";
 							for (GrantedAuthority gr : role) {
