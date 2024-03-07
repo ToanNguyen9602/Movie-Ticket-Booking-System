@@ -10,12 +10,18 @@ import com.demo.services.RoleService;
 @Service
 public class RoleServiceImp implements RoleService {
 	@Autowired
-	private RoleRepository repository;
+	private RoleRepository roleRepository;
 
 	@Override
 	public Iterable<Role> findAll() {
 		// TODO Auto-generated method stub
-		return repository.findAll();
+		return roleRepository.findAll();
+	}
+
+	@Override
+	public Role findrolebyid(int id) {
+		// TODO Auto-generated method stub
+		return roleRepository.findrolebyid(id);
 	}
 
 }

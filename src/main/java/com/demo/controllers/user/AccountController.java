@@ -1,5 +1,8 @@
 package com.demo.controllers.user;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.entities.Account;
+import com.demo.entities.Role;
 import com.demo.services.AccountService;
 import com.demo.services.RoleService;
 
@@ -50,7 +54,12 @@ public class AccountController {
 		public String register(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
 
 			try {
+				Role role = roleService.findrolebyid(3);
+				Set<Role> roles = new HashSet<>();
+	            roles.add(role);
+	            account.setRoles(roles);
 				account.setStatus(true);
+				
 				account.setPassword(encoder.encode(account.getPassword()));
 				if (accountService.save(account)) {
 
