@@ -20,60 +20,84 @@ import com.demo.services.AccountService;
 import com.demo.services.RoleService;
 
 import jakarta.servlet.http.HttpSession;
+
 @Controller
-	@RequestMapping({ "user"})
+@RequestMapping({ "user" })
 public class AccountController {
-	
+
 	@Autowired
 	private AccountService accountService;
 	@Autowired
 	private RoleService roleService;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	 
-		@RequestMapping(value = {"account"}, method = RequestMethod.GET)
-		public String index() {
-			return "user/account";
-		}
-		
-		@RequestMapping(value = { "logout" }, method = RequestMethod.GET)
-		public String logout(HttpSession httpSession) {
-			httpSession.removeAttribute("username");
-			return "redirect:/home/index";
-		}
-	
-		
-		@RequestMapping(value = { "register" }, method = RequestMethod.GET)
-		public String register(ModelMap modelMap) {
-			Account account = new Account();
-			modelMap.put("account", account);
-			return "user/register";
-		}
 
-		@RequestMapping(value = { "register" }, method = RequestMethod.POST)
-		public String register(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = { "account" }, method = RequestMethod.GET)
+	public String index() {
+		return "user/account";
+	}
 
-			try {
-				Role role = roleService.findrolebyid(3);
-				Set<Role> roles = new HashSet<>();
-	            roles.add(role);
-	            account.setRoles(roles);
-				account.setStatus(true);
-				
-				account.setPassword(encoder.encode(account.getPassword()));
-				if (accountService.save(account)) {
+	@RequestMapping(value = { "logout" }, method = RequestMethod.GET)
+	public String logout(HttpSession httpSession) {
+		httpSession.removeAttribute("username");
+		return "redirect:/home/index";
+	}
 
+	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
+	public String register(ModelMap modelMap) {
+		Account account = new Account();
+		modelMap.put("account", account);
+		return "user/register";
+	}
 
-					redirectAttributes.addFlashAttribute("msg", "ok");
+	@RequestMapping(value = { "register" }, method = RequestMethod.POST)
+	public String register(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
 
+		try {
+			Role role = roleService.findrolebyid(3);
+			Set<Role> roles = new HashSet<>();
+			roles.add(role);
+			account.setRoles(roles);
+			account.setStatus(true);
 
-				} else {
-					redirectAttributes.addFlashAttribute("msg", "fail");
-					return "redirect:/user/register";
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			account.setPassword(encoder.encode(account.getPassword()));
+			if(accountService.checkexistence(account.getUsername()))
+			{
+				redirectAttributes.addFlashAttribute("msg", "this username is used");
+				return "redirect:/user/register";
 			}
-			return "redirect:/home/index";
+			else if(accountService.checkemail(account.getEmail()))
+			{
+				redirectAttributes.addFlashAttribute("msg", "this email is used");
+				return "redirect:/user/register";
+			}
+			else if(accountService.checkphone(account.getPhone()))
+			{
+				redirectAttributes.addFlashAttribute("msg", "this phonenumber is used");
+				return "redirect:/user/register";
+			}
+			else if(account.getPhone().length()<10)
+			{
+				redirectAttributes.addFlashAttribute("msg", "invalid phonenumber");
+				return "redirect:/user/register";
+			}
+			
+			else
+			{
+
+			if (accountService.save(account)) {
+
+				redirectAttributes.addFlashAttribute("msg", "ok");
+
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "fail");
+				return "redirect:/user/register";
+			}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return "redirect:/home/index";
+	}
 }

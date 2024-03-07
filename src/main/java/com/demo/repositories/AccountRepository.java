@@ -17,5 +17,12 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 	
 	@Query("from Account where email=:email")
 	public Account findbyemail(@Param("email") String email);
+	
+	@Query("from Account where id=:id")
+	public Account findAccountById(@Param("id") int id);
+	
+	@Query("from Account where phone=:phone")
+	public Account findbyphone(@Param("phone") String phone);
+	
 
 }

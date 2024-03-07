@@ -22,5 +22,9 @@ public interface AccountService extends UserDetailsService {
 	public Account login(String username, String password);
 
 	public Account findbyemail(String email);
+	
+	public boolean checkexistence(String username);
+	public boolean checkphone(String phone);
+	public boolean checkemail(String email);
 
 }

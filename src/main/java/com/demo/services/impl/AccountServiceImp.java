@@ -118,4 +118,33 @@ public class AccountServiceImp implements AccountService {
 
 	}
 
+	@Override
+	public boolean checkexistence(String username) {
+		if(accountRepository.findbyusername(username) !=null)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkphone(String phone) {
+		if(accountRepository.findbyphone(phone) !=null)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkemail(String email) {
+		if(accountRepository.findbyemail(email) !=null)
+		{
+			return true;
+		}
+		return false;
+	}
+
+
+
 }
