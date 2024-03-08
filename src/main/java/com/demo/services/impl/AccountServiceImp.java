@@ -2,6 +2,7 @@ package com.demo.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,11 +23,7 @@ public class AccountServiceImp implements AccountService {
 	@Autowired
 	private AccountRepository accountRepository;
 
-	@Override
-	public Iterable<Account> findAll() {
-		// TODO Auto-generated method stub
-		return accountRepository.findAll();
-	}
+	
 
 	@Override
 	public boolean save(Account account) {
@@ -143,6 +140,21 @@ public class AccountServiceImp implements AccountService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<Account> findAllByRole(int n) {
+	    List<Account> accounts = accountRepository.findAll();
+	    List<Account> accountsByRole = new ArrayList<>();
+	    for (Account account : accounts) {
+	        Set<Role> roles = account.getRoles();
+	        for (Role role : roles) {
+	            if (role.getId() == n) {
+	                accountsByRole.add(account);
+	            }
+	        }
+	    }
+	    return accountsByRole;
 	}
 
 

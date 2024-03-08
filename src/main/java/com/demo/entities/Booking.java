@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -41,7 +41,7 @@ public class Booking implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
@@ -90,11 +90,13 @@ public class Booking implements java.io.Serializable {
 		this.foodBookingDetailses = foodBookingDetailses;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "voucher_booking", joinColumns = @JoinColumn(name = "booking_id", insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "voucher_id", insertable = false, updatable = false))
-	public Set<Voucher> getVouchers() {
-		return this.vouchers;
-	}
+	 @ManyToMany(fetch = FetchType.LAZY)
+	    @JoinTable(name = "booking_voucher",
+	            joinColumns = @JoinColumn(name = "booking_id", nullable = false, updatable = false, insertable = false),
+	            inverseJoinColumns = @JoinColumn(name = "voucher_id", nullable = false, updatable = false, insertable = false))
+	    public Set<Voucher> getVouchers() {
+	        return this.vouchers;
+	    }
 
 	public void setVouchers(Set<Voucher> vouchers) {
 		this.vouchers = vouchers;

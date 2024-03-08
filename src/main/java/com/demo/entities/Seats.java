@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -73,10 +73,6 @@ public class Seats implements java.io.Serializable {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-
-	
-
-	
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "seats")
 	public Set<BookingDetails> getBookingDetailses() {

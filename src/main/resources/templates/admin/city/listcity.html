@@ -12,9 +12,10 @@
 				<!-- main title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2>Movie
+						<h2>City
 						</h2>
-						<a th:href="@{/admin/addmovie}" class="main__title-link">add Movie</a>
+						
+						<a th:href="@{/admin/addcity}" class="main__title-link">add City</a>
 
 
 						<div class="main__title-wrap">
@@ -47,35 +48,18 @@
 						<table class="main__table">
 							<thead>
 								<tr>
-									<th>Title</th>
-									<th>Director</th>
-									<th>Casters</th>
-									<th>Poster</th>
-									<th>ReleaseDate</th>
+									<th>Name</th>
 									<th>ACTIONS</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								<tr th:each="movie : ${movies}">
+								<tr th:each="city : ${citys}">
 
 									<td>
-										<div class="main__table-text"><a href="#" th:text="${movie.title}"></a></div>
+										<div class="main__table-text"><a href="#" th:text="${city.name}"></a></div>
 									</td>
-									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${movie.directors}"></div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${movie.casters}"></div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--rate"><img th:src="@{'/images/' + ${movie.poster}}" width="31" height="31"></div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${#dates.format(movie.releaseDate, 'dd/MM/yyyy')}"></div>
-									</td>
-
-
+									
 
 									<td>
 										<div class="main__table-btns">

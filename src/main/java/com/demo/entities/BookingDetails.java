@@ -1,8 +1,6 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
-import java.util.HashSet;
-import java.util.Set;
 import jakarta.persistence.*;
 
 /**
@@ -15,32 +13,25 @@ public class BookingDetails implements java.io.Serializable {
 	private BookingDetailsId id;
 	private Booking booking;
 	private Seats seats;
-	private int total;
-	private Set<MovieShow> movieShows = new HashSet<MovieShow>(0);
+	private Shows shows;
+	private int price;
 
 	public BookingDetails() {
 	}
 
-	public BookingDetails(BookingDetailsId id, Booking booking, Seats seats, int total) {
+	public BookingDetails(BookingDetailsId id, Booking booking, Seats seats, Shows shows, int price) {
 		this.id = id;
 		this.booking = booking;
 		this.seats = seats;
-		this.total = total;
-	}
-
-	public BookingDetails(BookingDetailsId id, Booking booking, Seats seats, int total, Set<MovieShow> movieShows) {
-		this.id = id;
-		this.booking = booking;
-		this.seats = seats;
-		this.total = total;
-		this.movieShows = movieShows;
+		this.shows = shows;
+		this.price = price;
 	}
 
 	@EmbeddedId
 
 	@AttributeOverrides({
 			@AttributeOverride(name = "bookingId", column = @Column(name = "booking_id", nullable = false)),
-			@AttributeOverride(name = "movieShowId", column = @Column(name = "movie_show_id", nullable = false)),
+			@AttributeOverride(name = "showsId", column = @Column(name = "shows_id", nullable = false)),
 			@AttributeOverride(name = "seatsId", column = @Column(name = "seats_id", nullable = false)) })
 	public BookingDetailsId getId() {
 		return this.id;
@@ -70,22 +61,23 @@ public class BookingDetails implements java.io.Serializable {
 		this.seats = seats;
 	}
 
-	@Column(name = "total", nullable = false)
-	public int getTotal() {
-		return this.total;
+	@ManyToOne
+    @JoinColumn(name = "shows_id", nullable = false, insertable = false, updatable = false)
+	public Shows getShows() {
+		return this.shows;
 	}
 
-	public void setTotal(int total) {
-		this.total = total;
+	public void setShows(Shows shows) {
+		this.shows = shows;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingDetails")
-	public Set<MovieShow> getMovieShows() {
-		return this.movieShows;
+	@Column(name = "price", nullable = false)
+	public int getPrice() {
+		return this.price;
 	}
 
-	public void setMovieShows(Set<MovieShow> movieShows) {
-		this.movieShows = movieShows;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 }

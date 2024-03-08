@@ -1,10 +1,13 @@
 package com.demo.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.demo.entities.Account;
+import com.demo.entities.FoodMenu;
 
 
 
@@ -24,5 +27,8 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 	@Query("from Account where phone=:phone")
 	public Account findbyphone(@Param("phone") String phone);
 	
-
+	
+	@Query("from Account order by id DESC")
+	public List<Account> findAll();
+	
 }

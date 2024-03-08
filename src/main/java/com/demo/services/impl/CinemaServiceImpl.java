@@ -32,4 +32,16 @@ public class CinemaServiceImpl implements CinemaService {
 		}
 	}
 
+	@Override
+	public Iterable<Cinema> findAll() {
+		// TODO Auto-generated method stub
+		return cinemaRepository.findAll();
+	}
+
+	@Override
+	public Cinema findCinemasById(int id) {
+		// TODO Auto-generated method stub
+		return cinemaRepository.findCinemasById(id);
+	}
+
 }
