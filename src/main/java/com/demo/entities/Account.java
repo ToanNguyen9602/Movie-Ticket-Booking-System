@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 12:54:43 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -53,7 +53,7 @@ public class Account implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
@@ -136,11 +136,13 @@ public class Account implements java.io.Serializable {
 		this.bookings = bookings;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id", insertable = false, updatable = false), inverseJoinColumns = @JoinColumn(name = "role_id", insertable = false, updatable = false))
-	public Set<Role> getRoles() {
-		return this.roles;
-	}
+	 @ManyToMany(fetch = FetchType.LAZY)
+	    @JoinTable(name = "account_role",
+	        joinColumns = @JoinColumn(name = "account_id", nullable = false, updatable = false, insertable = false),
+	        inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false, updatable = false, insertable = false))
+	    public Set<Role> getRoles() {
+	        return this.roles;
+	    }
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;

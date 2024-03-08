@@ -1,5 +1,7 @@
 package com.demo.services;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -7,7 +9,6 @@ import com.demo.entities.Account;
 
 public interface AccountService extends UserDetailsService {
 
-	public Iterable<Account> findAll();
 
 	public Account find(int id);
 
@@ -26,5 +27,7 @@ public interface AccountService extends UserDetailsService {
 	public boolean checkexistence(String username);
 	public boolean checkphone(String phone);
 	public boolean checkemail(String email);
+	
+	public List<Account> findAllByRole(int n);
 
 }

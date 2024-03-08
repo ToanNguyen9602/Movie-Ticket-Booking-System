@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -76,9 +76,10 @@ public class Voucher implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "voucher_booking", 
-               joinColumns = @JoinColumn(name = "voucher_id", insertable = false, updatable = false), 
-               inverseJoinColumns = @JoinColumn(name = "booking_id", insertable = false, updatable = false))
+	@JoinTable(name = "voucher_booking", joinColumns = {
+	        @JoinColumn(name = "voucher_id", nullable = false, updatable = false, insertable = false) },
+	        inverseJoinColumns = {
+	                @JoinColumn(name = "booking_id", nullable = false, updatable = false, insertable = false) })
 	public Set<Booking> getBookings() {
 		return this.bookings;
 	}

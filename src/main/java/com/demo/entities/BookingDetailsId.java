@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
 import jakarta.persistence.*;
 
@@ -10,15 +10,15 @@ import jakarta.persistence.*;
 public class BookingDetailsId implements java.io.Serializable {
 
 	private int bookingId;
-	private int movieShowId;
+	private int showsId;
 	private int seatsId;
 
 	public BookingDetailsId() {
 	}
 
-	public BookingDetailsId(int bookingId, int movieShowId, int seatsId) {
+	public BookingDetailsId(int bookingId, int showsId, int seatsId) {
 		this.bookingId = bookingId;
-		this.movieShowId = movieShowId;
+		this.showsId = showsId;
 		this.seatsId = seatsId;
 	}
 
@@ -31,13 +31,13 @@ public class BookingDetailsId implements java.io.Serializable {
 		this.bookingId = bookingId;
 	}
 
-	@Column(name = "movie_show_id", nullable = false)
-	public int getMovieShowId() {
-		return this.movieShowId;
+	@Column(name = "shows_id", nullable = false)
+	public int getShowsId() {
+		return this.showsId;
 	}
 
-	public void setMovieShowId(int movieShowId) {
-		this.movieShowId = movieShowId;
+	public void setShowsId(int showsId) {
+		this.showsId = showsId;
 	}
 
 	@Column(name = "seats_id", nullable = false)
@@ -58,8 +58,7 @@ public class BookingDetailsId implements java.io.Serializable {
 			return false;
 		BookingDetailsId castOther = (BookingDetailsId) other;
 
-		return (this.getBookingId() == castOther.getBookingId())
-				&& (this.getMovieShowId() == castOther.getMovieShowId())
+		return (this.getBookingId() == castOther.getBookingId()) && (this.getShowsId() == castOther.getShowsId())
 				&& (this.getSeatsId() == castOther.getSeatsId());
 	}
 
@@ -67,7 +66,7 @@ public class BookingDetailsId implements java.io.Serializable {
 		int result = 17;
 
 		result = 37 * result + this.getBookingId();
-		result = 37 * result + this.getMovieShowId();
+		result = 37 * result + this.getShowsId();
 		result = 37 * result + this.getSeatsId();
 		return result;
 	}

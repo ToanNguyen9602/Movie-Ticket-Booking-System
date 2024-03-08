@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,26 +16,26 @@ public class Shows implements java.io.Serializable {
 	private Integer id;
 	private Cinema cinema;
 	private Movie movie;
-	private Date startDate;
-	private Date endDate;
-	private Set<MovieShow> movieShows = new HashSet<MovieShow>(0);
+	private Date startTime;
+	private Date endTime;
+	private Set<BookingDetails> bookingDetailses = new HashSet<BookingDetails>(0);
 
 	public Shows() {
 	}
 
-	public Shows(Cinema cinema, Movie movie, Date startDate, Date endDate) {
+	public Shows(Cinema cinema, Movie movie, Date startTime, Date endTime) {
 		this.cinema = cinema;
 		this.movie = movie;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
 	}
 
-	public Shows(Cinema cinema, Movie movie, Date startDate, Date endDate, Set<MovieShow> movieShows) {
+	public Shows(Cinema cinema, Movie movie, Date startTime, Date endTime, Set<BookingDetails> bookingDetailses) {
 		this.cinema = cinema;
 		this.movie = movie;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.movieShows = movieShows;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.bookingDetailses = bookingDetailses;
 	}
 
 	@Id
@@ -69,33 +69,33 @@ public class Shows implements java.io.Serializable {
 		this.movie = movie;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "start_date", nullable = false, length = 10)
-	public Date getStartDate() {
-		return this.startDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "start_time", nullable = false, length = 26)
+	public Date getStartTime() {
+		return this.startTime;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "end_date", nullable = false, length = 10)
-	public Date getEndDate() {
-		return this.endDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "end_time", nullable = false, length = 26)
+	public Date getEndTime() {
+		return this.endTime;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shows")
-	public Set<MovieShow> getMovieShows() {
-		return this.movieShows;
+	@OneToMany(mappedBy = "shows")
+	public Set<BookingDetails> getBookingDetailses() {
+		return this.bookingDetailses;
 	}
 
-	public void setMovieShows(Set<MovieShow> movieShows) {
-		this.movieShows = movieShows;
+	public void setBookingDetailses(Set<BookingDetails> bookingDetailses) {
+		this.bookingDetailses = bookingDetailses;
 	}
 
 }

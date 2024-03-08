@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
 import jakarta.persistence.*;
 
@@ -14,17 +14,17 @@ public class FoodBookingDetails implements java.io.Serializable {
 	private Booking booking;
 	private FoodMenu foodMenu;
 	private int quantity;
-	private int total;
+	private int price;
 
 	public FoodBookingDetails() {
 	}
 
-	public FoodBookingDetails(FoodBookingDetailsId id, Booking booking, FoodMenu foodMenu, int quantity, int total) {
+	public FoodBookingDetails(FoodBookingDetailsId id, Booking booking, FoodMenu foodMenu, int quantity, int price) {
 		this.id = id;
 		this.booking = booking;
 		this.foodMenu = foodMenu;
 		this.quantity = quantity;
-		this.total = total;
+		this.price = price;
 	}
 
 	@EmbeddedId
@@ -69,13 +69,13 @@ public class FoodBookingDetails implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "total", nullable = false)
-	public int getTotal() {
-		return this.total;
+	@Column(name = "price", nullable = false)
+	public int getPrice() {
+		return this.price;
 	}
 
-	public void setTotal(int total) {
-		this.total = total;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 }

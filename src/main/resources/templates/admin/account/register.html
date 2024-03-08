@@ -1,0 +1,91 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+
+<head>
+	<title></title>
+</head>
+
+<body>
+
+	<main class="main">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2>Add new Account</h2>
+					</div>
+				</div>
+				<!-- end main title -->
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
+				<!-- form -->
+				<div class="col-12">
+					<form th:action="@{/admin/register}" class="form" method="post">
+						<div class="row">
+
+
+
+
+							<div class="col-12 col-md-7 form__content">
+								<div class="row">
+									<div class="col-12">
+										<div class="form__group"> <input type="text" class="form__input"
+										th:field="${account.username}" placeholder="Username">
+										</div>
+
+										<div class="row">
+											<div class="col-12">
+												<div class="form__group"> <input type="password" class="form__input"
+														placeholder="Password" th:field="${account.password}">
+												</div>
+
+												<div class="row">
+													<div class="col-12">
+														<div class="form__group"> <input type="text" class="form__input"
+																placeholder="FullName"  th:field="${account.fullname}">
+														</div>
+														<div class="row">
+															<div class="col-12">
+																<div class="form__group"> <input type="text"
+																		class="form__input" placeholder="Phone Number"th:field="${account.phone}">
+																</div>
+																<div class="row">
+																	<div class="col-12">
+																		<div class="form__group"> <input type="text"
+																				class="form__input" placeholder="Email" th:field="${account.email}">
+																		</div>
+
+																		<div class="col-12">
+																			<div class="form__group">
+																				<textarea id="text" name="text"
+																					class="form__textarea"
+																					placeholder="Address"  th:field="${account.address}"></textarea>
+																			</div>
+																		</div>
+
+																	</div>
+
+																</div>
+
+															</div>
+
+															<div class="col-12">
+																<div class="row">
+																	<div class="col-12">
+																		<input type="submit" value="Publish"
+																			class="form__btn" />
+
+																	</div>
+																</div>
+															</div>
+														</div>
+					</form>
+				</div>
+				<!-- end form -->
+			</div>
+		</div>
+	</main>
+
+
+</body>

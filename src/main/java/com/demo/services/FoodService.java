@@ -14,5 +14,5 @@ import com.demo.entities.Role;
 
 public interface FoodService {
 	public boolean save(FoodMenu food);
-	public Iterable<FoodMenu> findAllfood();
+	public List<FoodMenu> findAll_ListFood();
 }

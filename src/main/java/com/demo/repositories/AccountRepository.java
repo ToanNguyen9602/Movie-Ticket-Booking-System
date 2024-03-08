@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.demo.entities.Account;
+import com.demo.entities.FoodMenu;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 	@Query("from Account where username=:username")
@@ -26,5 +27,8 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	@Query("from Account where phone=:phone")
 	public Account findbyphone(@Param("phone") String phone);
 	
-
+	
+	@Query("from Account order by id DESC")
+	public List<Account> findAll();
+	
 }

@@ -56,13 +56,22 @@
 										<div class="form__group">
 											<input type="date" th:field="${phim.releaseDate}" class="form__input"
 												placeholder="Release_date">
+												
+												
 										</div>
+										<div class="form__group">
+											<input type="date" th:field="${phim.endDate}" class="form__input"
+												placeholder="End_Date">
+												
+												
+										</div>
+										
 									</div>
 
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
 											<input type="text" th:field="${phim.duration}" class="form__input"
-												placeholder="Running timed in minutes">
+												placeholder="Duration">
 										</div>
 									</div>
 
@@ -100,6 +109,7 @@
 												<option value="Western">Western</option>
 												<option value="Otheer">Otheer</option>
 											</select>
+											
 										</div>
 									</div>
 

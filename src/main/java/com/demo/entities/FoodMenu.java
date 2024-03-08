@@ -1,5 +1,5 @@
 package com.demo.entities;
-// Generated Mar 4, 2024, 1:08:42 PM by Hibernate Tools 4.3.6.Final
+// Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,21 +16,25 @@ public class FoodMenu implements java.io.Serializable {
 	private String name;
 	private int price;
 	private String photo;
+	private boolean status;
 	private Set<FoodBookingDetails> foodBookingDetailses = new HashSet<FoodBookingDetails>(0);
 
 	public FoodMenu() {
 	}
 
-	public FoodMenu(String name, int price, String photo) {
+	public FoodMenu(String name, int price, String photo, boolean status) {
 		this.name = name;
 		this.price = price;
 		this.photo = photo;
+		this.status = status;
 	}
 
-	public FoodMenu(String name, int price, String photo, Set<FoodBookingDetails> foodBookingDetailses) {
+	public FoodMenu(String name, int price, String photo, boolean status,
+			Set<FoodBookingDetails> foodBookingDetailses) {
 		this.name = name;
 		this.price = price;
 		this.photo = photo;
+		this.status = status;
 		this.foodBookingDetailses = foodBookingDetailses;
 	}
 
@@ -71,6 +75,15 @@ public class FoodMenu implements java.io.Serializable {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+
+	@Column(name = "status", nullable = false)
+	public boolean isStatus() {
+		return this.status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "foodMenu")

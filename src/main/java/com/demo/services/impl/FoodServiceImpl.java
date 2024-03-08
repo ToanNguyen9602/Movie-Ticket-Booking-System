@@ -36,10 +36,12 @@ public class FoodServiceImpl implements FoodService {
 	}
 
 	@Override
-	public Iterable<FoodMenu> findAllfood() {
+	public List<FoodMenu> findAll_ListFood() {
 		// TODO Auto-generated method stub
-		return foodRepository.findAll();
+		return foodRepository.findAll_ListFood();
 	}
+
+	
 
 	
 
