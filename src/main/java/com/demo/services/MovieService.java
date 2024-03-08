@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.demo.MovieStatus;
 import com.demo.entities.Cinema;
 import com.demo.entities.Hall;
 import com.demo.entities.Movie;
@@ -25,6 +26,8 @@ public interface MovieService {
 	Movie findMovieById(int id);
 	
 	List<Cinema> findCinemasFromMovieAndCity(Integer cityId, Integer movieId);
+	
+	List<Movie> findMovieByStatus(Integer cinemaId, MovieStatus status);
 	
 	List<Shows> findShowFromHallAndMovie(Integer hallId, Integer movieId);
 	

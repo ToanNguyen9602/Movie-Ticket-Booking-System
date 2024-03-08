@@ -27,8 +27,10 @@ public class AccountController {
 
 	@Autowired
 	private AccountService accountService;
+	
 	@Autowired
 	private RoleService roleService;
+	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
@@ -61,38 +63,30 @@ public class AccountController {
 			account.setStatus(true);
 
 			account.setPassword(encoder.encode(account.getPassword()));
-			if(accountService.checkexistence(account.getUsername()))
-			{
+			if (accountService.checkexistence(account.getUsername())) {
 				redirectAttributes.addFlashAttribute("msg", "this username is used");
 				return "redirect:/user/register";
-			}
-			else if(accountService.checkemail(account.getEmail()))
-			{
+			} else if (accountService.checkemail(account.getEmail())) {
 				redirectAttributes.addFlashAttribute("msg", "this email is used");
 				return "redirect:/user/register";
-			}
-			else if(accountService.checkphone(account.getPhone()))
-			{
+			} else if (accountService.checkphone(account.getPhone())) {
 				redirectAttributes.addFlashAttribute("msg", "this phonenumber is used");
 				return "redirect:/user/register";
-			}
-			else if(account.getPhone().length()<10)
-			{
+			} else if (account.getPhone().length() < 10) {
 				redirectAttributes.addFlashAttribute("msg", "invalid phonenumber");
 				return "redirect:/user/register";
 			}
-			
-			else
-			{
 
-			if (accountService.save(account)) {
+			else {
 
-				redirectAttributes.addFlashAttribute("msg", "ok");
+				if (accountService.save(account)) {
 
-			} else {
-				redirectAttributes.addFlashAttribute("msg", "fail");
-				return "redirect:/user/register";
-			}
+					redirectAttributes.addFlashAttribute("msg", "ok");
+
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+					return "redirect:/user/register";
+				}
 			}
 
 		} catch (Exception e) {
