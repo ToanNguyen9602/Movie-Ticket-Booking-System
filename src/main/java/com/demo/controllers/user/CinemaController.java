@@ -24,9 +24,9 @@ public class CinemaController {
 		return "cinema/index";
 	}
 
-	@GetMapping(value = "details/{city_id}")
-	public String details(ModelMap modelMap, @PathVariable("city_id") int city_id) {
-		modelMap.put("cinemas", cityService.findCinemasByCityId(city_id));
+	@GetMapping(value = "details/{id}")
+	public String details(ModelMap modelMap, @PathVariable("id") int id) {
+		modelMap.put("cinemas", cityService.findCinemasByCityId(id));
 		return "cinema/details";
 	}
 

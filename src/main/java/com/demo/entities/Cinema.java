@@ -22,6 +22,10 @@ public class Cinema implements java.io.Serializable {
 
 	public Cinema() {
 	}
+	
+	public Cinema(Integer id) {
+		this.id = id;
+	}
 
 	public Cinema(City city, String name, String address, String photo) {
 		this.city = city;

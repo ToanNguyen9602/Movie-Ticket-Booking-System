@@ -11,11 +11,6 @@ import com.demo.entities.Cinema;
 
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema, Integer> {
-	@Query("from Cinema where city.id = :cityid")
-	public List<Cinema> findCinemasByCityId(@Param("cityid") int cityid);
-	
-	@Query("from Cinema where id = :id")
-	public Cinema findCinemasById(@Param("id") int id);
 	
 	boolean existsByName(String name);
 }

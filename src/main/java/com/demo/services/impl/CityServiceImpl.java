@@ -45,7 +45,8 @@ public class CityServiceImpl implements CityService {
 
 	@Override
 	public List<Cinema> findCinemasByCityId(int city_id) {
-		return cinemaRepository.findCinemasByCityId(city_id);
+		//return cinemaRepository.findCinemasByCityId(city_id);
+		return null;
 	}
 
 }

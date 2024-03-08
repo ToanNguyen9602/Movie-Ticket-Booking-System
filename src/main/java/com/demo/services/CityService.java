@@ -11,6 +11,6 @@ public interface CityService {
 
 	public Iterable<City> findAll();
 
-	public List<Cinema> findCinemasByCityId(int city_id);
+	public List<Cinema> findCinemasByCityId(int id);
 
 }

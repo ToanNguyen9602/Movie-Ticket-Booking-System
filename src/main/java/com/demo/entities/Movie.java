@@ -30,6 +30,10 @@ public class Movie implements java.io.Serializable {
 
 	public Movie() {
 	}
+	
+	public Movie(Integer movieId) {
+		this.id = movieId;
+	}
 
 	public Movie(String title, Date releaseDate, int duration, String genre, String description, String rating,
 			String directors, String poster, String trailer, String casters, double price) {

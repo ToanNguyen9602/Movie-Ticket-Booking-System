@@ -75,7 +75,7 @@ public class DashboardController {
 	
 	@RequestMapping(value = { "listmovie" }, method = RequestMethod.GET)
 	public String ListMovie(ModelMap modelMap) {
-		modelMap.put("movies", movieService.findAllMovie()); 
+		modelMap.put("movies", movieService.findAll()); 
 		return "admin/movie/listmovie";
 	}
 	

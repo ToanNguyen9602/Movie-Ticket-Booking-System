@@ -1,7 +1,5 @@
 package com.demo.services.impl;
 
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,40 +18,39 @@ public class CinemaServiceImpl implements CinemaService {
 	@Override
 	public boolean save(Cinema cinema) {
 		try {
-
-			if (cinemaRepository.existsByName(cinema.getName())) {
-				
-				return false;
-			} else {
-				
-				cinemaRepository.save(cinema);
-				return true;
-			}
-
+			if (cinemaRepository.existsByName(cinema.getName())) return false;
+			
+			cinemaRepository.save(cinema);
+			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
 	@Override
-<<<<<<< HEAD
-	public Iterable<Cinema> findAll() {
-		// TODO Auto-generated method stub
+	public List<Cinema> findAll() {
 		return cinemaRepository.findAll();
 	}
 
 	@Override
 	public Cinema findCinemasById(int id) {
-		// TODO Auto-generated method stub
-		return cinemaRepository.findCinemasById(id);
-=======
-	public List<Movie> findAllMovies(Integer cinemaId) {
-		return cinemaRepository.findById(cinemaId).get()
-				.getShowses()
+		return cinemaRepository.findById(id).get();
+	}
+
+	@Override
+	public List<Cinema> findCinemasFromCityAndMovie(Integer cityId, Integer movieId) {
+		List<Cinema> cinemas = cinemaRepository.findAll()
 				.stream()
-				.map(show -> show.getMovie())
+				.filter(cinema -> cinema.getCity().getId() == cityId)
+				.filter(cinema -> {
+					var shows = cinema.getShowses().stream()
+						.filter(show -> show.getMovie().getId() == movieId)
+						.limit(1)
+						.toList();
+					return shows != null && shows.size() > 0; 
+				})
 				.toList();
->>>>>>> 045493b2e2f6feb7b60944e39cbc9d528d7029e5
+		return cinemas;
 	}
 
 }
