@@ -17,5 +17,5 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	public List<Movie> searchMoviesByTitle(@Param("title") String title); 
 	
 	@Query("from Movie where id = :id")
-	public List<Movie> findMovieById(@Param("id") int id);
+	public Movie findMovieById(@Param("id") int id);
 }

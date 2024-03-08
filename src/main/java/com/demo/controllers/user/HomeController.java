@@ -27,6 +27,12 @@ public class HomeController {
 		modelMap.put("movies", movieService.findAllMovie());
 		return "home/index";
 	}
+	
+	@RequestMapping(value = {"index2"}, method = RequestMethod.GET)
+	public String index2(ModelMap modelMap) {
+		modelMap.put("movies", movieService.findAllMovie());
+		return "home/user2";
+	}
 
 	@GetMapping(value = "details/{id}")
 	public String details(ModelMap modelMap, @PathVariable("id") int id) {

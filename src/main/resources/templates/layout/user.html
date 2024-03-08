@@ -3,7 +3,7 @@
 <head>
 	<!-- Basic Page Needs -->
 	<meta charset="utf-8">
-	<title>AMovie</title>
+	<title th:text="${title}"></title>
 	<meta name="description" content="A Template by Gozha.net">
 	<meta name="keywords" content="HTML, CSS, JavaScript">
 	<meta name="author" content="Gozha.net">
@@ -43,7 +43,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	
+
 
 
 </head>
@@ -75,7 +75,7 @@
 					<ul id="navigation">
 						<li>
 							<span class="sub-nav-toggle plus"></span>
-							<a  >Film</a>
+							<a>Film</a>
 							<ul>
 								<li class="menu__nav-item"><a th:href="@{/film/nowshowing}">Now showing</a></li>
 								<li class="menu__nav-item"><a th:href="@{/film/comingsoon}">Coming soon</a></li>
@@ -84,14 +84,14 @@
 						</li>
 						<li>
 							<span class="sub-nav-toggle plus"></span>
-							<a >Pages</a>
+							<a>Pages</a>
 							<ul>
 								<li class="menu__nav-item"><a th:href="@{/contact/index}">Contact us</a></li>
 							</ul>
 						</li>
 						<li>
 							<span class="sub-nav-toggle plus"></span>
-							<a  >Booking steps</a>
+							<a>Booking steps</a>
 							<ul>
 								<li class="menu__nav-item"><a th:href="@{/bookseat/interest}">Cinema interest</a></li>
 								<li class="menu__nav-item"><a th:href="@{/bookseat/index}">Booking seat</a></li>
@@ -237,17 +237,30 @@
 		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
-				<form id="login-form" class="login" method='get' novalidate=''>
+				<form id="login-form" class="login" method='post' novalidate=''>
 					<p class="login__title">Register <br><span class="login-edition">welcome to A.Movie</span></p>
 
 
 
 					<p class="login__tracker"> </p>
-
 					<div class="field-wrap">
-						<input type='text' placeholder='Username' name='user-email' class="login__input" required>
-						<input type='password' placeholder='Password' name='user-password' class="login__input"
-							required>
+						Username:
+						<input type='text' placeholder='Username' name='user-email' class="login__input" required
+						>
+						Password:
+						<input type='password' placeholder='Password' name='user-password' class="login__input" required
+						>
+						FullName:
+						<input type='text' placeholder='FullName' name='user-email' class="login__input" required
+						>
+						Phone Number:
+						<input type='tel' placeholder='Phone Number' name='user-password' class="login__input" required
+						>
+						Email:
+						<input type='text' placeholder='Email' name='user-email' class="login__input" required
+						>
+						Address:
+						<textarea class="login__input"></textarea>
 
 						<input id='#informed' class='login__check styled'>
 						<label for='#informed' class='login__check-info'> </label>

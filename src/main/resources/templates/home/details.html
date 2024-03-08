@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Home Page', ~{this :: .container})}">
+<html xmlns:th="http://www.thymeleaf.org"th:replace="~{layout/user :: content(${movie.title}, ~{this :: .container})}">
 
 <head>
 	<title></title>
