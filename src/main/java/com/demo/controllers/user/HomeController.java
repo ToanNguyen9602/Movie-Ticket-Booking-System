@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.demo.services.CityService;
 import com.demo.services.MovieService;
@@ -14,8 +15,10 @@ import com.demo.services.MovieService;
 @Controller
 @RequestMapping({ "home", "" })
 public class HomeController {
+	
 	@Autowired
 	private MovieService movieService;
+	
 	@Autowired
 	private CityService cityService;
 
@@ -37,15 +40,18 @@ public class HomeController {
 		modelMap.put("cities", cityService.findAll());
 		return "home/details";
 	}
-	@GetMapping(value = "choosehall/{city_id}")
-	public String choosehall(ModelMap modelMap, @PathVariable("city_id") int city_id ) {
-		modelMap.put("cinemas", cityService.findCinemasByCityId(city_id));
-		return "home/choosehall";
+
+	@GetMapping(value = "choose-cinema")
+	public String chooseCinema(ModelMap modelMap,
+			@RequestParam("movieId") int movieId,
+			@RequestParam("cityId") int cityId) {
+		modelMap.put("cinemas", movieService.findCinemasFromMovieAndCity(cityId, movieId));
+		return "home/choose-cinema";
 	}
-	
-	
-	 
 
+	@GetMapping(value = "choose-time")
+	public String choosetime(ModelMap modelMap) {
+		return "home/choose-time";
+	}
 
- 
 }

@@ -13,9 +13,9 @@
 				<div class="gallery-wrapper">
 					<div class="col-sm-4"  th:each="cinema : ${cinemas}">
 						<div class="gallery-item">
-							<a th:href='@{/user/images/gallery/large/item-1.jpg}'
+							<a  
 								class="gallery-item__image gallery-item--photo">
-								<img alt='' th:src="@{/user/images/gallery/thumb/item-1.jpg}">
+								<img alt='' th:src="@{'/images/' + ${cinema.photo}}">
 							</a>
 							<a href='images/gallery/large/item-1.jpg'
 								class="gallery-item__descript gallery-item--photo-link">
