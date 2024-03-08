@@ -2,9 +2,12 @@ package com.demo.services.impl;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.demo.entities.Cinema;
+import com.demo.entities.Movie;
 import com.demo.repositories.CinemaRepository;
 import com.demo.services.CinemaService;
 
@@ -30,6 +33,15 @@ public class CinemaServiceImpl implements CinemaService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Movie> findAllMovies(Integer cinemaId) {
+		return cinemaRepository.findById(cinemaId).get()
+				.getShowses()
+				.stream()
+				.map(show -> show.getMovie())
+				.toList();
 	}
 
 }

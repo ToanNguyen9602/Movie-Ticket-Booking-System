@@ -9,10 +9,9 @@ import com.demo.entities.City;
 import com.demo.entities.Movie;
 import com.demo.entities.Role;
 
-
-
-
 public interface CinemaService {
-	public boolean save(Cinema cinema);
+	boolean save(Cinema cinema);
+	
+	List<Movie> findAllMovies(Integer cinemaId);
 	
 }

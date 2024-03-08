@@ -15,10 +15,14 @@ import jakarta.persistence.*;
 public class MovieShow implements java.io.Serializable {
 
 	private Integer id;
+	
 	private BookingDetails bookingDetails;
+	
 	private Shows shows;
+	
 	@DateTimeFormat(pattern = "HH:mm:ss")
 	private Date startTime;
+	
 	@DateTimeFormat(pattern = "HH:mm:ss")
 	private Date endTime;
 

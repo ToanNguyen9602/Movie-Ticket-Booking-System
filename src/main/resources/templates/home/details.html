@@ -12,7 +12,7 @@
 			<!-- Movie preview item -->
 
 			<!-- Movie preview item main  -->
-			<div class="movie movie--preview release" th:each="movie : ${movies}">
+			<div class="movie movie--preview release">
 				<div class="col-sm-5 col-md-3">
 					<div class="movie__images">
 						<img alt='' th:src="@{'/images/' + ${movie.poster}}">
@@ -54,29 +54,31 @@
 		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	</div>
 
- 
+
 	<div class="container">
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" role="dialog">
 			<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<form id="login-form" class="login" method='get' novalidate=''>
-					<p class="login__title">CITY <br><span class="login-edition">Choose a city </span></p>
-					<p class="login__tracker"> </p>
+				<div class="modal-content">
+					<form id="login-form" class="login" method='get' novalidate=''>
+						<p class="login__title">CITY <br><span class="login-edition">Choose a city </span></p>
+						<p class="login__tracker"> </p>
 
-					 <div class="container">
-						<div>
-							<ul style="list-style: none; display: flex;">
 
-								<li th:each="city : ${cities}" style="padding: 40;">
-									<a th:href="@{'/home/choosehall/' + ${city.id}}" th:text="${city.name}"></a>
-								</li>
-							</ul>
+						<div class="container">
+							<div>
+								<ul style="list-style: none; display: flex; flex-wrap: wrap;">
+
+									<li th:each="city : ${cities}" style="padding: 20;">
+										<a th:href="@{'/home/choose-cinema?cityId=' + ${city.id} + '&amp;movieId=' + ${movie.id}}"
+											th:text="${city.name}"></a>
+									</li>
+								</ul>
+							</div>
 						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
-		</div>
 		</div>
 	</div>
 </body>
