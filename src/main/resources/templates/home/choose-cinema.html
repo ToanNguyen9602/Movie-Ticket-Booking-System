@@ -13,11 +13,11 @@
 				<div class="gallery-wrapper">
 					<div class="col-sm-4"  th:each="cinema : ${cinemas}">
 						<div class="gallery-item">
-							<a  
+							<a th:href="@{'/home/choose-time?movieId=' + ${movieId} + '&amp;cinemaId=' + ${cinema.id}}" 
 								class="gallery-item__image gallery-item--photo">
 								<img alt='' th:src="@{'/images/' + ${cinema.photo}}">
 							</a>
-							<a href='images/gallery/large/item-1.jpg'
+							<a th:href="@{'/home/choose-time?movieId=' + ${movieId} + '&amp;cinemaId=' + ${cinema.id}}"
 								class="gallery-item__descript gallery-item--photo-link">
 								<span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
 								<p class="gallery-item__name" th:text="${cinema.name}"></p> 

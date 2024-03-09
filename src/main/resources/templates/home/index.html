@@ -1,35 +1,24 @@
-  <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layout/user :: content('Home Page', ~{this :: .container})}">
-<head>
-<title></title>
-</head>
-<body>
-  
-  <!-- Now Showing -->
-        
-        <section class="container">
-            <div class="col-sm-12">
-                <h2 class="page-heading">NOW SHOWING</h2>
-                <div class="row">
-                <div class="gallery-wrapper">
-                    <div class="col-sm-4 col-md-3" th:each="movie : ${movies}">
-                        <div class="gallery-item">
-                            <a th:href="@{'/home/details/' + ${movie.id}}"  class="gallery-item__image gallery-item--photo">
-                                <img alt='' th:src="@{'/images/' + ${movie.poster}}">
-                            </a>
-                            <a  class="gallery-item__descript gallery-item--photo-link">
-                                <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
-                                <p class="gallery-item__name" th:text="${movie.title}"> </p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Home Page', ~{this :: .container})}">
+<!-- Now Showing -->
 
-        </section>
-        <!-- Coming soon -->
-         
-        
-        
-</body>
+<section class="container">
+	<div class="col-sm-12">
+		<h2 class="page-heading">NOW SHOWING</h2>
+		<div class="row">
+			<div class="gallery-wrapper">
+				<div class="col-md-3" th:each="movie : ${movies}">
+					<div class="gallery-item">
+						<a th:href="@{'/home/details/' + ${movie.id}}" class="gallery-item__image gallery-item--photo">
+							<img alt='' th:src="@{'/images/' + ${movie.poster}}">
+						</a>
+						<a class="gallery-item__descript gallery-item--photo-link">
+							<span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+							<p class="gallery-item__name" th:text="${movie.title}"> </p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Coming soon -->

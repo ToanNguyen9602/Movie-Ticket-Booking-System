@@ -13,13 +13,13 @@ public class FoodBookingDetails implements java.io.Serializable {
 	private FoodBookingDetailsId id;
 	private Booking booking;
 	private FoodMenu foodMenu;
-	private int quantity;
-	private int price;
+	private Integer quantity;
+	private Integer price;
 
 	public FoodBookingDetails() {
 	}
 
-	public FoodBookingDetails(FoodBookingDetailsId id, Booking booking, FoodMenu foodMenu, int quantity, int price) {
+	public FoodBookingDetails(FoodBookingDetailsId id, Booking booking, FoodMenu foodMenu, Integer quantity, Integer price) {
 		this.id = id;
 		this.booking = booking;
 		this.foodMenu = foodMenu;
@@ -28,7 +28,6 @@ public class FoodBookingDetails implements java.io.Serializable {
 	}
 
 	@EmbeddedId
-
 	@AttributeOverrides({
 			@AttributeOverride(name = "bookingId", column = @Column(name = "booking_id", nullable = false)),
 			@AttributeOverride(name = "foodId", column = @Column(name = "food_id", nullable = false)) })
@@ -61,20 +60,20 @@ public class FoodBookingDetails implements java.io.Serializable {
 	}
 
 	@Column(name = "quantity", nullable = false)
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return this.quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
 	@Column(name = "price", nullable = false)
-	public int getPrice() {
+	public Integer getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

@@ -19,7 +19,7 @@ public class Account implements java.io.Serializable {
 	private String phone;
 	private String fullname;
 	private String address;
-	private boolean status;
+	private Boolean status;
 	private Set<Booking> bookings = new HashSet<Booking>(0);
 	private Set<Role> roles = new HashSet<Role>(0);
 	private Set<Blogs> blogses = new HashSet<Blogs>(0);

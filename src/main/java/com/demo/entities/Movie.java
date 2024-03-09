@@ -16,7 +16,7 @@ public class Movie implements java.io.Serializable {
 	private Integer id;
 	private String title;
 	private Date releaseDate;
-	private int duration;
+	private Integer duration;
 	private String genre;
 	private String description;
 	private String rating;
@@ -24,19 +24,19 @@ public class Movie implements java.io.Serializable {
 	private String poster;
 	private String trailer;
 	private String casters;
-	private double price;
+	private Double price;
 	private Date endDate;
 	private Set<Shows> showses = new HashSet<Shows>(0);
 
 	public Movie() {
 	}
 	
-	public Movie(Integer movieId) {
-		this.id = movieId;
+	public Movie(Integer id) {
+		this.id = id;
 	}
 
-	public Movie(String title, Date releaseDate, int duration, String genre, String description, String rating,
-			String directors, String poster, String trailer, String casters, double price) {
+	public Movie(String title, Date releaseDate, Integer duration, String genre, String description, String rating,
+			String directors, String poster, String trailer, String casters, Double price) {
 		this.title = title;
 		this.releaseDate = releaseDate;
 		this.duration = duration;
@@ -50,8 +50,8 @@ public class Movie implements java.io.Serializable {
 		this.price = price;
 	}
 
-	public Movie(String title, Date releaseDate, int duration, String genre, String description, String rating,
-			String directors, String poster, String trailer, String casters, double price, Date endDate,
+	public Movie(String title, Date releaseDate, Integer duration, String genre, String description, String rating,
+			String directors, String poster, String trailer, String casters, Double price, Date endDate,
 			Set<Shows> showses) {
 		this.title = title;
 		this.releaseDate = releaseDate;
@@ -70,7 +70,6 @@ public class Movie implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
-
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
@@ -100,11 +99,11 @@ public class Movie implements java.io.Serializable {
 	}
 
 	@Column(name = "duration", nullable = false)
-	public int getDuration() {
+	public Integer getDuration() {
 		return this.duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 
@@ -172,11 +171,11 @@ public class Movie implements java.io.Serializable {
 	}
 
 	@Column(name = "price", nullable = false, precision = 22, scale = 0)
-	public double getPrice() {
+	public Double getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
@@ -199,4 +198,15 @@ public class Movie implements java.io.Serializable {
 		this.showses = showses;
 	}
 
+	@Override
+	public String toString() {
+		return "Movie [id=" + id + ", title=" + title + ", releaseDate=" + releaseDate + ", duration=" + duration
+				+ ", genre=" + genre + ", description=" + description + ", rating=" + rating + ", directors="
+				+ directors + ", poster=" + poster + ", trailer=" + trailer + ", casters=" + casters + ", price="
+				+ price + ", endDate=" + endDate + ", showses=" + showses + "]";
+	}
+
+	
+	
+	
 }

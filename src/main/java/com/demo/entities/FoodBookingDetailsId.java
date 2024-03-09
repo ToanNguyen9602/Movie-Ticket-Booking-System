@@ -9,32 +9,32 @@ import jakarta.persistence.*;
 @Embeddable
 public class FoodBookingDetailsId implements java.io.Serializable {
 
-	private int bookingId;
-	private int foodId;
+	private Integer bookingId;
+	private Integer foodId;
 
 	public FoodBookingDetailsId() {
 	}
 
-	public FoodBookingDetailsId(int bookingId, int foodId) {
+	public FoodBookingDetailsId(Integer bookingId, Integer foodId) {
 		this.bookingId = bookingId;
 		this.foodId = foodId;
 	}
 
 	@Column(name = "booking_id", nullable = false)
-	public int getBookingId() {
+	public Integer getBookingId() {
 		return this.bookingId;
 	}
 
-	public void setBookingId(int bookingId) {
+	public void setBookingId(Integer bookingId) {
 		this.bookingId = bookingId;
 	}
 
 	@Column(name = "food_id", nullable = false)
-	public int getFoodId() {
+	public Integer getFoodId() {
 		return this.foodId;
 	}
 
-	public void setFoodId(int foodId) {
+	public void setFoodId(Integer foodId) {
 		this.foodId = foodId;
 	}
 
@@ -51,7 +51,7 @@ public class FoodBookingDetailsId implements java.io.Serializable {
 	}
 
 	public int hashCode() {
-		int result = 17;
+		Integer result = 17;
 
 		result = 37 * result + this.getBookingId();
 		result = 37 * result + this.getFoodId();

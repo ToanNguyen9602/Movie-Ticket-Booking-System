@@ -98,4 +98,11 @@ public class Shows implements java.io.Serializable {
 		this.bookingDetailses = bookingDetailses;
 	}
 
+	@Override
+	public String toString() {
+		return "Shows [id=" + id + ", cinema=" + cinema.getName() + ", movie=" + movie.getId() + ", startTime=" + startTime + ", endTime="
+				+ endTime + "]";
+	}
+
+	
 }

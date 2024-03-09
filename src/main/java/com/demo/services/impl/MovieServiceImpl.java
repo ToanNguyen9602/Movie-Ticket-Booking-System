@@ -2,8 +2,12 @@ package com.demo.services.impl;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.lang.NonNull;
@@ -13,6 +17,7 @@ import com.demo.MovieStatus;
 import com.demo.entities.Cinema;
 import com.demo.entities.Movie;
 import com.demo.entities.Shows;
+import static com.demo.helpers.DateHelper.*;
 import com.demo.repositories.CinemaRepository;
 import com.demo.repositories.MovieRepository;
 import com.demo.repositories.ShowsRepository;
@@ -46,26 +51,31 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public Movie findMovieById(int id) {
+	public Movie findMovieById(Integer id) {
 		return movieRepository.findById(id).get();
 	}
 
 	@Override
 	public List<Shows> findShowsFromCinemaAndMovie(@NonNull Integer cinemaId, @NonNull Integer movieId, Date date) {
-		Shows exampleShows = new Shows();
-		exampleShows.setMovie(new Movie(movieId));
-		exampleShows.setCinema(new Cinema(cinemaId));		
-		List<Shows> shows = showsRepository.findAll(Example.of(exampleShows)); 
+		List<Shows> shows = getShowsByCinemaAndMovie(new Cinema(cinemaId), new Movie(movieId));
 		if (date != null) {
-            shows = shows.stream()
+			LocalDate comparisonDate = mapFromDate(date);
+			shows = shows.stream()
                 .filter(show -> {
-                    LocalDate showDate = show.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    LocalDate comparisonDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return showDate.equals(comparisonDate);
+                	LocalDate showDate = mapFromDate(show.getStartTime()); 
+                	return showDate.compareTo(comparisonDate) == 0;	
                 })
-                .toList();
+                .collect(Collectors.toList());
         }
+		shows.sort((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()));
         return shows;
+	}
+	
+	private List<Shows> getShowsByCinemaAndMovie(Cinema cinema, Movie movie) {
+		Shows exampleShow = new Shows();
+		exampleShow.setCinema(cinema);
+		exampleShow.setMovie(movie);
+		return showsRepository.findAll(Example.of(exampleShow));
 	}
 
 	@Override
@@ -128,6 +138,20 @@ public class MovieServiceImpl implements MovieService {
 				.filter(movie -> movie.getEndDate().before(new Date()))
 				.toList();
 	}
+
+	@Override
+	public List<Date> findDatesFromCinemaAndMovieUntilNoutFoundFromNow(Integer cinemaId, Integer movieId) {
+		List<Shows> shows = getShowsByCinemaAndMovie(new Cinema(cinemaId), new Movie(movieId)); 
+		shows.sort((s1, s2) -> s2.getStartTime().compareTo(s1.getStartTime()));
+		
+		List<Date> datesFromNowToLastShow = new ArrayList<>();
+		if(shows.size() > 0) { 
+			Date lastShowDate = shows.get(0).getStartTime();
+			datesFromNowToLastShow = getDatesBetween(new Date(), lastShowDate);			
+		}
+		return datesFromNowToLastShow;
+	}
+	
 
 	
 }

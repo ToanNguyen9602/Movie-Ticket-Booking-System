@@ -6,83 +6,59 @@
 </head>
 
 <body>
-
-
 	<section class="container">
 		<div class="overflow-wrapper">
 			<div class="col-sm-12">
-
-				<h2 class="page-heading">CINEMA</h2>
-
-				<!-- News post article-->
+				<h2 class="page-heading" th:text="@{'CINEMA ' + ${cinema.name}}"></h2>
 				<article class="post post--news">
 					<a class="post__image-link">
-						<img alt='' th:src="@{/user/images/client-photo/single-post.jpg}">
+						<img alt='' th:src="@{'/images/' + ${cinema.photo}}">
 					</a>
-
-
 				</article>
-
-				<!-- Choose date and choose time-->
-				<div class="container" style="margin-top: 100;">
-					<div class="row">
-						<div class="col-sm-6">
-							<select class="js-example-basic-multiple" style="width: 500; height: 40;">
-								<option value="Action">Choose Date</option>
-								<option value="Animation">Animation</option>
-								<option value="Comedy">Comedy</option>
-
-							</select>
-						</div>
-						<div class="col-sm-6">
-							<button type="button" style="margin-top: 10; width: 100; height: 40;"
-								class="btn btn-primary">Search</button>
-						</div>
-					</div>
-				</div>
-
-
-
-
 			</div>
 		</div>
 	</section>
-	<!-- select film  -->
+
 	<section class="container">
-		<h2 class="page-heading heading--outcontainer">Movies</h2>
-
-		<div class="col-sm-8 col-md-9 col-sm-push-4 col-md-push-3">
-			<!-- Movie preview item -->
-
-			<!-- Movie preview item main  -->
-			<div class="movie movie--preview release">
-				<div class="col-sm-5 col-md-3">
-					<div class="movie__images">
-						<img alt='' th:src="@{/user/images/movie/movie-sample1.jpg}">
-					</div>
+		<div class="col-sm-12">
+			<h2 class="page-heading">Pick time</h2>
+			<div class="container">
+				<div class="row">
+					<form th:action="@{/home/choose-time}" method="GET">
+						<div class="col-sm-6">
+							<input type="hidden" id="movieId" name="movieId" th:value="${movieId}" />
+							<input type="hidden" id="cinemaId" name="cinemaId" th:value="${cinema.id}" />
+							<select class="js-example-basic-multiple" id="date" name="date"
+								style="width: 500; height: 40;">
+								<option th:each="date : ${dates}"
+									th:selected="${#dates.format(date, 'yyyy-MM-dd') == selectedDate}"
+									th:value="${#dates.format(date, 'yyyy-MM-dd')}"
+									th:text="${#dates.format(date, 'EEEE MM/dd')}">
+								</option>
+							</select>
+						</div>
+						<div class="col-sm-6">
+							<button type="submit" style="width: 100; height: 40;"
+								class="btn btn-primary">Search</button>
+						</div>
+					</form>
 				</div>
-
-				<div class="col-sm-7 col-md-9">
-					<a href='movie-page-right.html' class="movie__title link--huge">Last Vegas (2013)</a>
-					<p class="movie__time">105 min</p>
-					<p class="movie__option"><strong>Country: </strong><a href="#">USA</a></p>
-					<p class="movie__option"><strong>Category: </strong><a href="#">Comady</a></p>
-					<p class="movie__option"><strong>Release date: </strong>November 1, 2013</p>
-					<p class="movie__option"><strong>Director: </strong><a href="#">Jon Turteltaub</a></p>
-					<p class="movie__option"><strong>Actors: </strong><a href="#">Robert De Niro</a>, <a
-							href="#">Michael Douglas</a>, <a href="#">Morgan Freeman</a>, <a href="#">Kevin Kline</a>,
-						<a href="#">Mary Steenburgen</a>, <a href="#">Jerry Ferrara</a>, <a href="#">Romany Malco</a> <a
-							href="#">...</a>
-					</p>
-					<p class="movie__option"><strong>Age restriction: </strong><a href="#">13</a></p>
-					 
-				</div>
-
 			</div>
-
-			 
+			<div class="time-select time-select--wide" style="margin-top:50px">
+				<div class="time-select__group group--first">
+					<div class="col-sm-3">
+						<p class="time-select__place" th:text="${cinema.name}"></p>
+					</div>
+					<ul class="col-sm-6 items-wrap">
+						<li th:each="show : ${shows}" class="time-select__item"
+							th:data-time="${#dates.format(show.startTime, 'HH:mm')}"
+							th:text="${#dates.format(show.startTime, 'HH:mm')}">
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</section>
-
 </body>
 
 </html>

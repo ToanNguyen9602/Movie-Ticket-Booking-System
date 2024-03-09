@@ -33,7 +33,7 @@ public class CinemaServiceImpl implements CinemaService {
 	}
 
 	@Override
-	public Cinema findCinemasById(int id) {
+	public Cinema findById(int id) {
 		return cinemaRepository.findById(id).get();
 	}
 
