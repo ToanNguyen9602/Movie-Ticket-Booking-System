@@ -36,11 +36,16 @@ public class HomeController {
 		this.cityService = cityService;
 		this.cinemaService = cinemaService;
 	}
-
 	@GetMapping({ "", "index", "/" })
-	public String index(ModelMap modelMap) {
-		movieService.findAll().stream().forEach(System.out::println);
-		modelMap.put("movies", movieService.findAll());
+	public String index(ModelMap modelMap, 
+		@RequestParam(value = "search", required = false) String search) {
+		if(search ==null) {
+			movieService.findAll().stream().forEach(System.out::println);
+			modelMap.put("movies", movieService.findAll());			
+		} else {
+			modelMap.put("movies", movieService.searchMoviesByTitle(search) );
+		}
+		modelMap.put("searchedKeyword", search);
 		return "home/index";
 	}
 	
@@ -92,5 +97,6 @@ public class HomeController {
         LocalDate next4Days = today.plusDays(4);
         return java.sql.Date.valueOf(next4Days);
     }
+	
 
 }
