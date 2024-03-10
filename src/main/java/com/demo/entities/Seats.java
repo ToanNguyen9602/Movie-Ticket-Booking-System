@@ -15,19 +15,19 @@ public class Seats implements java.io.Serializable {
 	private Integer id;
 	private Hall hall;
 	private String row;
-	private int number;
+	private Integer number;
 	private Set<BookingDetails> bookingDetailses = new HashSet<BookingDetails>(0);
 
 	public Seats() {
 	}
 
-	public Seats(Hall hall, String row, int number) {
+	public Seats(Hall hall, String row, Integer number) {
 		this.hall = hall;
 		this.row = row;
 		this.number = number;
 	}
 
-	public Seats(Hall hall, String row, int number, Set<BookingDetails> bookingDetailses) {
+	public Seats(Hall hall, String row, Integer number, Set<BookingDetails> bookingDetailses) {
 		this.hall = hall;
 		this.row = row;
 		this.number = number;
@@ -66,11 +66,11 @@ public class Seats implements java.io.Serializable {
 	}
 
 	@Column(name = "number", nullable = false)
-	public int getNumber() {
+	public Integer getNumber() {
 		return this.number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
 	}
 

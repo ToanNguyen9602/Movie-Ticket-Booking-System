@@ -15,20 +15,20 @@ public class Voucher implements java.io.Serializable {
 
 	private Integer id;
 	private String name;
-	private double discount;
+	private Double discount;
 	private Date expiry;
 	private Set<Booking> bookings = new HashSet<Booking>(0);
 
 	public Voucher() {
 	}
 
-	public Voucher(String name, double discount, Date expiry) {
+	public Voucher(String name, Double discount, Date expiry) {
 		this.name = name;
 		this.discount = discount;
 		this.expiry = expiry;
 	}
 
-	public Voucher(String name, double discount, Date expiry, Set<Booking> bookings) {
+	public Voucher(String name, Double discount, Date expiry, Set<Booking> bookings) {
 		this.name = name;
 		this.discount = discount;
 		this.expiry = expiry;
@@ -57,11 +57,11 @@ public class Voucher implements java.io.Serializable {
 	}
 
 	@Column(name = "discount", nullable = false, precision = 22, scale = 0)
-	public double getDiscount() {
+	public Double getDiscount() {
 		return this.discount;
 	}
 
-	public void setDiscount(double discount) {
+	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
 

@@ -14,22 +14,22 @@ public class FoodMenu implements java.io.Serializable {
 
 	private Integer id;
 	private String name;
-	private int price;
+	private Integer price;
 	private String photo;
-	private boolean status;
+	private Boolean status;
 	private Set<FoodBookingDetails> foodBookingDetailses = new HashSet<FoodBookingDetails>(0);
 
 	public FoodMenu() {
 	}
 
-	public FoodMenu(String name, int price, String photo, boolean status) {
+	public FoodMenu(String name, Integer price, String photo, boolean status) {
 		this.name = name;
 		this.price = price;
 		this.photo = photo;
 		this.status = status;
 	}
 
-	public FoodMenu(String name, int price, String photo, boolean status,
+	public FoodMenu(String name, Integer price, String photo, boolean status,
 			Set<FoodBookingDetails> foodBookingDetailses) {
 		this.name = name;
 		this.price = price;
@@ -40,7 +40,6 @@ public class FoodMenu implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
-
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
@@ -60,11 +59,11 @@ public class FoodMenu implements java.io.Serializable {
 	}
 
 	@Column(name = "price", nullable = false)
-	public int getPrice() {
+	public Integer getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
@@ -78,11 +77,11 @@ public class FoodMenu implements java.io.Serializable {
 	}
 
 	@Column(name = "status", nullable = false)
-	public boolean isStatus() {
+	public Boolean isStatus() {
 		return this.status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 

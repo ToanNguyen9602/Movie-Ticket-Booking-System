@@ -14,12 +14,12 @@ public class BookingDetails implements java.io.Serializable {
 	private Booking booking;
 	private Seats seats;
 	private Shows shows;
-	private int price;
+	private Integer price;
 
 	public BookingDetails() {
 	}
 
-	public BookingDetails(BookingDetailsId id, Booking booking, Seats seats, Shows shows, int price) {
+	public BookingDetails(BookingDetailsId id, Booking booking, Seats seats, Shows shows, Integer price) {
 		this.id = id;
 		this.booking = booking;
 		this.seats = seats;
@@ -72,11 +72,11 @@ public class BookingDetails implements java.io.Serializable {
 	}
 
 	@Column(name = "price", nullable = false)
-	public int getPrice() {
+	public Integer getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

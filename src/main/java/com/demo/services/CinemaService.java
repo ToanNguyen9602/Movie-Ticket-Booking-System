@@ -8,7 +8,7 @@ import com.demo.entities.Movie;
 public interface CinemaService {
 	
 	public List<Cinema> findAll();
-	public Cinema findCinemasById(int id);
+	public Cinema findById(int id);
 	boolean save(Cinema cinema);
 	List<Cinema> findCinemasFromCityAndMovie(Integer cityId, Integer movieId);
 	

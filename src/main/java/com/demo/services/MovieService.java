@@ -3,6 +3,7 @@ package com.demo.services;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.demo.MovieStatus;
@@ -23,8 +24,9 @@ public interface MovieService {
 
 	List<Movie> searchMoviesByTitle(String title);
 	
-	Movie findMovieById(int id);
+	Movie findMovieById(Integer id);
 	
-	List<Shows> findShowsFromCinemaAndMovie(Integer cinemaId, Integer movieId, Date date);
+	List<Shows> findShowsFromCinemaAndMovie(@NonNull Integer cinemaId, @NonNull Integer movieId, Date date);
 
+	List<Date> findDatesFromCinemaAndMovieUntilNoutFoundFromNow(@NonNull Integer cinemaId, @NonNull Integer movieId);
 }

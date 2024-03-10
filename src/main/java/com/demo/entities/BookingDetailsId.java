@@ -9,9 +9,9 @@ import jakarta.persistence.*;
 @Embeddable
 public class BookingDetailsId implements java.io.Serializable {
 
-	private int bookingId;
-	private int showsId;
-	private int seatsId;
+	private Integer bookingId;
+	private Integer showsId;
+	private Integer seatsId;
 
 	public BookingDetailsId() {
 	}
