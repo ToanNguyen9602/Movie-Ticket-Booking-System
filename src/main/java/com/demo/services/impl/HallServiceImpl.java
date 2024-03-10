@@ -25,11 +25,12 @@ public class HallServiceImpl implements HallService {
 	private HallRepository hallRepository;
 
 	@Override
-	public List<Hall> findHallByCinemaId(int cinemaid) {
+	public List<Hall> findHallsByCinemaId(int cinemaid) {
 		// TODO Auto-generated method stub
-		return hallRepository.findHallByCinemaId(cinemaid);
+		return hallRepository.findHallsByCinemaId(cinemaid);
 	}
 
+	
 
 	
 

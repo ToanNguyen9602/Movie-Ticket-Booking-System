@@ -9,7 +9,7 @@ import com.demo.entities.Hall;
 
 public interface HallService {
 
-	public List<Hall> findHallByCinemaId(int cinemaid);
+	public List<Hall> findHallsByCinemaId(int cinemaid);
 	
 	
 
