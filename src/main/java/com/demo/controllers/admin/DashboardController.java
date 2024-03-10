@@ -90,9 +90,10 @@ public class DashboardController {
 		modelMap.put("cinemas", cinemaService.findAll()); 
 		return "admin/cinema/listcinema";
 	}
-	@GetMapping(value = "cinema/{cinemaid}")
-	public String details(ModelMap modelMap, @PathVariable("cinemaid") int cinemaid) {
-		//modelMap.put("halls", hallService.findHallByCinemaId(cinemaid));
+	
+	@GetMapping(value = "details/{id}")
+	public String details(ModelMap modelMap, @PathVariable("id") int id) {
+		modelMap.put("halls", cinemaService.findHallsByCinemaId(id));
 		return "admin/hall/listhall";
 	}
 	

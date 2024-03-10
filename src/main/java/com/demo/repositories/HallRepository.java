@@ -18,7 +18,7 @@ import com.demo.entities.Hall;
 
 public interface HallRepository  extends CrudRepository<Hall, Integer>{
 	
-	@Query("from Hall where cinema.id =:cinemaid ")
-	public List<Hall> findHallByCinemaId(@Param("cinemaid")int cinemaid);
+	@Query("from Hall where cinema.id = :cinemaid")
+	public List<Hall> findHallsByCinemaId(@Param("cinemaid") int cinemaid);
 
 }
