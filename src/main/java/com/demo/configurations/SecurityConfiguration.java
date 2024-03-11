@@ -39,6 +39,7 @@ public class SecurityConfiguration {
 						.requestMatchers(new AntPathRequestMatcher("/")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/home/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/blog/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/cinema/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/account/**")).permitAll()
 	                    //.requestMatchers("/fonts/**").permitAll()
 	                    .requestMatchers("/images/**").permitAll()
