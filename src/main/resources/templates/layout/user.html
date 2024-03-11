@@ -93,11 +93,18 @@
 						Sign in
 					</button>
 					<button type="button" class="btn btn-md btn--warning btn--book login-window" data-toggle="modal"
-						data-target="#">
-						<a th:href="@{user/register}">REGISTER</a>
+						data-target="#" id="registerButton">
+						REGISTER
 						
 					</button>
-
+					<script>
+						document.addEventListener("DOMContentLoaded", function () {
+							var registerButton = document.getElementById("registerButton");
+							registerButton.addEventListener("click", function () {
+								window.location.href = "/user/register";
+							});
+						});
+					</script>
 				</div>
 
 			</div>
