@@ -7,6 +7,7 @@
 <body>
 
 	<main class="main">
+		
 		<div class="container-fluid">
 			<div class="row">
 				<!-- main title -->
@@ -54,13 +55,13 @@
 
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
-											<input type="date" th:field="${phim.releaseDate}" class="form__input"
+											<input type="date" th:field="${phim.releaseDate}" id="from" class="form__input"
 												placeholder="Release_date">
 												
 												
 										</div>
 										<div class="form__group">
-											<input type="date" th:field="${phim.endDate}" class="form__input"
+											<input type="date" th:field="${phim.endDate}" id="to" class="form__input"
 												placeholder="End_Date">
 												
 												
@@ -149,3 +150,4 @@
 
 
 </body>
+</html>
