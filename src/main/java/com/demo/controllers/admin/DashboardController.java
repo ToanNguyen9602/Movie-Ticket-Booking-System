@@ -257,6 +257,7 @@ public class DashboardController {
 
 	}
 	
+ 
 	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
 	public String register(ModelMap modelMap) {
 		Account account = new Account();

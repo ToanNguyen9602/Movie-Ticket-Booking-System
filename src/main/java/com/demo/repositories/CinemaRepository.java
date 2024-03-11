@@ -13,4 +13,6 @@ import com.demo.entities.Cinema;
 public interface CinemaRepository extends JpaRepository<Cinema, Integer> {
 	
 	boolean existsByName(String name);
+	@Query("from Cinema where city.id = :city_id")
+	public List<Cinema> findCinemasByCityId(@Param("city_id") int city_id);
 }
