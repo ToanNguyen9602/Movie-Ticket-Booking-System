@@ -41,7 +41,8 @@ public class SecurityConfiguration {
 	                    .requestMatchers(new AntPathRequestMatcher("/blog/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/cinema/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/account/**")).permitAll()
-	                    //.requestMatchers("/fonts/**").permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/film/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/contact/**")).permitAll()
 	                    .requestMatchers("/images/**").permitAll()
 	                    .requestMatchers("/user/**").permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN");
