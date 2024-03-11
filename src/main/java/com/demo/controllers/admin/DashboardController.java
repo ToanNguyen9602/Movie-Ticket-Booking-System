@@ -63,7 +63,7 @@ public class DashboardController {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
-	@RequestMapping(value = { "dashboard" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "dashboard","index","" }, method = RequestMethod.GET)
 	public String index() {
 		return "admin/dashboard";
 	}
