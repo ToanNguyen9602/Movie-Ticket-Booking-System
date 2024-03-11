@@ -9,21 +9,21 @@
 
 	<section class="container">
 		<div class="col-sm-12">
+
 			<div class="row">
-				<div class='icon-block col-sm-12'>
-					<h2 class="heading heading--top">CGV </h2>
-					<div class="container">
-						<div>
-							<ul style="list-style: none; display: flex;">
-								<li th:each="cinema : ${cinemas}" style="padding: 40;">
-									<a th:text="${cinema.name}">
-									</a>
-								</li>
-							</ul>
+				<div class="gallery-wrapper">
+					<div class="col-sm-4" th:each="cinema : ${cinemas}">
+						<div class="gallery-item">
+							<a th:href="@{'/home/choose-time?movieId=' + ${movieId} + '&amp;cinemaId=' + ${cinema.id}}"
+								class="gallery-item__image gallery-item--photo">
+								<img alt='' th:src="@{'/images/' + ${cinema.photo}}">
+							</a>
+							<a class="gallery-item__descript gallery-item--photo-link">
+								<span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+								<p class="gallery-item__name" th:text="${cinema.name}"> </p>
+							</a>
 						</div>
 					</div>
-
-
 				</div>
 			</div>
 		</div>

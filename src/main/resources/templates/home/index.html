@@ -8,11 +8,11 @@
 			<div class="gallery-wrapper">
 				<div class="col-md-3" th:each="movie : ${movies}">
 					<div class="gallery-item">
-						<a th:href="@{'/home/details/' + ${movie.id}}" class="gallery-item__image gallery-item--photo">
+						<a th:href="@{'/home/details/' + ${movie.id}}" class="gallery-item__image gallery-item--photo"   >
 							<img alt='' th:src="@{'/images/' + ${movie.poster}}">
 						</a>
 						<a class="gallery-item__descript gallery-item--photo-link">
-							<span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+							<span    class="gallery-item__icon"><i class="fa fa-camera"></i></span>
 							<p class="gallery-item__name" th:text="${movie.title}"> </p>
 						</a>
 					</div>
