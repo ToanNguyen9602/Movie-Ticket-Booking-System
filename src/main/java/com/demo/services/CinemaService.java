@@ -13,5 +13,6 @@ public interface CinemaService {
 	List<Cinema> findCinemasFromCityAndMovie(Integer cityId, Integer movieId);
 	
 	public List<Hall> findHallsByCinemaId(int cinemaid);
+	public List<Cinema> findCinemaByCityId(int city_id);
 
 }

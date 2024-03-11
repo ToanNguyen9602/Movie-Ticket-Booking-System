@@ -63,4 +63,9 @@ public class CinemaServiceImpl implements CinemaService {
 		return hallRepository.findHallsByCinemaId(cinemaid);
 	}
 
+	@Override
+	public List<Cinema> findCinemaByCityId(int city_id) {
+		return cinemaRepository.findCinemasByCityId(city_id);
+	}
+
 }
