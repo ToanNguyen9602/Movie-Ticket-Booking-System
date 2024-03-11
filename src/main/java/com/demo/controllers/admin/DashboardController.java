@@ -123,7 +123,6 @@ public class DashboardController {
 	public String addMovie(ModelMap modelMap) {
 
 		Movie movie = new Movie();
-
 		modelMap.put("phim", movie);
 		return "admin/movie/addmovie";
 	}
