@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.entities.Account;
+import com.demo.entities.Blogs;
 import com.demo.entities.Cinema;
 import com.demo.entities.City;
 import com.demo.entities.FoodMenu;
@@ -119,6 +120,14 @@ public class DashboardController {
 	
 	
 
+	@RequestMapping(value = { "addblog" }, method = RequestMethod.GET)
+	public String addBlog(ModelMap modelMap) {
+
+		Blogs blog = new Blogs();
+		modelMap.put("blog", blog);
+		return "admin/blog/addblog";
+	}
+	
 	@RequestMapping(value = { "addmovie" }, method = RequestMethod.GET)
 	public String addMovie(ModelMap modelMap) {
 

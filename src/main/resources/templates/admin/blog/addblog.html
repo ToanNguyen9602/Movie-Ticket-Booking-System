@@ -1,0 +1,142 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+
+<head>
+	<title></title>
+
+</head>
+
+<body>
+
+	<main class="main">
+		<script th:src="@{/admin/ckeditor/ckeditor.js}"></script>
+		<script>
+			/**
+	 * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+	 * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+	 */
+
+			/* exported initSample */
+
+			if (CKEDITOR.env.ie && CKEDITOR.env.version < 9)
+				CKEDITOR.tools.enableHtml5Elements(document);
+
+			// The trick to keep the editor in the sample quite small
+			// unless user specified own height.
+			CKEDITOR.config.height = 150;
+			CKEDITOR.config.width = 'auto';
+
+			var initSample = (function () {
+				var wysiwygareaAvailable = isWysiwygareaAvailable(),
+					isBBCodeBuiltIn = !!CKEDITOR.plugins.get('bbcode');
+
+				return function () {
+					var editorElement = CKEDITOR.document.getById('editor');
+
+					// :(((
+					if (isBBCodeBuiltIn) {
+						editorElement.setHtml(
+							'Hello world!\n\n' +
+							'I\'m an instance of [url=https://ckeditor.com]CKEditor[/url].'
+						);
+					}
+
+					// Depending on the wysiwygarea plugin availability initialize classic or inline editor.
+					if (wysiwygareaAvailable) {
+						CKEDITOR.replace('editor');
+					} else {
+						editorElement.setAttribute('contenteditable', 'true');
+						CKEDITOR.inline('editor');
+
+						// TODO we can consider displaying some info box that
+						// without wysiwygarea the classic editor may not work.
+					}
+				};
+
+				function isWysiwygareaAvailable() {
+					// If in development mode, then the wysiwygarea must be available.
+					// Split REV into two strings so builder does not replace it :D.
+					if (CKEDITOR.revision == ('%RE' + 'V%')) {
+						return true;
+					}
+
+					return !!CKEDITOR.plugins.get('wysiwygarea');
+				}
+			})();
+
+
+		</script>
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2>Add new Blog</h2>
+					</div>
+				</div>
+				<!-- end main title -->
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
+				<!-- form -->
+				<div class="col-12">
+					<form th:action="@{/admin/addcinema}" class="form" enctype="multipart/form-data" method="post">
+						<div class="row">
+							<div class="col-12 col-md-5 form__cover">
+								<div class="row">
+									<div class="col-12 col-sm-6 col-md-12">
+										<div class="form__img">
+											<label for="form__img-upload">Photo</label>
+											<input id="form__img-upload" name="file" type="file"
+												accept=".png, .jpg, .jpeg">
+											<img id="form__img" src="#" alt=" ">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-12 col-md-7 form__content">
+								<div class="row">
+									<div class="col-12">
+										<div class="form__group">
+											<input type="text" class="form__input" placeholder="Title Blog">
+										</div>
+									</div>
+
+									<div class="col-12">
+										<div class="form__group">
+											<textarea id="editor" cols="20" rows="5">
+				</textarea>
+										</div>
+									</div>
+
+									<div class="col-12 col-sm-6 col-lg-3">
+										<div class="form__group">
+											<input type="date" class="form__input" placeholder="Release_date">
+										</div>
+									</div>
+
+								</div>
+
+								<div class="col-12">
+									<div class="row">
+										<div class="col-12">
+											<input type="submit" value="Publish" class="form__btn" />
+
+										</div>
+									</div>
+								</div>
+							</div>
+					</form>
+				</div>
+				<!-- end form -->
+			</div>
+		</div>
+		<script>
+			initSample();
+		</script>
+	</main>
+
+
+</body>
+
+</html>
