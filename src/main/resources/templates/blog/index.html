@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layout/user :: content('BookSeat Page', ~{this :: .container})}">
+	th:replace="~{layout/user :: content('Blog', ~{this :: .container})}">
 
 <head>
-	<title></title>
+	<title th:text="@{title}"></title>
 </head>
 
 <body>

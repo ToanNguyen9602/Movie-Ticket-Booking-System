@@ -24,12 +24,13 @@
 	<link th:href="@{/user/css/style.css?v=1}" rel="stylesheet" />
 	<!-- Modernizr 
 	<script th:src="@{/user/js/external/modernizr.custom.js}"></script>-->
-	
+
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 	<div class="wrapper">
 		<header class="header-wrapper">
@@ -88,23 +89,27 @@
 
 				<!-- Additional header buttons / Auth and direct link to booking-->
 				<div class="control-panel">
-					<button type="button" class="btn btn-md btn--warning btn--book login-window" data-toggle="modal"
-						data-target="#exampleModalCenterss">
-						Sign in
-					</button>
-					<button type="button" class="btn btn-md btn--warning btn--book login-window" data-toggle="modal"
-						data-target="#" id="registerButton">
-						REGISTER
-						
-					</button>
-					<script>
-						document.addEventListener("DOMContentLoaded", function () {
-							var registerButton = document.getElementById("registerButton");
-							registerButton.addEventListener("click", function () {
-								window.location.href = "/user/register";
-							});
-						});
-					</script>
+					<th:block sec:authorize="isAuthenticated()">
+						<a href="#">Welcome, <th:block sec:authentication="name"></a>
+						<Br>
+						<a th:href="@{/account/logout}">Logout</a>
+					</th:block>
+
+					<!-- Hide the login and register buttons if authenticated -->
+					<th:block sec:authorize="isAnonymous()">
+						<a th:href="@{/user/login}">
+							<button type="button" class="btn btn-md btn--warning btn--book login-window">
+								Sign in
+							</button>
+						</a>
+						<a th:href="@{/user/register}">
+							<button type="button" class="btn btn-md btn--warning btn--book login-window"
+								data-target="#">
+								REGISTER
+							</button>
+						</a>
+					</th:block>
+
 				</div>
 
 			</div>
@@ -114,7 +119,8 @@
 		<div class="search-wrapper">
 			<div class="container container--add">
 				<form id="search-form" method="get" th:action="@{'/home'}" class="search">
-					<input name="search" th:value="${searchedKeyword}" type="text" class="search__field" placeholder="Search">
+					<input name="search" th:value="${searchedKeyword}" type="text" class="search__field"
+						placeholder="Search">
 					<button type="submit" class="btn btn-md btn--danger search__button">Search a movie</button>
 				</form>
 			</div>
@@ -303,4 +309,5 @@
 		});
 	</script>
 </body>
+
 </html>

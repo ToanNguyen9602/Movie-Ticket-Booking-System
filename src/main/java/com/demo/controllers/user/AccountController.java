@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.entities.Account;
@@ -93,5 +95,28 @@ public class AccountController {
 			e.printStackTrace();
 		}
 		return "redirect:/home/index";
+	}
+	
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String login(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout, ModelMap modelMap,
+			Authentication authentication) {
+		if (authentication != null) {
+
+			return "user/accessdenied";
+		} else {
+			if (error != null) {
+				modelMap.put("msg", "You can not access to this page");
+			}
+			if (logout != null) {
+				modelMap.put("msg", "Log out");
+			}
+			return "user/login";
+		}
+	}
+	
+	@RequestMapping(value = "accessdenied", method = RequestMethod.GET)
+	public String accessdenied() {
+		return "user/accessdenied";
 	}
 }
