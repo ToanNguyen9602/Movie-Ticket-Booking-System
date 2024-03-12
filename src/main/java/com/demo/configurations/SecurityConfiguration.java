@@ -43,8 +43,8 @@ public class SecurityConfiguration {
 	                    .requestMatchers(new AntPathRequestMatcher("/account/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/film/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/contact/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
 	                    .requestMatchers("/images/**").permitAll()
-	                    .requestMatchers("/user/**").permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN");
 					})
 					.formLogin(formLogin -> {

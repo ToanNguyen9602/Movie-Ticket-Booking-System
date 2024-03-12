@@ -128,6 +128,35 @@ public class DashboardController {
 		return "admin/blog/addblog";
 	}
 	
+	@RequestMapping(value = "addblog", method = RequestMethod.POST)
+	public String addBlog(@ModelAttribute("blog") Blogs blogs, RedirectAttributes redirectAttributes,
+			@RequestParam("file") MultipartFile file) {
+		try {
+			if (file != null && file.getSize() > 0) {
+
+				File folderimage = new File(new ClassPathResource(".").getFile().getPath() + "/static/images");
+				String filename = FileHelper.generateFileName(file.getOriginalFilename());
+				Path path = Paths.get(folderimage.getAbsolutePath() + File.separator + filename);
+				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+				blogs.setPhoto(filename);
+			} else {
+				blogs.setPhoto("no-image.jpg");
+			}
+			if (blogsService.save(blogs)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Fail or duplicate name");
+				return "redirect:/admin/addblog";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/listblog";
+
+	}
+	
 	@RequestMapping(value = { "addmovie" }, method = RequestMethod.GET)
 	public String addMovie(ModelMap modelMap) {
 
