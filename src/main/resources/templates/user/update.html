@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Update Account', ~{this :: .login})}">
 
 <head>
-<title th:text="@{title}"></title>
+	<title th:text="@{title}"></title>
 </head>
 
 <body>
@@ -9,7 +9,7 @@
 
 
 	<form id="login-form" class="login" method='post' th:action="@{/user/register}" novalidate=''>
-		<p class="login__title">register <br><span class="login-edition">welcome to A.Movie</span></p>
+		<p class="login__title">Update<br><span th:text="@{msg}"></span></p>
 
 		<div class="social social--colored">
 			<a href='#' class="social__variant fa fa-facebook"></a>
@@ -25,13 +25,13 @@
 			<input type="password" placeholder="Password" name="user-password" required th:field="${account.password}"
 				class="login__input">
 			<input type="text" placeholder="FullName" class="login__input" name="user-email" required
-				th:field="${account.fullname}" >
+				th:field="${account.fullname}">
 			<input type="tel" placeholder="Phone Number" class="login__input" name="user-password" required
 				pattern="[0-9]{10}" th:field="${account.phone}">
 			<input type="email" placeholder="Email" class="login__input" name="user-email" required
 				th:field="${account.email}">
 
-			<textarea class="login__input" th:field="${account.address}" placeholder="Address"  ></textarea>
+			<textarea class="login__input" th:field="${account.address}" placeholder="Address"></textarea>
 		</div>
 
 		<div class="login__control">
