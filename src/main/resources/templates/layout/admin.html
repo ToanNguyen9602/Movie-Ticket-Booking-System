@@ -60,7 +60,7 @@
 			<div class="sidebar__user-title">
 				<th:block sec:authorize="isAuthenticated()">
 				<span>Welcome</span>
-				<a th:href="@{'/nhanvien/update/' + ${#authentication.name}}"><th:block sec:authentication="name"></a>
+				<a th:href="@{'/admin/update/' + ${#authentication.name}}"><th:block sec:authentication="name"></a>
 				
 				</th:block>
 			</div>

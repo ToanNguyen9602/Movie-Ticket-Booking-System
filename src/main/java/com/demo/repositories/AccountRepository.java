@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.demo.entities.Account;
 import com.demo.entities.FoodMenu;
 
-public interface AccountRepository extends JpaRepository<Account, Integer> {
+public interface AccountRepository extends CrudRepository<Account, Integer> {
 	@Query("from Account where username=:username")
 	public Account findbyusername(@Param("username") String username);
 	

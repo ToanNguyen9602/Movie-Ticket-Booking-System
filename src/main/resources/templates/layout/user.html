@@ -90,7 +90,7 @@
 				<!-- Additional header buttons / Auth and direct link to booking-->
 				<div class="control-panel">
 					<th:block sec:authorize="isAuthenticated()">
-						<a href="#">Welcome, <th:block sec:authentication="name"></a>
+						<a th:href="@{'/user/update/' + ${#authentication.name}}">Welcome, <th:block sec:authentication="name"></a>
 						<Br>
 						<a th:href="@{/account/logout}">Logout</a>
 					</th:block>

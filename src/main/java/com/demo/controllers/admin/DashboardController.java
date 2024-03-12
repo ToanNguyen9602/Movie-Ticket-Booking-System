@@ -10,8 +10,10 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -54,7 +56,7 @@ public class DashboardController {
 	private BlogsService blogsService;
 	@Autowired
 	private HallService hallService;
-	
+
 	//
 	@Autowired
 	private AccountService accountService;
@@ -63,62 +65,58 @@ public class DashboardController {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
-	@RequestMapping(value = { "dashboard","index","" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "dashboard", "index", "" }, method = RequestMethod.GET)
 	public String index() {
 		return "admin/dashboard";
 	}
-	
+
 	@RequestMapping(value = { "listfood" }, method = RequestMethod.GET)
 	public String ListFood(ModelMap modelMap) {
-		modelMap.put("foods", foodService.findAll_ListFood()); 
+		modelMap.put("foods", foodService.findAll_ListFood());
 		return "admin/food/listfood";
 	}
-	
+
 	@RequestMapping(value = { "listmovie" }, method = RequestMethod.GET)
 	public String ListMovie(ModelMap modelMap) {
-		modelMap.put("movies", movieService.findAll()); 
+		modelMap.put("movies", movieService.findAll());
 		return "admin/movie/listmovie";
 	}
-	
+
 	@RequestMapping(value = { "listcity" }, method = RequestMethod.GET)
 	public String ListCity(ModelMap modelMap) {
-		modelMap.put("citys", cityService.findAll()); 
+		modelMap.put("citys", cityService.findAll());
 		return "admin/city/listcity";
 	}
-	
+
 	@RequestMapping(value = { "listcinema" }, method = RequestMethod.GET)
 	public String ListCinema(ModelMap modelMap) {
-		modelMap.put("cinemas", cinemaService.findAll()); 
+		modelMap.put("cinemas", cinemaService.findAll());
 		return "admin/cinema/listcinema";
 	}
-	
+
 	@GetMapping(value = "details/{id}")
 	public String details(ModelMap modelMap, @PathVariable("id") int id) {
 		modelMap.put("halls", cinemaService.findHallsByCinemaId(id));
 		return "admin/hall/listhall";
 	}
-	
+
 	@RequestMapping(value = { "listblog" }, method = RequestMethod.GET)
 	public String ListBlog(ModelMap modelMap) {
-		modelMap.put("blogs", blogsService.findByAll()); 
+		modelMap.put("blogs", blogsService.findByAll());
 		return "admin/blog/listblog";
 	}
-	
+
 	@RequestMapping(value = { "listuser" }, method = RequestMethod.GET)
 	public String ListUser(ModelMap modelMap) {
-		modelMap.put("accounts", accountService.findAllByRole(3)); 
+		modelMap.put("accounts", accountService.findAllByRole(3));
 		return "admin/account/listuser";
 	}
-	
+
 	@RequestMapping(value = { "liststaff" }, method = RequestMethod.GET)
 	public String ListStaff(ModelMap modelMap) {
-		modelMap.put("accounts", accountService.findAllByRole(2)); 
+		modelMap.put("accounts", accountService.findAllByRole(2));
 		return "admin/account/liststaff";
 	}
-	
-	
-	
-	
 
 	@RequestMapping(value = { "addblog" }, method = RequestMethod.GET)
 	public String addBlog(ModelMap modelMap) {
@@ -127,7 +125,7 @@ public class DashboardController {
 		modelMap.put("blog", blog);
 		return "admin/blog/addblog";
 	}
-	
+
 	@RequestMapping(value = { "addmovie" }, method = RequestMethod.GET)
 	public String addMovie(ModelMap modelMap) {
 
@@ -225,7 +223,6 @@ public class DashboardController {
 		return "redirect:/admin/listcinema";
 
 	}
-	
 
 	@RequestMapping(value = { "addfood" }, method = RequestMethod.GET)
 	public String AddFood(ModelMap modelMap) {
@@ -233,7 +230,7 @@ public class DashboardController {
 		modelMap.put("food", food);
 		return "admin/food/addfood";
 	}
-	
+
 	@RequestMapping(value = "addfood", method = RequestMethod.POST)
 	public String AddFood(@ModelAttribute("food") FoodMenu food, RedirectAttributes redirectAttributes,
 			@RequestParam("file") MultipartFile file) {
@@ -250,9 +247,9 @@ public class DashboardController {
 			} else {
 				food.setPhoto("no-image.jpg");
 			}
-			
+
 			food.setStatus(true);
-			
+
 			if (foodService.save(food)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
 			} else {
@@ -265,15 +262,14 @@ public class DashboardController {
 		return "redirect:/admin/listfood";
 
 	}
-	
- 
+
 	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
 	public String register(ModelMap modelMap) {
 		Account account = new Account();
 		modelMap.put("account", account);
 		return "admin/account/register";
 	}
-	
+
 	@RequestMapping(value = { "register" }, method = RequestMethod.POST)
 	public String register(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
 
@@ -285,43 +281,110 @@ public class DashboardController {
 			account.setStatus(true);
 
 			account.setPassword(encoder.encode(account.getPassword()));
-			if(accountService.checkexistence(account.getUsername()))
-			{
+			if (accountService.checkexistence(account.getUsername())) {
 				redirectAttributes.addFlashAttribute("msg", "this username is used");
 				return "redirect:/admin/register";
-			}
-			else if(accountService.checkemail(account.getEmail()))
-			{
+			} else if (accountService.checkemail(account.getEmail())) {
 				redirectAttributes.addFlashAttribute("msg", "this email is used");
 				return "redirect:/admin/register";
-			}
-			else if(accountService.checkphone(account.getPhone()))
-			{
+			} else if (accountService.checkphone(account.getPhone())) {
 				redirectAttributes.addFlashAttribute("msg", "this phonenumber is used");
 				return "redirect:/admin/register";
-			}
-			else if(account.getPhone().length()<10)
-			{
+			} else if (account.getPhone().length() < 10) {
 				redirectAttributes.addFlashAttribute("msg", "invalid phonenumber");
 				return "redirect:/admin/register";
 			}
-			
-			else
-			{
 
-			if (accountService.save(account)) {
+			else {
 
-				redirectAttributes.addFlashAttribute("msg", "ok");
+				if (accountService.save(account)) {
 
-			} else {
-				redirectAttributes.addFlashAttribute("msg", "fail");
-				return "redirect:/admin/register";
-			}
+					redirectAttributes.addFlashAttribute("msg", "ok");
+
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+					return "redirect:/admin/register";
+				}
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:/admin/dashboard";
+	}
+	@RequestMapping(value = { "update/{username}" }, method = RequestMethod.GET)
+	public String update(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
+		username = authentication.getName();
+		Account account = accountService.findbyusername(username);
+		modelMap.put("account", account);
+		return "admin/account/update";
+
+	}
+	
+	@RequestMapping(value = { "update" }, method = RequestMethod.POST)
+	public String update(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
+
+		try {
+//			Set<Role> roles=account.getRoles();
+//			Set<Role> rolesupdated= new HashSet<>();
+//			for(Role role:roles)
+//			{
+//				if(role.getId()==1)
+//				{
+//					rolesupdated.add(role);
+//				}
+//				if(role.getId()==2)
+//				{
+//					rolesupdated.add(role);
+//				}
+//				if(role.getId()==3)
+//				{
+//					rolesupdated.add(role);
+//				}
+//			}
+//			account.setRoles(rolesupdated);
+
+			
+			Role role = roleService.findrolebyid(2);
+			//Role role2 = roleService.findrolebyid(2);
+			for (Role role1 : account.getRoles()) {
+			    try {
+			        if (role1.getId() != null) {
+			            System.out.println(role1.getId().toString());
+			        } else {
+			            System.out.println("Role ID is null");
+			        }
+			    } catch (Exception e) {
+			        System.out.println("Exception occurred while iterating over roles: " + e.getMessage());
+			        e.printStackTrace();
+			    }
+			}
+			Set<Role> roles = new HashSet<>();
+			roles.add(role);
+			account.setRoles(roles);
+
+			if (account.getPassword().isEmpty()) {
+				account.setPassword(accountService.getpassword(account.getUsername()));
+			} else {
+				account.setPassword(encoder.encode(account.getPassword()));
+			}
+			if (account.getFullname().isEmpty() || account.getFullname().isBlank() || account.getAddress().isEmpty()
+					|| account.getAddress().isBlank() || account.getEmail().isBlank() || account.getEmail().isEmpty()
+					|| account.getPhone().isBlank() || account.getPhone().isEmpty()) {
+				redirectAttributes.addFlashAttribute("msg", "fullname, email, phone and address cant be empty");
+				return "redirect:/admin/update/" + account.getUsername();
+			}
+
+			if (accountService.save(account)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "fail");
+				return "admin/update";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/account/logout";
+
 	}
 }

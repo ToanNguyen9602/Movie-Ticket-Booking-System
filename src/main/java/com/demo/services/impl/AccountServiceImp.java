@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.entities.Account;
 import com.demo.entities.Role;
@@ -155,6 +156,11 @@ public class AccountServiceImp implements AccountService {
 	        }
 	    }
 	    return accountsByRole;
+	}
+	
+	public String getpassword(String username) {
+		Account account = accountRepository.findbyusername(username);
+		return account.getPassword();
 	}
 
 
