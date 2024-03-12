@@ -1,6 +1,7 @@
 package com.demo.controllers.user;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.demo.MovieStatus;
+import com.demo.entities.Movie;
 import com.demo.entities.Shows;
 import com.demo.helpers.DateHelper;
 
@@ -38,37 +41,48 @@ public class HomeController {
 	}
 	@GetMapping({ "", "index", "/" })
 	public String index(ModelMap modelMap, 
-		@RequestParam(value = "search", required = false) String search) {
-		if(search ==null) {
-			movieService.findAll().stream().forEach(System.out::println);
-			modelMap.put("movies", movieService.findAll());			
+		@RequestParam(value = "search", required = false) String search,
+		@RequestParam(value = "cinemaId", required = false) Integer cinemaId) {
+		List<Movie> beingShownMovies = new ArrayList<>();  // dang chieu
+		List<Movie> toBeShownMovies = new ArrayList<>();  // sap chieu	
+		if(search != null) {
+			beingShownMovies = movieService.searchMoviesByTitle(search);
 		} else {
-			modelMap.put("movies", movieService.searchMoviesByTitle(search) );
+			beingShownMovies = movieService.findAll(cinemaId, MovieStatus.BEING_SHOWN);
+			toBeShownMovies = movieService.findAll(cinemaId, MovieStatus.ABOUT_TO_BE_SHOWN);		
 		}
+		
+		modelMap.put("beingShownMovies", beingShownMovies);
+		modelMap.put("toBeShownMovies", toBeShownMovies);
 		modelMap.put("searchedKeyword", search);
+		modelMap.put("cinemaId", cinemaId);
 		return "home/index";
 	}
 	
-	@GetMapping({"index2"})
-	public String index2(ModelMap modelMap) {
-		modelMap.put("movies", movieService.findAll());
-		return "home/user2";
-	}
-
 	@GetMapping("details/{id}")
 	public String details(ModelMap modelMap, @PathVariable("id") int id) {
 		modelMap.put("movie", movieService.findMovieById(id));
 		modelMap.put("cities", cityService.findAll());
 		return "home/details";
 	}
-
+	
 	@GetMapping("choose-cinema")
 	public String chooseCinema(ModelMap modelMap,
-			@RequestParam("movieId") int movieId,
+			@RequestParam(value = "movieId", required = false) Integer movieId,
 			@RequestParam("cityId") int cityId) {
+		
 		modelMap.put("movieId", movieId);
 		modelMap.put("cinemas", cinemaService.findCinemasFromCityAndMovie(cityId, movieId));
 		return "home/choose-cinema";
+	}
+	
+	@GetMapping("choose-movie")
+	public String chooseMovie(ModelMap modelMap,
+			@RequestParam("cinemaId") Integer cinemaId) {
+		
+		modelMap.put("cinemaId", cinemaId);
+		modelMap.put("movies", movieService.findAll(cinemaId, MovieStatus.BEING_SHOWN));
+		return "home/choose-movie";
 	}
 
 	@GetMapping("choose-time")
@@ -81,9 +95,6 @@ public class HomeController {
 		date = date == null ? datesFromNowToLastShow.get(0) : date;
 		List<Shows> shows = movieService.findShowsFromCinemaAndMovie(cinemaId, movieId, date);
 		
-		datesFromNowToLastShow.forEach(System.out::println);
-		shows.forEach(System.out::println);
-		
 		modelMap.put("dates", datesFromNowToLastShow);
 		modelMap.put("shows", shows);
 		modelMap.put("movieId", movieId);
@@ -92,11 +103,4 @@ public class HomeController {
 		return "home/choose-time";
 	}
 	
-	public static Date getNext4Days() {
-        LocalDate today = LocalDate.now();
-        LocalDate next4Days = today.plusDays(4);
-        return java.sql.Date.valueOf(next4Days);
-    }
-	
-
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.demo.MovieStatus;
@@ -20,7 +21,7 @@ public interface MovieService {
 	
 	List<Movie> findAll(Integer cinemaId);
 
-	List<Movie> findAll(Integer cinemaId, MovieStatus STATUS);
+	List<Movie> findAll(@Nullable Integer cinemaId, MovieStatus STATUS);
 
 	List<Movie> searchMoviesByTitle(String title);
 	

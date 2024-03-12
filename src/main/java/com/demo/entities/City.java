@@ -19,6 +19,10 @@ public class City implements java.io.Serializable {
 	public City() {
 	}
 
+	public City(Integer id) {
+		this.id = id;
+	}
+	
 	public City(String name) {
 		this.name = name;
 	}

@@ -3,8 +3,10 @@ package com.demo.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import com.demo.entities.Cinema;
+import com.demo.entities.City;
 import com.demo.entities.Hall;
 import com.demo.entities.Movie;
 import com.demo.repositories.CinemaRepository;
@@ -16,6 +18,7 @@ public class CinemaServiceImpl implements CinemaService {
 
 	@Autowired
 	private CinemaRepository cinemaRepository;
+
 	@Autowired 
 	private HallRepository hallRepository;
 
@@ -65,7 +68,11 @@ public class CinemaServiceImpl implements CinemaService {
 
 	@Override
 	public List<Cinema> findCinemaByCityId(int city_id) {
-		return cinemaRepository.findCinemasByCityId(city_id);
+		var cinema = new Cinema();
+		var city = new City(city_id);
+		cinema.setCity(city);
+		
+		return cinemaRepository.findAll(Example.of(cinema));
 	}
 
 }

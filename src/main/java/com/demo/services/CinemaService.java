@@ -14,5 +14,4 @@ public interface CinemaService {
 	
 	public List<Hall> findHallsByCinemaId(int cinemaid);
 	public List<Cinema> findCinemaByCityId(int city_id);
-
 }

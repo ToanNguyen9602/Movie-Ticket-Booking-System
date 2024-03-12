@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import com.demo.MovieStatus;
@@ -47,7 +48,7 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public List<Movie> searchMoviesByTitle(String title) {
-		return movieRepository.searchMoviesByTitle(title);
+		return findAllMoviesBeingShown(movieRepository.searchMoviesByTitle(title));
 	}
 
 	@Override
@@ -98,8 +99,8 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<Movie> findAll(Integer cinemaId, MovieStatus STATUS) {
-		var filteredMoviesByCinemaId = findAll(cinemaId); 
+	public List<Movie> findAll(@Nullable Integer cinemaId, MovieStatus STATUS) {
+		var filteredMoviesByCinemaId = cinemaId == null ? findAll() : findAll(cinemaId); 
 		List<Movie> movies;
 		switch (STATUS) {
 			case ABOUT_TO_BE_SHOWN -> {
@@ -128,7 +129,7 @@ public class MovieServiceImpl implements MovieService {
 		return movies.stream()
 				.filter(movie -> {
 					var currentDate = new Date();
-					return movie.getReleaseDate().after(currentDate) && movie.getEndDate().before(currentDate);
+					return movie.getReleaseDate().before(currentDate) && movie.getEndDate().after(currentDate);
 				})
 				.toList();
 	}
