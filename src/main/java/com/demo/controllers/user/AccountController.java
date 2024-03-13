@@ -44,6 +44,7 @@ public class AccountController {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
+	 
 	@RequestMapping(value = { "account" }, method = RequestMethod.GET)
 	public String index() {
 		return "user/account";
