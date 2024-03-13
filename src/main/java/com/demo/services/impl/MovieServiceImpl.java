@@ -153,6 +153,12 @@ public class MovieServiceImpl implements MovieService {
 		return datesFromNowToLastShow;
 	}
 	
+	@Override
+	public boolean isMovieShowingNow(Integer movieId) {
+		Movie movie = findMovieById(movieId);
+		var currentDate = new Date();
+		return movie.getReleaseDate().before(currentDate) && movie.getEndDate().after(currentDate);
+	}
 
 	
 }

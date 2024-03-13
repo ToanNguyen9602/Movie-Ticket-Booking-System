@@ -8,9 +8,14 @@
 				<div class="col-sm-5 col-md-3">
 					<div class="movie__images">
 						<img alt='' th:src="@{'/images/' + ${movie.poster}}">
-						<button type="button" style="margin-top: 30;" class="btn btn-md btn--warning"
+						<button th:if="${!isLoggedIn}" type="button" style="margin-top: 30;" class="btn btn-md btn--warning">
+							<a href="/user/login" style="color: black; text-decoration: none;">
+								<span class="hidden-sm">sign in to book tickets</span></a>								
+							</a>
+						</button>
+						<button th:if="${isLoggedIn && isMovieShowingNow}" type="button" style="margin-top: 30;" class="btn btn-md btn--warning"
 							data-toggle="modal" data-target="#myModal">
-							<span class="hidden-sm">book a ticket </span></a>
+							<span class="hidden-sm">book ticket </span></a>
 						</button>
 					</div>
 				</div>

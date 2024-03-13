@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Home Page', ~{this :: .container})}">
+
+<section class="container">
+	<h2 class="page-heading heading--outcontainer">Movies NOw showing</h2>
+
+	<div class="col-sm-8 col-md-9">
+		<div th:each="movie : ${movies}" class="movie movie--preview release">
+			<div class="col-sm-5 col-md-3">
+				<div class="movie__images">
+					<iframe width="200" height="300" th:src="${movie.trailer}"
+						title="REVIEW PHIM BIỆT ĐỘI SIÊU ANH HÙNG 1 || AVENGERS || SAKURA REVIEW" frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen></iframe>
+				</div>
+			</div>
+
+			<div class="col-sm-7 col-md-9">
+				<a href='movie-page-right.html' class="movie__title link--huge" th:text="${movie.title}"> </a>
+				<p class="movie__time" th:text="${movie.duration}"> </p>
+				<p class="movie__option"><strong>Genre: </strong><a th:text="${movie.genre}"></a></p>
+				<p class="movie__option"><strong>Release date: </strong>
+					<th th:text="${movie.releaseDate}"></th>
+				</p>
+				<p class="movie__option"><strong>Director: </strong><a th:text="${movie.directors}"> </a></p>
+				<p class="movie__option"><strong>Actors: </strong><a th:text="${movie.casters}"> </a> </p>
+				<p class="movie__option"><strong>Rated: </strong><a th:text="${movie.rating}"></a></p>
+				<p class="movie__option"><strong>Description: </strong><a th:text="${movie.description}"></a>
+
+				<div class="movie__btns">
+					<a th:if="${isLoggedIn}" th:href="@{'/home/details/' + ${movie.id}}" class="btn btn-md btn--warning">Details</a>
+					<a th:if="${!isLoggedIn}" th:href="@{'/user/login'}" class="btn btn-md btn--warning">Details</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</section>

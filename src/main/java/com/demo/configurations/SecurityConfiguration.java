@@ -29,24 +29,29 @@ public class SecurityConfiguration {
 	private AccountService accountService;
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		final String[] permittedUrls = {
+				"/",
+				"/home/**",
+				"/blog/**",
+				"/cinema/**",
+				"/account/**",
+				"/film/**",
+				"/bookseat/**",
+				"/contact/**",
+				"/images/**",
+				"/user/**"
+		};
 		
-		
+		final String[] staffPermittedUrls = {
+				"/admin/**"
+		};
 		
 		return http.cors(cor -> cor.disable())
 					.csrf(cs -> cs.disable())
 					.authorizeHttpRequests(auth -> {
 						auth
-						.requestMatchers(new AntPathRequestMatcher("/")).permitAll()
-						.requestMatchers(new AntPathRequestMatcher("/home/**")).permitAll()
-	                    .requestMatchers(new AntPathRequestMatcher("/blog/**")).permitAll()
-	                    .requestMatchers(new AntPathRequestMatcher("/cinema/**")).permitAll()
-	                    .requestMatchers(new AntPathRequestMatcher("/account/**")).permitAll()
-	                    .requestMatchers(new AntPathRequestMatcher("/film/**")).permitAll()
-	                    .requestMatchers(new AntPathRequestMatcher("/bookseat/**")).permitAll()
-	                    .requestMatchers(new AntPathRequestMatcher("/contact/**")).permitAll()
-	                    .requestMatchers("/images/**").permitAll()
-	                    .requestMatchers("/user/**").permitAll()
-						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN");
+							.requestMatchers(permittedUrls).permitAll()
+							.requestMatchers(staffPermittedUrls).hasAnyRole("STAFF","ADMIN");
 					})
 					.formLogin(formLogin -> {
 						formLogin.loginPage("/user/login")

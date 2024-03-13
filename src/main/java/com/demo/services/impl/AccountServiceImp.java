@@ -163,6 +163,12 @@ public class AccountServiceImp implements AccountService {
 		return account.getPassword();
 	}
 
+	@Override
+	public boolean isLoggedIn() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 
 }

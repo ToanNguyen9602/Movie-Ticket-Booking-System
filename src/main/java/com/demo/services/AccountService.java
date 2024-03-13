@@ -31,5 +31,7 @@ public interface AccountService extends UserDetailsService {
 	public List<Account> findAllByRole(int n);
 	
 	public String getpassword(String username);
+	
+	public boolean isLoggedIn();
 
 }
