@@ -7,10 +7,7 @@
 		<div th:each="movie : ${movies}" class="movie movie--preview release">
 			<div class="col-sm-5 col-md-3">
 				<div class="movie__images">
-					<iframe width="200" height="300" th:src="${movie.trailer}"
-						title="REVIEW PHIM BIỆT ĐỘI SIÊU ANH HÙNG 1 || AVENGERS || SAKURA REVIEW" frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-						allowfullscreen></iframe>
+						<img alt='' th:src="@{'/images/' + ${movie.poster}}">
 				</div>
 			</div>
 
