@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('User's list', ~{this :: .main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('List of user', ~{this :: .main})}">
 
 <head>
 	<title></title>
@@ -14,13 +14,13 @@
 					<div class="main__title">
 						<h2>List User
 						</h2>
-						
-						
+
+
 
 
 						<div class="main__title-wrap">
 							<!-- filter sort -->
-							
+
 							<!-- end filter sort -->
 
 							<!-- search -->
@@ -66,31 +66,37 @@
 										<div class="main__table-text"><a href="#" th:text="${account.id}"></a></div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${account.username}"></div>
+										<div class="main__table-text main__table-text--rate"
+											th:text="${account.username}"></div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${account.fullname}"></div>
+										<div class="main__table-text main__table-text--rate"
+											th:text="${account.fullname}"></div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${account.email}"></div>
+										<div class="main__table-text main__table-text--rate" th:text="${account.email}">
+										</div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${account.phone}"></div>
+										<div class="main__table-text main__table-text--rate" th:text="${account.phone}">
+										</div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${account.address}"></div>
+										<div class="main__table-text main__table-text--rate"
+											th:text="${account.address}"></div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${account.status? 'active' : 'deactive'}"></div>
+										<div class="main__table-text main__table-text--rate"
+											th:text="${account.status? 'active' : 'deactive'}"></div>
 									</td>
-									
+
 
 
 
 									<td>
 										<div class="main__table-btns">
-											
-											
+
+
 											<a href="#" class="main__table-btn main__table-btn--edit">
 												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 													<path

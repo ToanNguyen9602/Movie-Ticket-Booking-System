@@ -93,7 +93,7 @@
 					
 					<th:block sec:authorize="isAuthenticated()">
 						<a  th:href="@{'/user/update/' + ${#authentication.name}}" class="btn btn-md btn--warning btn--book login-window">
-							Welcome
+							Welcome,
 							<th:block sec:authentication="name">
 						</a>
 						<a class="btn btn-md btn--warning btn--book login-window" th:href="@{/account/logout}">
