@@ -125,9 +125,6 @@ public class DashboardController {
 
 		Blogs blog = new Blogs();
 		modelMap.put("blog", blog);
-//		username= authentication.getName();
-//		Account account= accountService.findbyusername(username);
-//		modelMap.put("account", account);
 		return "admin/blog/addblog";
 	}
 	
@@ -148,19 +145,20 @@ public class DashboardController {
 			} else {
 				blog.setPhoto("no-image.jpg");
 			}
-			SimpleDateFormat dateformat= new SimpleDateFormat("MM/dd/yyyy");
-			Date created =new Date();
+			
+			blog.setStatus(true);
+			
 			if(blog.getCreated()==null)
 			{
-				blog.setCreated(created);
+				blog.setCreated(new Date());
 			}
-			blog.setStatus(true);
 			Account account= accountService.findbyusername(authentication.getName());
 			blog.setAccount(account);
 			if (blogsService.save(blog)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
+
 			} else {
-				redirectAttributes.addFlashAttribute("msg", "Fail or duplicate name");
+				redirectAttributes.addFlashAttribute("msg", "Fail");
 				return "redirect:/admin/addblog";
 			}
 		} catch (Exception e) {

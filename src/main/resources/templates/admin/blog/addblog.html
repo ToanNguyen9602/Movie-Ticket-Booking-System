@@ -99,7 +99,7 @@
 									<div class="col-12">
 										<div class="form__group">
 											<input type="text" class="form__input" placeholder="Title Blog"
-											th:field="${blog.title}">
+												th:field="${blog.title}">
 										</div>
 									</div>
 
@@ -112,8 +112,8 @@
 
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
-											<input type="date" class="form__input" placeholder="Release_date"
-											th:field="${blog.created}">
+											<input type="date" th:field="${blog.created}" id="created"
+												class="form__input" placeholder="released date">
 										</div>
 									</div>
 
