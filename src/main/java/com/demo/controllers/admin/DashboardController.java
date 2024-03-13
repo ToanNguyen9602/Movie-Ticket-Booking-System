@@ -145,16 +145,6 @@ public class DashboardController {
 				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-
-				blogs.setPhoto(filename);
-			} else {
-				blogs.setPhoto("no-image.jpg");
-			}
-			if (blogsService.save(blogs)) {
-				redirectAttributes.addFlashAttribute("msg", "ok");
-			} else {
-				redirectAttributes.addFlashAttribute("msg", "Fail or duplicate name");
-
 				blogs.setPhoto(filename);
 			} else {
 				blogs.setPhoto("no-image.jpg");
