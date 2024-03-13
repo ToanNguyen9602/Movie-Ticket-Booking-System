@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -123,7 +125,49 @@ public class DashboardController {
 
 		Blogs blog = new Blogs();
 		modelMap.put("blog", blog);
+//		username= authentication.getName();
+//		Account account= accountService.findbyusername(username);
+//		modelMap.put("account", account);
 		return "admin/blog/addblog";
+	}
+	
+	@RequestMapping(value = "addblog", method = RequestMethod.POST)
+	public String addBlog(@ModelAttribute("blog") Blogs blog, RedirectAttributes redirectAttributes,
+			Authentication authentication,
+			@RequestParam("file") MultipartFile file) {
+		try {
+			if (file != null && file.getSize() > 0) {
+
+				File folderimage = new File(new ClassPathResource(".").getFile().getPath() + "/static/images");
+				String filename = FileHelper.generateFileName(file.getOriginalFilename());
+				Path path = Paths.get(folderimage.getAbsolutePath() + File.separator + filename);
+				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+				blog.setPhoto(filename);
+			} else {
+				blog.setPhoto("no-image.jpg");
+			}
+			SimpleDateFormat dateformat= new SimpleDateFormat("MM/dd/yyyy");
+			Date created =new Date();
+			if(blog.getCreated()==null)
+			{
+				blog.setCreated(created);
+			}
+			blog.setStatus(true);
+			Account account= accountService.findbyusername(authentication.getName());
+			blog.setAccount(account);
+			if (blogsService.save(blog)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Fail or duplicate name");
+				return "redirect:/admin/addblog";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/listblog";
+
 	}
 
 	@RequestMapping(value = { "addmovie" }, method = RequestMethod.GET)
@@ -145,11 +189,11 @@ public class DashboardController {
 				Path path = Paths.get(folderimage.getAbsolutePath() + File.separator + filename);
 				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
 				movie.setPoster(filename);
 			} else {
 				movie.setPoster("no-image.jpg");
 			}
+			
 			if (movieService.save(movie)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
 			} else {

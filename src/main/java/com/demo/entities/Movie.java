@@ -4,6 +4,9 @@ package com.demo.entities;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
 
 /**
@@ -15,6 +18,7 @@ public class Movie implements java.io.Serializable {
 
 	private Integer id;
 	private String title;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date releaseDate;
 	private Integer duration;
 	private String genre;
@@ -25,6 +29,7 @@ public class Movie implements java.io.Serializable {
 	private String trailer;
 	private String casters;
 	private Double price;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	private Set<Shows> showses = new HashSet<Shows>(0);
 
