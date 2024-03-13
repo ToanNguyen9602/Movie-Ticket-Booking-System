@@ -1,31 +1,25 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Update Account', ~{this :: .login})}">
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout/user :: content(${account.username}, ~{this :: .login})}">
 
 <head>
-	<title th:text="@{title}"></title>
+	<title></title>
 </head>
 
 <body>
+	<form id="login-form" class="login" method='post' th:action="@{/user/update}">
+		<p class="login__title">Update<br>
+			<br>
+			<span class="login-edition" th:text="${msg}"></span>
+		</p>
 
 
-
-	<form id="login-form" class="login" method='post' th:action="@{/user/register}" novalidate=''>
-		<p class="login__title">Update<br><span th:text="@{msg}"></span></p>
-
-		<div class="social social--colored">
-			<a href='#' class="social__variant fa fa-facebook"></a>
-			<a href='#' class="social__variant fa fa-twitter"></a>
-			<a href='#' class="social__variant fa fa-tumblr"></a>
-		</div>
-
-		<p class="login__tracker">or</p>
 
 		<div class="field-wrap">
-			<input type="text" placeholder="Username" name="user-email" required th:field="${account.username}"
+
+			<input type="password" placeholder="Password" name="user-password" th:field="${account.password}"
 				class="login__input">
-			<input type="password" placeholder="Password" name="user-password" required th:field="${account.password}"
-				class="login__input">
-			<input type="text" placeholder="FullName" class="login__input" name="user-email" required
-				th:field="${account.fullname}">
+			<input type="text" placeholder="FullName" class="login__input" name="user-email"
+				th:field="${account.fullname}" required>
 			<input type="tel" placeholder="Phone Number" class="login__input" name="user-password" required
 				pattern="[0-9]{10}" th:field="${account.phone}">
 			<input type="email" placeholder="Email" class="login__input" name="user-email" required
@@ -35,6 +29,9 @@
 		</div>
 
 		<div class="login__control">
+			<input type="hidden" th:field="${account.username}">
+			<input type="hidden" th:field="${account.id}">
+			<input type="hidden" th:field="${account.status}">
 			<button type='submit' class="btn btn-md btn--warning btn--wider">Submit</button>
 			<a href="#" class="login__tracker form__tracker">Forgot password?</a>
 		</div>

@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Blogs', ~{this :: .main})}">
 
 <head>
 	<title></title>
@@ -15,7 +15,7 @@
 						<h2>Blog
 						</h2>
 						
-						<a th:href="@{/admin/addblog}" class="main__title-link">add Blog</a>
+						<a th:href="@{'/admin/addblog'}" class="main__title-link">add Blog</a>
 
 
 						<div class="main__title-wrap">

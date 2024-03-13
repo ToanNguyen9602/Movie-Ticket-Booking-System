@@ -1,5 +1,4 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:mytags="http://www.mytags.vn" th:fragment="content(title, mainContent)">
-
 <head>
 	<meta charset="utf-8">
 	<title th:text="${title}"></title>
@@ -29,13 +28,15 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
 
+ <!-- Main CSS File -->
+    <link rel="stylesheet" th:href="@{/user/assets/css/style.css}">
+</head>
 <body>
 	<div class="wrapper">
 		<header class="header-wrapper">
 			<div class="container">
-				<a th:href="@{/}" class="logo">
+				<a th:href="@{/}" class="logo" style="top: 0;">
 					<img alt='logo' th:src="@{/user/images/logo.png}">
 				</a>
 				<nav id="navigation-box">
@@ -52,8 +53,8 @@
 							<span class="sub-nav-toggle plus"></span>
 							<a>Film</a>
 							<ul>
-								<li class="menu__nav-item"><a th:href="@{/film/nowshowing}">Now showing</a></li>
-								<li class="menu__nav-item"><a th:href="@{/film/comingsoon}">Coming soon</a></li>
+								<li class="menu__nav-item"><a th:href="@{/film/now-showing}">Now showing</a></li>
+								<li class="menu__nav-item"><a th:href="@{/film/coming-soon}">Coming soon</a></li>
 							</ul>
 						</li>
 						<li>
@@ -69,7 +70,7 @@
 							<ul>
 								<li class="menu__nav-item"><a th:href="@{/bookseat/interest}">Cinema interest</a></li>
 								<li class="menu__nav-item"><a th:href="@{/bookseat/index}">Booking seat</a></li>
-								<li class="menu__nav-item"><a href="book3-buy.html">Booking step 3 (buy)</a></li>
+								<li class="menu__nav-item"><a th:href="@{/bookseat/buy}">Booking step 3 (buy)</a></li>
 								<li class="menu__nav-item"><a href="book3-reserve.html">Booking step 3 (reserve)</a>
 								</li>
 								<li class="menu__nav-item"><a href="book-final.html">Final ticket view</a></li>
@@ -88,16 +89,23 @@
 				</nav>
 
 				<!-- Additional header buttons / Auth and direct link to booking-->
-				<div class="control-panel">
+				<div class="control-panel" style="right:-50 ;">
+
+
 					<th:block sec:authorize="isAuthenticated()">
-						<a href="#">Welcome, <th:block sec:authentication="name"></a>
-						<Br>
-						<a th:href="@{/account/logout}">Logout</a>
+						<a th:href="@{'/user/update/' + ${#authentication.name}}"
+							class="btn btn-md btn--warning btn--book login-window">
+							Welcome,
+							<th:block sec:authentication="name">
+						</a>
+						<a class="btn btn-md btn--warning btn--book login-window" th:href="@{/account/logout}">
+							LOG OUT
+						</a>
 					</th:block>
 
 					<!-- Hide the login and register buttons if authenticated -->
 					<th:block sec:authorize="isAnonymous()">
-						<a th:href="@{/user/login}">
+						<a th:href="@{/user/login}"  >
 							<button type="button" class="btn btn-md btn--warning btn--book login-window">
 								Sign in
 							</button>
@@ -177,65 +185,7 @@
 		</footer>
 	</div>
 
-	<!-- Modal Sign in -->
-	<div class="modal fade" id="exampleModalCenterss" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<form id="login-form" class="login" method='get' novalidate=''>
-					<p class="login__title">sign in <br><span class="login-edition">welcome to A.Movie</span></p>
-					<p class="login__tracker"> </p>
-					<div class="field-wrap">
-						<input type='text' placeholder='Username' name='user-email' class="login__input" required>
-						<input type='password' placeholder='Password' name='user-password' class="login__input"
-							required>
 
-						<input id='#informed' class='login__check styled'>
-						<label for='#informed' class='login__check-info'> </label>
-					</div>
-
-					<div class="login__control">
-						<button type='submit' class="btn btn-md btn--warning btn--wider">sign in</button>
-						<a href="#" class="login__tracker form__tracker">Forgot password?</a>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- Modal Register -->
-	<div class="modal fade" id="exampleModalCenters" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<form id="login-form" class="login" method='post' novalidate=''>
-					<p class="login__title">Register <br><span class="login-edition">welcome to A.Movie</span></p>
-					<p class="login__tracker"> </p>
-					<div class="field-wrap">
-						Username:
-						<input type='text' placeholder='Username' name='user-email' class="login__input" required>
-						Password:
-						<input type='password' placeholder='Password' name='user-password' class="login__input"
-							required>
-						FullName:
-						<input type='text' placeholder='FullName' name='user-email' class="login__input" required>
-						Phone Number:
-						<input type='tel' placeholder='Phone Number' name='user-password' class="login__input" required>
-						Email:
-						<input type='text' placeholder='Email' name='user-email' class="login__input" required>
-						Address:
-						<textarea class="login__input"></textarea>
-
-						<input id='#informed' class='login__check styled'>
-						<label for='#informed' class='login__check-info'> </label>
-					</div>
-
-					<div class="login__control">
-						<button type='submit' class="btn btn-md btn--warning btn--wider">sign up</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
 
 
 	<!-- jQuery 3.1.1-->
@@ -306,6 +256,11 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 			init_BookingOne();
+		});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			init_Contact();
 		});
 	</script>
 </body>

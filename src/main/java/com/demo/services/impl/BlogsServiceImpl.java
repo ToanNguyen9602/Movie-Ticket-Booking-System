@@ -23,8 +23,12 @@ public class BlogsServiceImpl implements BlogsService {
 
 	@Override
 	public boolean save(Blogs blogs) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			blogsRepository.save(blogs);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -32,8 +36,5 @@ public class BlogsServiceImpl implements BlogsService {
 		// TODO Auto-generated method stub
 		return blogsRepository.findByAll();
 	}
-	
-
-	
 
 }

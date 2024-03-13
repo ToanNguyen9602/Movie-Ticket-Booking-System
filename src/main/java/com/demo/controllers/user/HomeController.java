@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,7 @@ public class HomeController {
 		this.cityService = cityService;
 		this.cinemaService = cinemaService;
 	}
+	
 	@GetMapping({ "", "index", "/" })
 	public String index(ModelMap modelMap, 
 		@RequestParam(value = "search", required = false) String search,
@@ -60,7 +62,11 @@ public class HomeController {
 	}
 	
 	@GetMapping("details/{id}")
-	public String details(ModelMap modelMap, @PathVariable("id") int id) {
+	public String details(ModelMap modelMap, Authentication authentication,
+			@PathVariable("id") int id) {
+		var isLoggedIn = authentication != null && authentication.isAuthenticated();
+        modelMap.addAttribute("isLoggedIn", isLoggedIn);
+		modelMap.put("isMovieShowingNow", movieService.isMovieShowingNow(id));
 		modelMap.put("movie", movieService.findMovieById(id));
 		modelMap.put("cities", cityService.findAll());
 		return "home/details";

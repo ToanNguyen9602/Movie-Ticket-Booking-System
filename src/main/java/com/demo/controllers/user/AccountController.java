@@ -1,9 +1,15 @@
 package com.demo.controllers.user;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,9 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.entities.Account;
@@ -29,10 +37,10 @@ public class AccountController {
 
 	@Autowired
 	private AccountService accountService;
-	
+
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
@@ -94,9 +102,9 @@ public class AccountController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/home/index";
+		return "redirect:/user/login";
 	}
-	
+
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, ModelMap modelMap,
@@ -114,9 +122,53 @@ public class AccountController {
 			return "user/login";
 		}
 	}
-	
+
 	@RequestMapping(value = "accessdenied", method = RequestMethod.GET)
 	public String accessdenied() {
 		return "user/accessdenied";
+	}
+
+	@RequestMapping(value = { "update/{username}" }, method = RequestMethod.GET)
+	public String update(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
+		username = authentication.getName();
+		Account account = accountService.findbyusername(username);
+		modelMap.put("account", account);
+		return "user/update";
+
+	}
+
+	@RequestMapping(value = { "update" }, method = RequestMethod.POST)
+	public String update(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
+
+		try {
+
+	        Account existingAccount = accountService.findbyusername(account.getUsername());
+	        Set<Role> existingRoles = existingAccount.getRoles();
+	        
+	        account.setRoles(existingRoles);
+
+			if (account.getPassword().isEmpty()) {
+				account.setPassword(accountService.getpassword(account.getUsername()));
+			} else {
+				account.setPassword(encoder.encode(account.getPassword()));
+			}
+			if (account.getFullname().isEmpty() || account.getFullname().isBlank() || account.getAddress().isEmpty()
+					|| account.getAddress().isBlank() || account.getEmail().isBlank() || account.getEmail().isEmpty()
+					|| account.getPhone().isBlank() || account.getPhone().isEmpty()) {
+				redirectAttributes.addFlashAttribute("msg", "fullname, email, phone and address cant be empty");
+				return "redirect:/user/update/" + account.getUsername();
+			}
+
+			if (accountService.save(account)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "fail");
+				return "user/update";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/account/logout";
+
 	}
 }

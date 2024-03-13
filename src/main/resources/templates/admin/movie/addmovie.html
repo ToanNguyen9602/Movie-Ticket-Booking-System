@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Add new movie', ~{this :: .main})}">
 
 <head>
 	<title></title>
@@ -7,7 +7,7 @@
 <body>
 
 	<main class="main">
-		
+
 		<div class="container-fluid">
 			<div class="row">
 				<!-- main title -->
@@ -53,21 +53,25 @@
 										</div>
 									</div>
 
+
+
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
-											<input type="date" th:field="${phim.releaseDate}" id="from" class="form__input"
-												placeholder="Release_date">
-												
-												
+											<input type="date" th:field="${phim.releaseDate}" id="releaseDate"
+												class="form__input" placeholder="Release_date">
+
+
 										</div>
 										<div class="form__group">
-											<input type="date" th:field="${phim.endDate}" id="to" class="form__input"
-												placeholder="End_Date">
-												
-												
+											<input type="date" th:field="${phim.endDate}" id="endDate"
+												class="form__input" placeholder="End_Date">
 										</div>
-										
+										<div class="form__group">
+											<input type="number" th:field="${phim.price}" id="price"
+												class="form__input" placeholder="Price">
+										</div>
 									</div>
+
 
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
@@ -84,12 +88,14 @@
 										</div>
 									</div>
 
+
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
 											<input type="text" th:field="${phim.rating}" class="form__input"
 												placeholder="Age">
 										</div>
 									</div>
+
 
 
 									<div class="col-12 col-lg-6">
@@ -110,7 +116,7 @@
 												<option value="Western">Western</option>
 												<option value="Otheer">Otheer</option>
 											</select>
-											
+
 										</div>
 									</div>
 
@@ -121,7 +127,9 @@
 										</div>
 									</div>
 
+
 								</div>
+								<br>
 
 							</div>
 
@@ -150,4 +158,5 @@
 
 
 </body>
+
 </html>

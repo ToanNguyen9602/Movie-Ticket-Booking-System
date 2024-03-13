@@ -16,5 +16,9 @@ public class BookSeatController {
 	public String interest() {
 		return "bookseat/interest";
 	}
+	@RequestMapping(value = {"buy"}, method = RequestMethod.GET)
+	public String buy() {
+		return "bookseat/buy";
+	}
 	 
 }

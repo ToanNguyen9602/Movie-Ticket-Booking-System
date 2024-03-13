@@ -16,4 +16,5 @@ public interface RoleRepository  extends CrudRepository<Role, Integer>{
 
 	@Query("from Role where id=:id")
 	public Role findrolebyid(@Param("id") int id);
+	
 }

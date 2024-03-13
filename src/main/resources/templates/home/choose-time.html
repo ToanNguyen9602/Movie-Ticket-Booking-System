@@ -29,7 +29,7 @@
 							<input type="hidden" id="movieId" name="movieId" th:value="${movieId}" />
 							<input type="hidden" id="cinemaId" name="cinemaId" th:value="${cinema.id}" />
 							<select class="js-example-basic-multiple" id="date" name="date"
-								style="width: 500; height: 40;">
+								style="width: 577; height: 40;">
 								<option th:each="date : ${dates}"
 									th:selected="${#dates.format(date, 'yyyy-MM-dd') == selectedDate}"
 									th:value="${#dates.format(date, 'yyyy-MM-dd')}"

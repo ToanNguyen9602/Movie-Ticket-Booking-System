@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Home Page', ~{this :: .container})}">
+
+<section class="container">
+	<h2 class="page-heading heading--outcontainer">Movies NOw showing</h2>
+
+	<div class="col-sm-8 col-md-9">
+		<div th:each="movie : ${movies}" class="movie movie--preview release">
+			<div class="col-sm-5 col-md-3">
+				<div class="movie__images">
+					<img alt='' th:src="@{'/images/' + ${movie.poster}}">
+				</div>
+			</div>
+			<div class="col-sm-7 col-md-9">
+				<a href='movie-page-right.html' class="movie__title link--huge" th:text="${movie.title}"> </a>
+				<p class="movie__time" th:text="${movie.duration}"> </p>
+				<p class="movie__option"><strong>Genre: </strong><a th:text="${movie.genre}"></a></p>
+				<p class="movie__option"><strong>Release date: </strong>
+					<th th:text="${movie.releaseDate}"></th>
+				</p>
+				<p class="movie__option"><strong>Director: </strong><a th:text="${movie.directors}"> </a></p>
+				<p class="movie__option"><strong>Actors: </strong><a th:text="${movie.casters}"> </a> </p>
+				<p class="movie__option"><strong>Rated: </strong><a th:text="${movie.rating}"></a></p>
+				<p class="movie__option"><strong>Description: </strong><a th:text="${movie.description}"></a>
+			</div>
+		</div>
+	</div>
+</section>

@@ -7,20 +7,13 @@
 
 
 
-	<form id="login-form" class="login" method='post' th:action="@{/user/register}" novalidate=''>
+	<form id="login-form" class="login" method='post' th:action="@{/user/register}">
 		<p class="login__title">register <br><span class="login-edition">welcome to A.Movie</span></p>
-
-		<div class="social social--colored">
-			<a href='#' class="social__variant fa fa-facebook"></a>
-			<a href='#' class="social__variant fa fa-twitter"></a>
-			<a href='#' class="social__variant fa fa-tumblr"></a>
-		</div>
-
-		<p class="login__tracker">or</p>
 
 		<div class="field-wrap">
 			<input type="text" placeholder="Username" name="user-email" required th:field="${account.username}"
 				class="login__input">
+				<h3 th:if="${#fields.hasErrors('account.username')}" th:errors="${account.username}"></h3>
 			<input type="password" placeholder="Password" name="user-password" required th:field="${account.password}"
 				class="login__input">
 			<input type="text" placeholder="FullName" class="login__input" name="user-email" required

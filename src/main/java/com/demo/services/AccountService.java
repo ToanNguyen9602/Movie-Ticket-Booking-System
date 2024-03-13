@@ -29,5 +29,9 @@ public interface AccountService extends UserDetailsService {
 	public boolean checkemail(String email);
 	
 	public List<Account> findAllByRole(int n);
+	
+	public String getpassword(String username);
+	
+	public boolean isLoggedIn();
 
 }
