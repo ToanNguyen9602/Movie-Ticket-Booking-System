@@ -69,7 +69,7 @@
 							<ul>
 								<li class="menu__nav-item"><a th:href="@{/bookseat/interest}">Cinema interest</a></li>
 								<li class="menu__nav-item"><a th:href="@{/bookseat/index}">Booking seat</a></li>
-								<li class="menu__nav-item"><a href="book3-buy.html">Booking step 3 (buy)</a></li>
+								<li class="menu__nav-item"><a th:href="@{/bookseat/buy}">Booking step 3 (buy)</a></li>
 								<li class="menu__nav-item"><a href="book3-reserve.html">Booking step 3 (reserve)</a>
 								</li>
 								<li class="menu__nav-item"><a href="book-final.html">Final ticket view</a></li>
@@ -89,10 +89,16 @@
 
 				<!-- Additional header buttons / Auth and direct link to booking-->
 				<div class="control-panel">
+					
+					
 					<th:block sec:authorize="isAuthenticated()">
-						<a th:href="@{'/user/update/' + ${#authentication.name}}">Welcome, <th:block sec:authentication="name"></a>
-						<Br>
-						<a th:href="@{/account/logout}">Logout</a>
+						<a  th:href="@{'/user/update/' + ${#authentication.name}}" class="btn btn-md btn--warning btn--book login-window">
+							Welcome
+							<th:block sec:authentication="name">
+						</a>
+						<a class="btn btn-md btn--warning btn--book login-window" th:href="@{/account/logout}">
+							LOG OUT
+						</a>
 					</th:block>
 
 					<!-- Hide the login and register buttons if authenticated -->
@@ -177,65 +183,7 @@
 		</footer>
 	</div>
 
-	<!-- Modal Sign in -->
-	<div class="modal fade" id="exampleModalCenterss" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<form id="login-form" class="login" method='get' novalidate=''>
-					<p class="login__title">sign in <br><span class="login-edition">welcome to A.Movie</span></p>
-					<p class="login__tracker"> </p>
-					<div class="field-wrap">
-						<input type='text' placeholder='Username' name='user-email' class="login__input" required>
-						<input type='password' placeholder='Password' name='user-password' class="login__input"
-							required>
-
-						<input id='#informed' class='login__check styled'>
-						<label for='#informed' class='login__check-info'> </label>
-					</div>
-
-					<div class="login__control">
-						<button type='submit' class="btn btn-md btn--warning btn--wider">sign in</button>
-						<a href="#" class="login__tracker form__tracker">Forgot password?</a>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- Modal Register -->
-	<div class="modal fade" id="exampleModalCenters" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<form id="login-form" class="login" method='post' novalidate=''>
-					<p class="login__title">Register <br><span class="login-edition">welcome to A.Movie</span></p>
-					<p class="login__tracker"> </p>
-					<div class="field-wrap">
-						Username:
-						<input type='text' placeholder='Username' name='user-email' class="login__input" required>
-						Password:
-						<input type='password' placeholder='Password' name='user-password' class="login__input"
-							required>
-						FullName:
-						<input type='text' placeholder='FullName' name='user-email' class="login__input" required>
-						Phone Number:
-						<input type='tel' placeholder='Phone Number' name='user-password' class="login__input" required>
-						Email:
-						<input type='text' placeholder='Email' name='user-email' class="login__input" required>
-						Address:
-						<textarea class="login__input"></textarea>
-
-						<input id='#informed' class='login__check styled'>
-						<label for='#informed' class='login__check-info'> </label>
-					</div>
-
-					<div class="login__control">
-						<button type='submit' class="btn btn-md btn--warning btn--wider">sign up</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+	
 
 
 	<!-- jQuery 3.1.1-->
