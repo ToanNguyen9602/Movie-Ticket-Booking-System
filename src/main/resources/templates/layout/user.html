@@ -1,5 +1,4 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:mytags="http://www.mytags.vn" th:fragment="content(title, mainContent)">
-
 <head>
 	<meta charset="utf-8">
 	<title th:text="${title}"></title>
@@ -29,13 +28,15 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
 
+ <!-- Main CSS File -->
+    <link rel="stylesheet" th:href="@{/user/assets/css/style.css}">
+</head>
 <body>
 	<div class="wrapper">
 		<header class="header-wrapper">
 			<div class="container">
-				<a th:href="@{/}" class="logo">
+				<a th:href="@{/}" class="logo" style="top: 0;">
 					<img alt='logo' th:src="@{/user/images/logo.png}">
 				</a>
 				<nav id="navigation-box">
@@ -88,11 +89,12 @@
 				</nav>
 
 				<!-- Additional header buttons / Auth and direct link to booking-->
-				<div class="control-panel">
-					
-					
+				<div class="control-panel" style="right:-50 ;">
+
+
 					<th:block sec:authorize="isAuthenticated()">
-						<a  th:href="@{'/user/update/' + ${#authentication.name}}" class="btn btn-md btn--warning btn--book login-window">
+						<a th:href="@{'/user/update/' + ${#authentication.name}}"
+							class="btn btn-md btn--warning btn--book login-window">
 							Welcome,
 							<th:block sec:authentication="name">
 						</a>
@@ -103,7 +105,7 @@
 
 					<!-- Hide the login and register buttons if authenticated -->
 					<th:block sec:authorize="isAnonymous()">
-						<a th:href="@{/user/login}">
+						<a th:href="@{/user/login}"  >
 							<button type="button" class="btn btn-md btn--warning btn--book login-window">
 								Sign in
 							</button>
@@ -183,7 +185,7 @@
 		</footer>
 	</div>
 
-	
+
 
 
 	<!-- jQuery 3.1.1-->
@@ -257,10 +259,10 @@
 		});
 	</script>
 	<script type="text/javascript">
-            $(document).ready(function() {
-                init_Contact ();
-            });
-		</script>
+		$(document).ready(function () {
+			init_Contact();
+		});
+	</script>
 </body>
 
 </html>

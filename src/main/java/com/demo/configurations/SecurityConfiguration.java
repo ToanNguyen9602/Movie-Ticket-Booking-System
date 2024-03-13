@@ -39,7 +39,8 @@ public class SecurityConfiguration {
 				"/bookseat/**",
 				"/contact/**",
 				"/images/**",
-				"/user/**"
+				"/user/**",
+				"/food/**"
 		};
 		
 		final String[] staffPermittedUrls = {
