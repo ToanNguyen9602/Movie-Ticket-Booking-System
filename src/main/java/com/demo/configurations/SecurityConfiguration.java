@@ -46,7 +46,9 @@ public class SecurityConfiguration {
 	                    .requestMatchers(new AntPathRequestMatcher("/contact/**")).permitAll()
 	                    .requestMatchers("/images/**").permitAll()
 	                    .requestMatchers("/user/**").permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/admin/register")).hasAnyRole("ADMIN")
 						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN");
+
 					})
 					.formLogin(formLogin -> {
 						formLogin.loginPage("/user/login")
