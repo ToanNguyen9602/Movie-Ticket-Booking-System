@@ -51,8 +51,21 @@ public class SecurityConfiguration {
 					.csrf(cs -> cs.disable())
 					.authorizeHttpRequests(auth -> {
 						auth
+
+						.requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/home/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/blog/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/cinema/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/account/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/film/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/contact/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
+	                    .requestMatchers("/images/**").permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN")
+
 							.requestMatchers(permittedUrls).permitAll()
 							.requestMatchers(staffPermittedUrls).hasAnyRole("STAFF","ADMIN");
+
 					})
 					.formLogin(formLogin -> {
 						formLogin.loginPage("/user/login")

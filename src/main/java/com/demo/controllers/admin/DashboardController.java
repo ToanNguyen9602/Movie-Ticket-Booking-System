@@ -129,8 +129,12 @@ public class DashboardController {
 	}
 	
 	@RequestMapping(value = "addblog", method = RequestMethod.POST)
-	public String addBlog(@ModelAttribute("blog") Blogs blog, RedirectAttributes redirectAttributes,
+
+	
+
+	public String addBlog(@ModelAttribute("blog") Blogs blogs, RedirectAttributes redirectAttributes,
 			Authentication authentication,
+
 			@RequestParam("file") MultipartFile file) {
 		try {
 			if (file != null && file.getSize() > 0) {
@@ -141,24 +145,35 @@ public class DashboardController {
 				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-				blog.setPhoto(filename);
+
+				blogs.setPhoto(filename);
 			} else {
-				blog.setPhoto("no-image.jpg");
+				blogs.setPhoto("no-image.jpg");
+			}
+			if (blogsService.save(blogs)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Fail or duplicate name");
+
+				blogs.setPhoto(filename);
+			} else {
+				blogs.setPhoto("no-image.jpg");
 			}
 			
-			blog.setStatus(true);
+			blogs.setStatus(true);
 			
-			if(blog.getCreated()==null)
+			if(blogs.getCreated()==null)
 			{
-				blog.setCreated(new Date());
+				blogs.setCreated(new Date());
 			}
 			Account account= accountService.findbyusername(authentication.getName());
-			blog.setAccount(account);
-			if (blogsService.save(blog)) {
+			blogs.setAccount(account);
+			if (blogsService.save(blogs)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
 
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "Fail");
+
 				return "redirect:/admin/addblog";
 			}
 		} catch (Exception e) {
@@ -167,6 +182,7 @@ public class DashboardController {
 		return "redirect:/admin/listblog";
 
 	}
+
 
 	@RequestMapping(value = { "addmovie" }, method = RequestMethod.GET)
 	public String addMovie(ModelMap modelMap) {
