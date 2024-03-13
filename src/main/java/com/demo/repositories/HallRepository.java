@@ -20,5 +20,8 @@ public interface HallRepository  extends CrudRepository<Hall, Integer>{
 	
 	@Query("from Hall where cinema.id = :cinemaid")
 	public List<Hall> findHallsByCinemaId(@Param("cinemaid") int cinemaid);
+	
+	@Query("from Hall where id = :id")
+	public Hall findHallbyId(@Param("id") int id);
 
 }

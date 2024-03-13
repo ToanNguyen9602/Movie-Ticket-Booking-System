@@ -43,9 +43,9 @@ public class SecurityConfiguration {
 				"/food/**"
 		};
 		
-		final String[] staffPermittedUrls = {
-				"/admin/**"
-		};
+//		final String[] staffPermittedUrls = {
+//				"/admin/**"
+//		};
 		
 		return http.cors(cor -> cor.disable())
 					.csrf(cs -> cs.disable())
@@ -61,10 +61,12 @@ public class SecurityConfiguration {
 	                    .requestMatchers(new AntPathRequestMatcher("/contact/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
 	                    .requestMatchers("/images/**").permitAll()
-						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN")
-
-							.requestMatchers(permittedUrls).permitAll()
-							.requestMatchers(staffPermittedUrls).hasAnyRole("STAFF","ADMIN");
+	                    .requestMatchers(new AntPathRequestMatcher("/admin/register")).hasRole("ADMIN")
+						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN");
+						
+							//.requestMatchers(permittedUrls).permitAll()
+							//.requestMatchers(staffPermittedUrls).hasAnyRole("STAFF","ADMIN")
+							
 
 					})
 					.formLogin(formLogin -> {

@@ -10,30 +10,27 @@ import com.demo.entities.Blogs;
 import com.demo.entities.Cinema;
 import com.demo.entities.City;
 import com.demo.entities.Hall;
+import com.demo.entities.Seats;
 import com.demo.repositories.BlogsRepository;
 import com.demo.repositories.CinemaRepository;
 import com.demo.repositories.CityRepository;
 import com.demo.repositories.HallRepository;
+import com.demo.repositories.SeatsRepository;
 import com.demo.services.BlogsService;
 import com.demo.services.CityService;
 import com.demo.services.HallService;
+import com.demo.services.SeatsService;
 
 @Service
-public class HallServiceImpl implements HallService {
+public class SeatsServiceImpl implements SeatsService {
 
 	@Autowired
-	private HallRepository hallRepository;
+	private SeatsRepository seatsRepository;
 
 	@Override
-	public List<Hall> findHallsByCinemaId(int cinemaid) {
-		// TODO Auto-generated method stub
-		return hallRepository.findHallsByCinemaId(cinemaid);
-	}
-
-	@Override
-	public boolean save(Hall hall) {
+	public boolean save(Seats seats) {
 		try {
-			hallRepository.save(hall);
+			seatsRepository.save(seats);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -41,21 +38,9 @@ public class HallServiceImpl implements HallService {
 	}
 
 	@Override
-	public Hall findHallbyId(int id) {
-		// TODO Auto-generated method stub
-		return hallRepository.findHallbyId(id);
+	public int countseats(int hallid) {
+
+		return seatsRepository.countseatsByHallid(hallid);
 	}
-
-	@Override
-	public Integer saveAndGetId(Hall hall) {
-		Hall savedHall = hallRepository.save(hall);
-		return savedHall != null ? savedHall.getId() : null;
-	}
-
-	
-
-	
-
-	
 
 }

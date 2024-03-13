@@ -60,7 +60,7 @@
 								<tr th:each="cinema : ${cinemas}">
 
 									<td>
-										<div class="main__table-text"><a th:href="@{'/admin/details/' + ${cinema.id}}" th:text="${cinema.name}"></a></div>
+										<div class="main__table-text"><a th:href="@{'/admin/cinema/' + ${cinema.id}}" th:text="${cinema.name}"></a></div>
 									</td>
 									<td>
 										<div class="main__table-text main__table-text--rate" th:text="${cinema.address}"></div>
