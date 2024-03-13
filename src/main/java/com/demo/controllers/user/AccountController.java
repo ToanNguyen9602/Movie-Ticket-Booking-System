@@ -134,7 +134,7 @@ public class AccountController {
 		username = authentication.getName();
 		Account account = accountService.findbyusername(username);
 		modelMap.put("account", account);
-		return "user/update";
+		return "user/account";
 
 	}
 
@@ -157,14 +157,14 @@ public class AccountController {
 					|| account.getAddress().isBlank() || account.getEmail().isBlank() || account.getEmail().isEmpty()
 					|| account.getPhone().isBlank() || account.getPhone().isEmpty()) {
 				redirectAttributes.addFlashAttribute("msg", "fullname, email, phone and address cant be empty");
-				return "redirect:/user/update/" + account.getUsername();
+				return "redirect:/user/account/" + account.getUsername();
 			}
 
 			if (accountService.save(account)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "fail");
-				return "user/update";
+				return "user/account";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

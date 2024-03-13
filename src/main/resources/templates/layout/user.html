@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:mytags="http://www.mytags.vn" th:fragment="content(title, mainContent)">
+
 <head>
 	<meta charset="utf-8">
 	<title th:text="${title}"></title>
@@ -29,9 +30,16 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
- <!-- Main CSS File -->
-    <link rel="stylesheet" th:href="@{/user/assets/css/style.css}">
+	<!-- Main CSS File -->
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{/user/assets/images/icons/apple-touch-icon.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/user/assets/images/icons/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/user/assets/images/icons/favicon-16x16.png}">
+	<link rel="manifest" th:href="@{/user/assets/images/icons/site.html}">
+	<link rel="mask-icon" th:href="@{/user/assets/images/icons/safari-pinned-tab.svg}" color="#666666">
+	<link rel="shortcut icon" th:href="@{/user/assets/images/icons/favicon.ico}">
+	<link rel="stylesheet" th:href="@{/user/assets/css/style.css}">
 </head>
+
 <body>
 	<div class="wrapper">
 		<header class="header-wrapper">
@@ -105,7 +113,7 @@
 
 					<!-- Hide the login and register buttons if authenticated -->
 					<th:block sec:authorize="isAnonymous()">
-						<a th:href="@{/user/login}"  >
+						<a th:href="@{/user/login}">
 							<button type="button" class="btn btn-md btn--warning btn--book login-window">
 								Sign in
 							</button>
@@ -263,6 +271,15 @@
 			init_Contact();
 		});
 	</script>
+	<!-- MOLLA -->
+	  <script th:src="@{/user/assets/js/jquery.min.js}"></script>
+    <script th:src="@{/user/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/user/assets/js/jquery.hoverIntent.min.js}"></script>
+    <script th:src="@{/user/assets/js/jquery.waypoints.min.js}"></script>
+    <script th:src="@{/user/assets/js/superfish.min.js}"></script>
+    <script th:src="@{/user/assets/js/owl.carousel.min.js}"></script>
+    <!-- Main JS File -->
+    <script th:src="@{/user/assets/js/main.js}"></script>
 </body>
 
 </html>
