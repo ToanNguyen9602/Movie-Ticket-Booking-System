@@ -1,9 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:mytags="http://www.mytags.vn" th:fragment="content(title, mainContent)">
 
 <head>
+	<title th:text="${title}"></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 	<!-- CSS -->
 	<link rel="stylesheet" th:href="@{/admin/css/bootstrap-reboot.min.css}">
 	<link rel="stylesheet" th:href="@{/admin/css/bootstrap-grid.min.css}">
