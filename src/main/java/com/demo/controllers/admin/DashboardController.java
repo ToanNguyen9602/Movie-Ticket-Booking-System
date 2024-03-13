@@ -323,45 +323,16 @@ public class DashboardController {
 	
 	@RequestMapping(value = { "update" }, method = RequestMethod.POST)
 	public String update(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
-
 		try {
-//			Set<Role> roles=account.getRoles();
-//			Set<Role> rolesupdated= new HashSet<>();
-//			for(Role role:roles)
-//			{
-//				if(role.getId()==1)
-//				{
-//					rolesupdated.add(role);
-//				}
-//				if(role.getId()==2)
-//				{
-//					rolesupdated.add(role);
-//				}
-//				if(role.getId()==3)
-//				{
-//					rolesupdated.add(role);
-//				}
-//			}
-//			account.setRoles(rolesupdated);
-
+	        Account existingAccount = accountService.findbyusername(account.getUsername());
+	        Set<Role> existingRoles = existingAccount.getRoles();
+	        
+	        account.setRoles(existingRoles);
 			
-			Role role = roleService.findrolebyid(2);
-			//Role role2 = roleService.findrolebyid(2);
-			for (Role role1 : account.getRoles()) {
-			    try {
-			        if (role1.getId() != null) {
-			            System.out.println(role1.getId().toString());
-			        } else {
-			            System.out.println("Role ID is null");
-			        }
-			    } catch (Exception e) {
-			        System.out.println("Exception occurred while iterating over roles: " + e.getMessage());
-			        e.printStackTrace();
-			    }
-			}
-			Set<Role> roles = new HashSet<>();
-			roles.add(role);
-			account.setRoles(roles);
+//			Role role = roleService.findrolebyid(2);
+//			Set<Role> roles = new HashSet<>();
+//			roles.add(role);
+//			account.setRoles(roles);
 
 			if (account.getPassword().isEmpty()) {
 				account.setPassword(accountService.getpassword(account.getUsername()));

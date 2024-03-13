@@ -142,10 +142,10 @@ public class AccountController {
 
 		try {
 
-			Role role = roleService.findrolebyid(3);
-			Set<Role> roles = new HashSet<>();
-			roles.add(role);
-			account.setRoles(roles);
+	        Account existingAccount = accountService.findbyusername(account.getUsername());
+	        Set<Role> existingRoles = existingAccount.getRoles();
+	        
+	        account.setRoles(existingRoles);
 
 			if (account.getPassword().isEmpty()) {
 				account.setPassword(accountService.getpassword(account.getUsername()));
