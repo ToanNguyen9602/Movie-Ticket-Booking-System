@@ -2,6 +2,9 @@ package com.demo.entities;
 // Generated Mar 8, 2024, 12:54:43 PM by Hibernate Tools 4.3.6.Final
 
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
 
 /**
@@ -16,7 +19,9 @@ public class Blogs implements java.io.Serializable {
 	private String title;
 	private String contents;
 	private String photo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date created;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updated;
 	private boolean status;
 
@@ -44,7 +49,7 @@ public class Blogs implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {

@@ -5,13 +5,11 @@ import java.util.List;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.demo.MovieStatus;
-import com.demo.entities.Cinema;
-import com.demo.entities.Hall;
+
 import com.demo.entities.Movie;
-import com.demo.entities.Role;
+
 import com.demo.entities.Shows;
 
 public interface MovieService {
