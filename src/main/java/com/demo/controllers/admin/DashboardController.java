@@ -7,7 +7,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +33,10 @@ import com.demo.entities.Blogs;
 import com.demo.entities.Cinema;
 import com.demo.entities.City;
 import com.demo.entities.FoodMenu;
+import com.demo.entities.Hall;
 import com.demo.entities.Movie;
 import com.demo.entities.Role;
+import com.demo.entities.Seats;
 import com.demo.helpers.FileHelper;
 import com.demo.services.AccountService;
 import com.demo.services.BlogsService;
@@ -42,6 +46,7 @@ import com.demo.services.FoodService;
 import com.demo.services.HallService;
 import com.demo.services.MovieService;
 import com.demo.services.RoleService;
+import com.demo.services.SeatsService;
 
 @Controller
 @RequestMapping({ "admin" })
@@ -58,6 +63,8 @@ public class DashboardController {
 	private BlogsService blogsService;
 	@Autowired
 	private HallService hallService;
+	@Autowired
+	private SeatsService seatsService;
 
 	//
 	@Autowired
@@ -96,9 +103,18 @@ public class DashboardController {
 		return "admin/cinema/listcinema";
 	}
 
-	@GetMapping(value = "details/{id}")
+	@GetMapping(value = "cinema/{id}")
 	public String details(ModelMap modelMap, @PathVariable("id") int id) {
 		modelMap.put("halls", cinemaService.findHallsByCinemaId(id));
+		modelMap.put("cinema", cinemaService.findById(id));
+		Map<Integer, Integer> hallSeatsCountMap = new HashMap<>();
+		
+	    for (Hall hall : cinemaService.findHallsByCinemaId(id)) {
+	        int hallId = hall.getId();
+	        int seatCount = seatsService.countseats(hallId);
+	        hallSeatsCountMap.put(hallId, seatCount);
+	    }
+	    modelMap.put("hallSeatsCountMap", hallSeatsCountMap);
 		return "admin/hall/listhall";
 	}
 
@@ -127,11 +143,8 @@ public class DashboardController {
 		modelMap.put("blog", blog);
 		return "admin/blog/addblog";
 	}
-	
+
 	@RequestMapping(value = "addblog", method = RequestMethod.POST)
-
-	
-
 	public String addBlog(@ModelAttribute("blog") Blogs blogs, RedirectAttributes redirectAttributes,
 			Authentication authentication,
 
@@ -149,14 +162,13 @@ public class DashboardController {
 			} else {
 				blogs.setPhoto("no-image.jpg");
 			}
-			
+
 			blogs.setStatus(true);
-			
-			if(blogs.getCreated()==null)
-			{
+
+			if (blogs.getCreated() == null) {
 				blogs.setCreated(new Date());
 			}
-			Account account= accountService.findbyusername(authentication.getName());
+			Account account = accountService.findbyusername(authentication.getName());
 			blogs.setAccount(account);
 			if (blogsService.save(blogs)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
@@ -172,7 +184,6 @@ public class DashboardController {
 		return "redirect:/admin/listblog";
 
 	}
-
 
 	@RequestMapping(value = { "addmovie" }, method = RequestMethod.GET)
 	public String addMovie(ModelMap modelMap) {
@@ -197,7 +208,7 @@ public class DashboardController {
 			} else {
 				movie.setPoster("no-image.jpg");
 			}
-			
+
 			if (movieService.save(movie)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
 			} else {
@@ -360,6 +371,7 @@ public class DashboardController {
 		}
 		return "redirect:/admin/dashboard";
 	}
+
 	@RequestMapping(value = { "update/{username}" }, method = RequestMethod.GET)
 	public String update(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
 		username = authentication.getName();
@@ -368,15 +380,15 @@ public class DashboardController {
 		return "admin/account/update";
 
 	}
-	
+
 	@RequestMapping(value = { "update" }, method = RequestMethod.POST)
 	public String update(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
 		try {
-	        Account existingAccount = accountService.findbyusername(account.getUsername());
-	        Set<Role> existingRoles = existingAccount.getRoles();
-	        
-	        account.setRoles(existingRoles);
-			
+			Account existingAccount = accountService.findbyusername(account.getUsername());
+			Set<Role> existingRoles = existingAccount.getRoles();
+
+			account.setRoles(existingRoles);
+
 //			Role role = roleService.findrolebyid(2);
 //			Set<Role> roles = new HashSet<>();
 //			roles.add(role);
@@ -404,6 +416,49 @@ public class DashboardController {
 			e.printStackTrace();
 		}
 		return "redirect:/account/logout";
+
+	}
+
+	@RequestMapping(value = { "addhall/{cinemaid}" }, method = RequestMethod.GET)
+	public String AddHall(ModelMap modelMap, @PathVariable("cinemaid") int cinemaid) {
+		Hall hall = new Hall();
+		Seats seats = new Seats();
+		modelMap.put("hall", hall);
+		// modelMap.put("seats", seats);
+		return "admin/hall/addhall";
+	}
+
+	@RequestMapping(value = "addhall/{cinemaid}", method = RequestMethod.POST)
+	public String AddHall(@ModelAttribute("hall") Hall hall, RedirectAttributes redirectAttributes, ModelMap modelMap,
+			@PathVariable("cinemaid") int cinemaid, @RequestParam("numberOfSeats") int numberOfRows,
+			@RequestParam("numberOfColumns") int numberOfColumns) {
+		try {
+
+			char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l' };
+			Cinema cinema = cinemaService.findById(cinemaid);
+			hall.setCinema(cinema);
+			Integer hallid = hallService.saveAndGetId(hall);
+
+			if (hallid != null) {
+
+				Hall savedhall = hallService.findHallbyId(hallid);
+				for (int i = 0; i < numberOfRows; i++) {
+					char selectedRow = charArray[i];
+
+					for (int number = 1; number <= numberOfColumns; number++) {
+						Seats newSeat = new Seats(hall, String.valueOf(selectedRow), number);
+						seatsService.save(newSeat); // Assuming you have a method in your service to save Seats objects
+					}
+				}
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Fail");
+				return "redirect:/admin/addhall/" + cinemaid;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/cinema/" + cinemaid;
 
 	}
 }

@@ -12,10 +12,10 @@
 				<!-- main title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2>Cinema
+						<h2>Halls
 						</h2>
 
-						<a th:href="@{/admin/addcinema}" class="main__title-link">add Cinema</a>
+						<a th:href="@{'/admin/addhall/'+${cinema.id}}" class="main__title-link">Add new Hall</a>
 
 
 						<div class="main__title-wrap">
@@ -49,6 +49,7 @@
 							<thead>
 								<tr>
 									<th>Name</th>
+									<th>Number of seats</th>
 								</tr>
 							</thead>
 
@@ -58,6 +59,11 @@
 										<div class="main__table-text main__table-text--rate" th:text="${hall.name}">
 										</div>
 									</td>
+																		<td>
+										<div class="main__table-text main__table-text--rate" th:text="${hallSeatsCountMap[hall.id]}">
+										</div>
+									</td>
+
 								</tr>
 							</tbody>
 						</table>
@@ -65,7 +71,7 @@
 				</div>
 				<!-- end users -->
 
-			
+
 			</div>
 		</div>
 	</main>
