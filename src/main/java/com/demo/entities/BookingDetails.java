@@ -28,7 +28,6 @@ public class BookingDetails implements java.io.Serializable {
 	}
 
 	@EmbeddedId
-
 	@AttributeOverrides({
 			@AttributeOverride(name = "bookingId", column = @Column(name = "booking_id", nullable = false)),
 			@AttributeOverride(name = "showsId", column = @Column(name = "shows_id", nullable = false)),

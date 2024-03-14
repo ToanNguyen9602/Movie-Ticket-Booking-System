@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.demo.services.AccountService;
 
@@ -41,17 +42,12 @@ public class SecurityConfiguration {
 				"/images/**",
 				"/user/**",
 				"/food/**"
-		};
-		
-//		final String[] staffPermittedUrls = {
-//				"/admin/**"
-//		};
+		}; 
 		
 		return http.cors(cor -> cor.disable())
 					.csrf(cs -> cs.disable())
 					.authorizeHttpRequests(auth -> {
 						auth
-
 						.requestMatchers(new AntPathRequestMatcher("/")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/home/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/blog/**")).permitAll()
@@ -60,14 +56,12 @@ public class SecurityConfiguration {
 	                    .requestMatchers(new AntPathRequestMatcher("/film/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/contact/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/bookseat/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/order/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/food/**")).permitAll()
 	                    .requestMatchers("/images/**").permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/admin/register")).hasRole("ADMIN")
 						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN");
-						
-							//.requestMatchers(permittedUrls).permitAll()
-							//.requestMatchers(staffPermittedUrls).hasAnyRole("STAFF","ADMIN")
-							
-
 					})
 					.formLogin(formLogin -> {
 						formLogin.loginPage("/user/login")

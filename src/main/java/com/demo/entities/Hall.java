@@ -1,8 +1,8 @@
 package com.demo.entities;
 // Generated Mar 8, 2024, 11:16:40 AM by Hibernate Tools 4.3.6.Final
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
 
 /**
@@ -15,9 +15,14 @@ public class Hall implements java.io.Serializable {
 	private Integer id;
 	private Cinema cinema;
 	private String name;
-	private Set<Seats> seatses = new HashSet<Seats>(0);
+	private List<Seats> seatses = new ArrayList<Seats>(0);
+	private List<Shows> shows = new ArrayList<Shows>(0);
 
 	public Hall() {
+	}
+	
+	public Hall(Integer id) {
+		this.id = id; 
 	}
 
 	public Hall(Cinema cinema, String name) {
@@ -25,7 +30,7 @@ public class Hall implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Hall(Cinema cinema, String name, Set<Seats> seatses) {
+	public Hall(Cinema cinema, String name, List<Seats> seatses, List<Shows> shows) {
 		this.cinema = cinema;
 		this.name = name;
 		this.seatses = seatses;
@@ -62,12 +67,23 @@ public class Hall implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "hall")
-	public Set<Seats> getSeatses() {
+	public List<Seats> getSeatses() {
 		return this.seatses;
 	}
 
-	public void setSeatses(Set<Seats> seatses) {
+	public void setSeatses(List<Seats> seatses) {
 		this.seatses = seatses;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "hall")
+	public List<Shows> getShows() {
+		return shows;
+	}
+
+	public void setShows(List<Shows> shows) {
+		this.shows = shows;
+	}
+
+	
+	
 }
