@@ -108,19 +108,19 @@ public class DashboardController {
 		modelMap.put("halls", cinemaService.findHallsByCinemaId(id));
 		modelMap.put("cinema", cinemaService.findById(id));
 		Map<Integer, Integer> hallSeatsCountMap = new HashMap<>();
-		
-	    for (Hall hall : cinemaService.findHallsByCinemaId(id)) {
-	        int hallId = hall.getId();
-	        int seatCount = seatsService.countseats(hallId);
-	        hallSeatsCountMap.put(hallId, seatCount);
-	    }
-	    modelMap.put("hallSeatsCountMap", hallSeatsCountMap);
+
+		for (Hall hall : cinemaService.findHallsByCinemaId(id)) {
+			int hallId = hall.getId();
+			int seatCount = seatsService.countseats(hallId);
+			hallSeatsCountMap.put(hallId, seatCount);
+		}
+		modelMap.put("hallSeatsCountMap", hallSeatsCountMap);
 		return "admin/hall/listhall";
 	}
 
 	@RequestMapping(value = { "listblog" }, method = RequestMethod.GET)
 	public String ListBlog(ModelMap modelMap) {
-		modelMap.put("blogs", blogsService.findByAll());
+		modelMap.put("blogs", blogsService.findByAllonAdminPage());
 		return "admin/blog/listblog";
 	}
 
@@ -321,6 +321,44 @@ public class DashboardController {
 		return "redirect:/admin/listfood";
 
 	}
+	
+	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+	public String delete(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("food", foodService.find(id));
+		return "admin/food/listfood";
+	}
+
+	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+	public String edit(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("food", foodService.find(id));
+		return "admin/food/edit";
+	}
+	
+	@RequestMapping(value = "edit", method = RequestMethod.POST)
+	public String editfood(@ModelAttribute("food") FoodMenu food, @RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+		try {
+			if (file != null && file.getSize() > 0) {
+				File folderImage = new File(new ClassPathResource(".").getFile().getPath() + "/static/images");
+				String fileName = FileHelper.generateFileName(file.getOriginalFilename());
+				Path path = Paths.get(folderImage.getAbsolutePath() + File.separator + fileName);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				food.setPhoto(fileName);
+			}
+			food.setStatus(true);
+			if (foodService.save(food)) {
+				redirectAttributes.addFlashAttribute("msg", "Success");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "No Update Duplicate Name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("msg", e.getMessage());
+		}
+		return "redirect:/admin/listfood";
+	}
+	
+	
 
 	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
 	public String register(ModelMap modelMap) {
@@ -461,4 +499,84 @@ public class DashboardController {
 		return "redirect:/admin/cinema/" + cinemaid;
 
 	}
+
+	@RequestMapping(value = { "blogs/delete/{id}" }, method = RequestMethod.GET)
+	public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		if (blogsService.delete(id)) {
+			redirectAttributes.addFlashAttribute("msg", "ok");
+
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "fail");
+
+		}
+		return "redirect:/admin/listblog";
+	}
+
+	@RequestMapping(value = { "blogs/action/{id}" }, method = RequestMethod.GET)
+	public String action(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+
+		Blogs blog = blogsService.findByIdonAdminPage(id);
+		if (blog.isStatus()) {
+			blog.setStatus(false);
+		} else {
+			blog.setStatus(true);
+		}
+
+		if (blogsService.save(blog)) {
+			redirectAttributes.addFlashAttribute("msg", "ok");
+
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "fail");
+
+		}
+		return "redirect:/admin/listblog";
+	}
+	
+	@RequestMapping(value = { "blogs/edit/{id}" }, method = RequestMethod.GET)
+	public String edit(ModelMap modelMap, @PathVariable("id") int id) {
+		Blogs blog = blogsService.findByIdonAdminPage(id);
+		modelMap.put("blog", blog);
+		return "admin/blog/editblog";
+	}
+
+	@RequestMapping(value = "blog/edit", method = RequestMethod.POST)
+	public String edit(@ModelAttribute("blog") Blogs blogs, RedirectAttributes redirectAttributes,
+			Authentication authentication,
+
+			@RequestParam("file") MultipartFile file) {
+		try {
+			if (file != null && file.getSize() > 0) {
+
+				File folderimage = new File(new ClassPathResource(".").getFile().getPath() + "/static/images");
+				String filename = FileHelper.generateFileName(file.getOriginalFilename());
+				Path path = Paths.get(folderimage.getAbsolutePath() + File.separator + filename);
+				System.out.println(folderimage.getAbsolutePath() + File.separator + filename);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+				blogs.setPhoto(filename);
+			} else {
+				blogs.setPhoto(blogs.getPhoto());
+			}
+
+			if (blogs.getCreated() == null) {
+				blogs.setCreated(new Date());
+			}
+			Account account = accountService.findbyusername(authentication.getName());
+			blogs.setAccount(account);
+			if (blogsService.save(blogs)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Fail");
+
+				return "redirect:/admin/editblog";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/listblog";
+
+	}
+	
+	
 }

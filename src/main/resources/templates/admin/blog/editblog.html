@@ -79,7 +79,7 @@
 				</div>
 				<!-- form -->
 				<div class="col-12">
-					<form th:action="@{/admin/addblog}" class="form" enctype="multipart/form-data" method="post">
+					<form th:action="@{/admin/blog/edit}" class="form" enctype="multipart/form-data" method="post">
 						<div class="row">
 							<div class="col-12 col-md-5 form__cover">
 								<div class="row">
@@ -88,7 +88,7 @@
 											<label for="form__img-upload">Photo</label>
 											<input id="form__img-upload" name="file" type="file"
 												accept=".png, .jpg, .jpeg">
-											<img id="form__img" src="#" alt=" ">
+											<img id="form__img" th:src="@{'/images/'+ ${blog.photo}}">
 										</div>
 									</div>
 								</div>
@@ -126,6 +126,9 @@
 								<div class="col-12">
 									<div class="row">
 										<div class="col-12">
+											<input type="hidden" th:field="${blog.photo}">
+											<input type="hidden" th:field="${blog.id}">
+											<input type="hidden" th:field="${blog.status}">
 											<input type="submit" value="Publish" class="form__btn" />
 
 										</div>

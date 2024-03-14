@@ -41,6 +41,14 @@ public class FoodServiceImpl implements FoodService {
 		return foodRepository.findAll_ListFood();
 	}
 
+	@Override
+	public FoodMenu find(int id) {
+		// TODO Auto-generated method stub
+		return foodRepository.findById(id).get();
+	}
+
+	
+
 	
 
 	

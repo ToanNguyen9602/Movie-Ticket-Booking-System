@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{layout/user :: content('Blog', ~{this :: .container})}">
+	th:replace="~{layout/user :: content(${blog.title}, ~{this :: .container})}">
 
 <head>
 	<title></title>
@@ -15,7 +15,6 @@
                     <h2 class="page-heading">Blog</h2>
                     
                     <!-- News post article-->
-                    <th:block th:each="blog:${blogs}"> 
                     <article class="post post--news">
                         <a th:href="@{'/blog/'+${blog.id}}" class="post__image-link">
                             <img alt='' th:src="@{'/images/'+ ${blog.photo}}" width="500" height="1400">
@@ -30,7 +29,6 @@
 
                         <div class="devider-huge"></div>
                     </article>
-                    </th:block>
                     <!-- News post article-->
 
                     <!-- end news post article-->
