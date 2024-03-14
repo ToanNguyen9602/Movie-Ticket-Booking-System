@@ -561,6 +561,7 @@ public class DashboardController {
 			if (blogs.getCreated() == null) {
 				blogs.setCreated(new Date());
 			}
+			blogs.setUpdated(new Date());
 			Account account = accountService.findbyusername(authentication.getName());
 			blogs.setAccount(account);
 			if (blogsService.save(blogs)) {
