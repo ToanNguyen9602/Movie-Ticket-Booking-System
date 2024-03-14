@@ -11,4 +11,8 @@ public interface BlogsService {
 
 	public Blogs findById(int id);
 
+	public List<Blogs> findByAllonAdminPage();
+	public Blogs findByIdonAdminPage(int id);
+	public boolean delete(int id);
+
 }

@@ -17,4 +17,9 @@ public interface BlogsRepository  extends CrudRepository<Blogs, Integer>{
 	@Query("from Blogs where id=:id and status=true")
 	public Blogs findById(@Param("id") int id);
 
+	@Query("from Blogs order by id DESC ")
+	public List<Blogs> findByAllonAdminPage();
+	
+	@Query("from Blogs where id=:id")
+	public Blogs findByIdonAdminPage(@Param("id") int id);
 }
