@@ -1,12 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{layout/user :: content(${blog.title}, ~{this :: .container})}">
 
-<head>
-	<title></title>
-</head>
-
-<body>
-
+ 
 
 	 <section class="container">
             <div class="overflow-wrapper">
@@ -17,7 +12,7 @@
                     <!-- News post article-->
                     <article class="post post--news">
                         <a th:href="@{'/blog/'+${blog.id}}" class="post__image-link">
-                            <img alt='' th:src="@{'/images/'+ ${blog.photo}}" width="500" height="1400">
+                            <img alt='' th:src="@{'/images/'+ ${blog.photo}}">
                         </a>
 
                         <h1><a th:href="@{'/blog/'+${blog.id}}" class="post__title-link" th:text="${blog.title}"></a></h1>
@@ -25,7 +20,7 @@
 
                         <div class="wave-devider"></div>
 
-                        <p class="post__text" th:text="${blog.title}"></p> 
+                        <p class="post__text" th:text="${blog.contents}"></p> 
 
                         <div class="devider-huge"></div>
                     </article>
@@ -37,9 +32,4 @@
                 </div>
             </div>
         </section>
-
-
-
-</body>
-
 </html>
