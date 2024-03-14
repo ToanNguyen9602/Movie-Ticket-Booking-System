@@ -187,7 +187,6 @@ public class DashboardController {
 
 	@RequestMapping(value = { "addmovie" }, method = RequestMethod.GET)
 	public String addMovie(ModelMap modelMap) {
-
 		Movie movie = new Movie();
 		modelMap.put("phim", movie);
 		return "admin/movie/addmovie";
