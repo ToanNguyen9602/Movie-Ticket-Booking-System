@@ -321,6 +321,44 @@ public class DashboardController {
 		return "redirect:/admin/listfood";
 
 	}
+	
+	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+	public String delete(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("food", foodService.find(id));
+		return "admin/food/listfood";
+	}
+
+	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+	public String edit(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("food", foodService.find(id));
+		return "admin/food/edit";
+	}
+	
+	@RequestMapping(value = "edit", method = RequestMethod.POST)
+	public String editfood(@ModelAttribute("food") FoodMenu food, @RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+		try {
+			if (file != null && file.getSize() > 0) {
+				File folderImage = new File(new ClassPathResource(".").getFile().getPath() + "/static/images");
+				String fileName = FileHelper.generateFileName(file.getOriginalFilename());
+				Path path = Paths.get(folderImage.getAbsolutePath() + File.separator + fileName);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				food.setPhoto(fileName);
+			}
+			food.setStatus(true);
+			if (foodService.save(food)) {
+				redirectAttributes.addFlashAttribute("msg", "Success");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "No Update Duplicate Name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("msg", e.getMessage());
+		}
+		return "redirect:/admin/listfood";
+	}
+	
+	
 
 	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
 	public String register(ModelMap modelMap) {
