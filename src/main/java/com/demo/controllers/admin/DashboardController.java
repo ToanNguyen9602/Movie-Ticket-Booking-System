@@ -427,11 +427,6 @@ public class DashboardController {
 
 			account.setRoles(existingRoles);
 
-//			Role role = roleService.findrolebyid(2);
-//			Set<Role> roles = new HashSet<>();
-//			roles.add(role);
-//			account.setRoles(roles);
-
 			if (account.getPassword().isEmpty()) {
 				account.setPassword(accountService.getpassword(account.getUsername()));
 			} else {
