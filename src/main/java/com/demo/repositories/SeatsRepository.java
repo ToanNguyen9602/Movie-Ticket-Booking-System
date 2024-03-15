@@ -11,11 +11,6 @@ import com.demo.entities.Movie;
 import com.demo.entities.Seats;
 
 
-
-
-
-
-
 public interface SeatsRepository  extends JpaRepository<Seats, Integer>{
 	
 	@Query("Select count(*) from Seats where hall.id=:hallid") 

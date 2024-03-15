@@ -2,6 +2,9 @@ package com.demo.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -9,15 +12,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.demo.dtos.ShowSeatsDTO;
+import com.demo.dtos.ShowSeatsOrderingStatus;
 import com.demo.entities.BookingDetails;
 import com.demo.entities.Hall;
 import com.demo.entities.Seats;
 import com.demo.enums.SeatOrderingStatus;
+import com.demo.helpers.MapUtils;
 import com.demo.repositories.BookingRepository;
 import com.demo.repositories.HallRepository;
 import com.demo.repositories.MovieRepository;
 import com.demo.repositories.SeatsRepository;
 import com.demo.repositories.ShowsRepository;
+import com.demo.services.HallService;
 import com.demo.services.ShowService;
 
 
@@ -29,30 +35,54 @@ public class ShowServiceImpl implements ShowService {
 	private BookingRepository bookingRepository;
 	private HallRepository hallRepository;
 	private SeatsRepository seatRepository;
+	private HallService hallService;
+	
 	@Autowired
-	public ShowServiceImpl(ShowsRepository showsRepository, MovieRepository movieRepository, BookingRepository bookingRepository, HallRepository hallRepository, 
-			SeatsRepository seatsRepository){
+	public ShowServiceImpl(
+			ShowsRepository showsRepository,
+			MovieRepository movieRepository,
+			BookingRepository bookingRepository,
+			HallRepository hallRepository, 
+			SeatsRepository seatsRepository,
+			HallService hallService){
 		this.showsRepository = showsRepository;
 		this.movieRepository = movieRepository;
 		this.bookingRepository = bookingRepository;
 		this.hallRepository = hallRepository;
 		this.seatRepository = seatsRepository;
+		this.hallService = hallService;
 	}
 
 	@Override
-	public List<ShowSeatsDTO> findAllSeats(Integer showId) {
+	public ShowSeatsOrderingStatus findSeatOrderingStatusOfAShow(Integer showId) {
 		var show = showsRepository.findById(showId).get();
 		var bookingDetails = show.getBookingDetailses();
+		var hall = show.getHall();
+		
 		List<Seats> orderedSeats = bookingDetails.stream().map(BookingDetails::getSeats).toList();
-		List<Seats> defaultSeats = getSeats(show.getHall().getId());
+		List<Seats> defaultSeats = getSeats(hall.getId());
 		List<ShowSeatsDTO> seats = defaultSeats.stream()
 				.map(seat -> {
 					var orderedSeat = getSeats(orderedSeats, seat.getRow(), seat.getNumber());
 					return mapFromSeat(showId, seat, seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
 				})
 				.toList();
-		
-		return seats;
+		Map<String, Integer> rowAndMaxNumberOfTheRow = hallService.findRowAndMaxColOfTheRow(hall.getId());
+
+		return new ShowSeatsOrderingStatus(
+					seats,
+					rowAndMaxNumberOfTheRow,
+					MapUtils.getKeyList(rowAndMaxNumberOfTheRow),
+					getListNumberOfLargestRow(rowAndMaxNumberOfTheRow)
+				);
+	}
+	
+	private List<Integer> getListNumberOfLargestRow(Map<String, Integer> rowAndMaxNumberOfTheRow) {
+		List<Integer> numbers = MapUtils.getListValue(rowAndMaxNumberOfTheRow, null);
+		Integer max = numbers.stream().mapToInt(Integer::intValue).max().getAsInt();
+		return IntStream.rangeClosed(1, max)
+	        .boxed()
+	        .collect(Collectors.toList());
 	}
 	
 	private ShowSeatsDTO mapFromSeat(Integer showId, Seats seat, SeatOrderingStatus status) {
@@ -70,6 +100,11 @@ public class ShowServiceImpl implements ShowService {
 		seat.setHall(hall);
 		return seatRepository.findAll(Example.of(seat), Sort.by("row").and(Sort.by("number")));
 		
+	}
+
+	@Override
+	public Double findPrice(Integer showId) {
+		return showsRepository.findById(showId).get().getMovie().getPrice();
 	}
 
 }

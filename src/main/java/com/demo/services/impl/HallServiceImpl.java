@@ -1,6 +1,8 @@
 package com.demo.services.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,6 +12,8 @@ import com.demo.entities.Blogs;
 import com.demo.entities.Cinema;
 import com.demo.entities.City;
 import com.demo.entities.Hall;
+import com.demo.entities.Seats;
+import com.demo.helpers.MapUtils;
 import com.demo.repositories.BlogsRepository;
 import com.demo.repositories.CinemaRepository;
 import com.demo.repositories.CityRepository;
@@ -52,9 +56,25 @@ public class HallServiceImpl implements HallService {
 		return savedHall != null ? savedHall.getId() : null;
 	}
 
-	
-
-	
+//	sorted by key asc
+	@Override
+	public Map<String, Integer> findRowAndMaxColOfTheRow(Integer hallId) {
+		var hall = hallRepository.findHallbyId(hallId);
+		List<Seats> seats = hall.getSeatses();
+		Map<String, Integer> rowAndMaxColNumber = new HashMap();
+		seats.forEach(seat -> {
+			String row = seat.getRow();
+			Integer number = seat.getNumber();
+			if (rowAndMaxColNumber.get(row) != null) {
+				if(rowAndMaxColNumber.get(row).compareTo(number) < 0) {
+					rowAndMaxColNumber.put(row, number);					
+				}
+			} else {
+				rowAndMaxColNumber.put(row, number);
+			}
+		});
+		return MapUtils.captializeKey(MapUtils.sortByKeyString(rowAndMaxColNumber));
+	}
 
 	
 
