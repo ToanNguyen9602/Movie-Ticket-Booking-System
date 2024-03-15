@@ -24,6 +24,8 @@ public interface MovieService {
 	
 	Movie findMovieById(Integer id);
 	
+	public boolean delete(int id);
+	
 	List<Shows> findShowsFromCinemaAndMovie(@NonNull Integer cinemaId, @NonNull Integer movieId, Date date);
 
 	List<Date> findDatesFromCinemaAndMovieUntilNoutFoundFromNow(@NonNull Integer cinemaId, @NonNull Integer movieId);

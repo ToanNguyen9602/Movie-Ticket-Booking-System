@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.demo.entities.Blogs;
 import com.demo.entities.Cinema;
 import com.demo.entities.City;
 import com.demo.repositories.CinemaRepository;
@@ -47,6 +48,23 @@ public class CityServiceImpl implements CityService {
 	public List<Cinema> findCinemasByCityId(int city_id) {
 		//return cinemaRepository.findCinemasByCityId(city_id);
 		return null;
+	}
+
+	@Override
+	public City findId(int id) {
+		// TODO Auto-generated method stub
+		return cityRepository.findById(id).get();
+	}
+
+	@Override
+	public boolean delete(int id) {
+		try {
+			cityRepository.delete(findId(id));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

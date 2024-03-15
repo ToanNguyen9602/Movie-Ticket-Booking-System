@@ -25,11 +25,10 @@ public class CinemaServiceImpl implements CinemaService {
 	@Override
 	public boolean save(Cinema cinema) {
 		try {
-			if (cinemaRepository.existsByName(cinema.getName())) return false;
-			
 			cinemaRepository.save(cinema);
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -73,6 +72,17 @@ public class CinemaServiceImpl implements CinemaService {
 		cinema.setCity(city);
 		
 		return cinemaRepository.findAll(Example.of(cinema));
+	}
+	
+	@Override
+	public boolean delete(int id) {
+		try {
+			cinemaRepository.delete(findById(id));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
