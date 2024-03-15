@@ -3,7 +3,7 @@ package com.demo.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.demo.entities.Blogs;
@@ -47,5 +47,6 @@ public class SeatsServiceImpl implements SeatsService {
 	public List<Seats> findallSeatsbyHallid(int hallid) {
 		return seatsRepository.findallSeatsbyHallid(hallid);
 	}
+
 
 }

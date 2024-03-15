@@ -14,7 +14,6 @@ import com.demo.entities.Movie;
 import com.demo.enums.MovieStatus;
 import com.demo.services.MovieService;
 import com.demo.services.SeatsService;
-
 @Controller
 @RequestMapping({ "seats" })
 public class SeatsController {

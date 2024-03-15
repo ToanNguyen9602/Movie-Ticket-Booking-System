@@ -1,6 +1,7 @@
 package com.demo.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.demo.entities.Blogs;
 import com.demo.entities.Hall;
@@ -17,6 +18,7 @@ public interface HallService {
 	
 	public Integer saveAndGetId(Hall hall);
 	
+	public Map<String, Integer> findRowAndMaxColOfTheRow(Integer hallId);
 	
 
 }

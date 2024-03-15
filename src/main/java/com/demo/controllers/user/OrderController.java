@@ -21,9 +21,8 @@ public class OrderController {
 	@GetMapping("order-seats")
 	public String orderSeats(ModelMap modelMap,
 			@RequestParam("showId") Integer showId) {
-		showService.findAllSeats(showId)
-			.forEach(System.out::println);
-		modelMap.put("seats", showService.findAllSeats(showId)); 
+		modelMap.put("seatPrice", showService.findPrice(showId));
+		modelMap.put("seatInformation", showService.findSeatOrderingStatusOfAShow(showId)); 
 		return "bookseat/index";
 	}
 	@GetMapping("order-food")
