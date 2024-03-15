@@ -29,12 +29,11 @@ public class OrderController {
 	@GetMapping("order-food")
 	public String foodOrdering(ModelMap modelMap) {
 		
-		return "";
+		return "food/index";
 	}
 	
 	@GetMapping("book-tickets")
 	 public String bookTickets(ModelMap modelMap) {
 		return "";
 	}
-	
 }
