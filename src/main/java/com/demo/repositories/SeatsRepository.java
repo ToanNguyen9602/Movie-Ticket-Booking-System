@@ -21,4 +21,6 @@ public interface SeatsRepository  extends JpaRepository<Seats, Integer>{
 	@Query("Select count(*) from Seats where hall.id=:hallid") 
 	public Integer countseatsByHallid(@Param("hallid") int hallid); 
 
+	@Query("from Seats where hall.id=:hallid") 
+	public List<Seats> findallSeatsbyHallid(@Param("hallid") int hallid); 
 }

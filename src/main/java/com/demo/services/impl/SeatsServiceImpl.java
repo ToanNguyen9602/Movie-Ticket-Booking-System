@@ -43,4 +43,9 @@ public class SeatsServiceImpl implements SeatsService {
 		return seatsRepository.countseatsByHallid(hallid);
 	}
 
+	@Override
+	public List<Seats> findallSeatsbyHallid(int hallid) {
+		return seatsRepository.findallSeatsbyHallid(hallid);
+	}
+
 }
