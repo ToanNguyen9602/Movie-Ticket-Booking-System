@@ -105,14 +105,12 @@
 												class="form__input" placeholder="Price">
 										</div>
 									</div>
-
-
-
+									
 									<div class="col-12 col-lg-6">
 										<div class="form__group">
 											<h4 style="color: aliceblue;">Genre</h4>
 											<select class="js-example-basic-multiple" th:field="${movie.genre}"
-												id="genre" multiple="multiple">
+												id="genre" name="genre">
 												<option value="Action">Action</option>
 												<option value="Animation">Animation</option>
 												<option value="Comedy">Comedy</option>

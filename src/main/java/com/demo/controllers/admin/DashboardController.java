@@ -483,6 +483,31 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listmovie";
 	}
+	
+	@RequestMapping(value = { "movie/delete/{id}" }, method = RequestMethod.GET)
+	public String deleteMovie(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		
+		Movie checkedmovie= movieService.findMovieById(id);
+		if(!checkedmovie.getShowses().isEmpty())
+		{
+
+			redirectAttributes.addFlashAttribute("msg", "fail");
+			return "redirect:/admin/listmovie";
+		}
+		else
+		{
+			movieService.delete(id);
+			redirectAttributes.addFlashAttribute("msg", "ok");
+		}
+//		
+//		if(movieService.delete(id)) {
+//			redirectAttributes.addFlashAttribute("msg", "ok");
+//		} else {
+//			redirectAttributes.addFlashAttribute("msg", "fail");
+//
+//		}
+		return "redirect:/admin/listmovie";
+	}
 
 	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
 	public String register(ModelMap modelMap) {
