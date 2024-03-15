@@ -59,4 +59,10 @@ public class BlogsServiceImpl implements BlogsService {
 		return blogsRepository.findByIdonAdminPage(id);
 	}
 
+	@Override
+	public List<Blogs> searchblogs(String title) {
+		// TODO Auto-generated method stub
+		return blogsRepository.findallbytitle(title);
+	}
+
 }

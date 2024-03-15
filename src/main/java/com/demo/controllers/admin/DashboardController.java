@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -320,19 +321,17 @@ public class DashboardController {
 		return "redirect:/admin/listfood";
 
 	}
-	
+
 	@RequestMapping(value = { "food/action/{id}" }, method = RequestMethod.GET)
 	public String deletefood(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
 
 		FoodMenu foodMenu = foodService.find(id);
-			if(foodMenu.isStatus()) {
-				foodMenu.setStatus(false);
-			}
-			else
-			{
-				foodMenu.setStatus(true);
-			}
-			
+		if (foodMenu.isStatus()) {
+			foodMenu.setStatus(false);
+		} else {
+			foodMenu.setStatus(true);
+		}
+
 		if (foodService.save2(foodMenu)) {
 			redirectAttributes.addFlashAttribute("msg", "ok");
 
@@ -348,7 +347,7 @@ public class DashboardController {
 		modelMap.put("food", foodService.find(id));
 		return "admin/food/edit";
 	}
-	
+
 	@RequestMapping(value = "food/edit", method = RequestMethod.POST)
 	public String editfood(@ModelAttribute("food") FoodMenu food, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
@@ -372,19 +371,17 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listfood";
 	}
-	
-	
+
 	@RequestMapping(value = "city/edit/{id}", method = RequestMethod.GET)
 	public String editcity(@PathVariable("id") int id, ModelMap modelMap) {
 		modelMap.put("city", cityService.findId(id));
 		return "admin/city/edit";
 	}
-	
+
 	@RequestMapping(value = "city/edit", method = RequestMethod.POST)
-	public String editcity(@ModelAttribute("city") City city ,
-			RedirectAttributes redirectAttributes) {
+	public String editcity(@ModelAttribute("city") City city, RedirectAttributes redirectAttributes) {
 		try {
-			
+
 			if (cityService.save(city)) {
 				redirectAttributes.addFlashAttribute("msg", "Success");
 			} else {
@@ -396,12 +393,12 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listcity";
 	}
-	
+
 	@RequestMapping(value = { "city/delete/{id}" }, method = RequestMethod.GET)
 	public String deleteCity(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
-		
-		City city= cityService.findId(id);
-		if(city.getCinemas().isEmpty()) {
+
+		City city = cityService.findId(id);
+		if (city.getCinemas().isEmpty()) {
 			cityService.delete(id);
 			redirectAttributes.addFlashAttribute("msg", "ok");
 		} else {
@@ -410,14 +407,14 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listcity";
 	}
-	
+
 	@RequestMapping(value = "cinema/edit/{id}", method = RequestMethod.GET)
 	public String editcinema(@PathVariable("id") int id, ModelMap modelMap) {
 		modelMap.put("cinema", cinemaService.findById(id));
 		modelMap.put("citys", cityService.findAll());
 		return "admin/cinema/edit";
 	}
-	
+
 	@RequestMapping(value = "cinema/edit", method = RequestMethod.POST)
 	public String editcinema(@ModelAttribute("cinema") Cinema cinema, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
@@ -440,12 +437,12 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listcinema";
 	}
-	
+
 	@RequestMapping(value = { "cinema/delete/{id}" }, method = RequestMethod.GET)
 	public String deleteCinema(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
-		
-		Cinema cinema= cinemaService.findById(id);
-		if(cinema.getHalls().isEmpty() || cinema.getShowses().isEmpty()) {
+
+		Cinema cinema = cinemaService.findById(id);
+		if (cinema.getHalls().isEmpty() || cinema.getShowses().isEmpty()) {
 			cinemaService.delete(id);
 			redirectAttributes.addFlashAttribute("msg", "ok");
 		} else {
@@ -454,13 +451,13 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listcinema";
 	}
-	
+
 	@RequestMapping(value = "movie/edit/{id}", method = RequestMethod.GET)
 	public String editmovie(@PathVariable("id") int id, ModelMap modelMap) {
 		modelMap.put("movie", movieService.findMovieById(id));
 		return "admin/movie/edit";
 	}
-	
+
 	@RequestMapping(value = "movie/edit", method = RequestMethod.POST)
 	public String editmovie(@ModelAttribute("movie") Movie movie, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
@@ -483,19 +480,16 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listmovie";
 	}
-	
+
 	@RequestMapping(value = { "movie/delete/{id}" }, method = RequestMethod.GET)
 	public String deleteMovie(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
-		
-		Movie checkedmovie= movieService.findMovieById(id);
-		if(!checkedmovie.getShowses().isEmpty())
-		{
+
+		Movie checkedmovie = movieService.findMovieById(id);
+		if (!checkedmovie.getShowses().isEmpty()) {
 
 			redirectAttributes.addFlashAttribute("msg", "fail");
 			return "redirect:/admin/listmovie";
-		}
-		else
-		{
+		} else {
 			movieService.delete(id);
 			redirectAttributes.addFlashAttribute("msg", "ok");
 		}
@@ -675,7 +669,7 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listblog";
 	}
-	
+
 	@RequestMapping(value = { "blogs/edit/{id}" }, method = RequestMethod.GET)
 	public String edit(ModelMap modelMap, @PathVariable("id") int id) {
 		Blogs blog = blogsService.findByIdonAdminPage(id);
@@ -722,11 +716,11 @@ public class DashboardController {
 		return "redirect:/admin/listblog";
 
 	}
-	
+
 	@RequestMapping(value = { "account/staff/{id}" }, method = RequestMethod.GET)
 	public String Setstatus1(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
 
-		Account account=accountService.find(id);
+		Account account = accountService.find(id);
 		if (account.isStatus()) {
 			account.setStatus(false);
 		} else {
@@ -742,11 +736,11 @@ public class DashboardController {
 		}
 		return "redirect:/admin/liststaff";
 	}
-	
+
 	@RequestMapping(value = { "account/user/{id}" }, method = RequestMethod.GET)
 	public String Setstatus2(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
 
-		Account account=accountService.find(id);
+		Account account = accountService.find(id);
 		if (account.isStatus()) {
 			account.setStatus(false);
 		} else {
@@ -762,6 +756,28 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listuser";
 	}
+
+	@RequestMapping(value = { "searchbyusername" }, method = RequestMethod.GET)
+	public String searchbyusername(@RequestParam("kw") String kw, ModelMap modelMap) {
+		modelMap.put("accounts", accountService.findAccount(kw,2));
+		return "admin/account/liststaff";
+	}
+
+	@RequestMapping(value = { "blogsearch" }, method = RequestMethod.GET)
+	public String blogsearch(@RequestParam("title") String title, ModelMap modelMap) {
+		List<Blogs> blogs = blogsService.searchblogs(title);
+		for (Blogs blog : blogs) {
+			System.out.println("id " + blog.getId());
+			System.out.println("title:" + blog.getTitle());
+		}
+		modelMap.put("blogs", blogsService.searchblogs(title));
+		return "admin/blog/listblog";
+	}
 	
-	
+	@RequestMapping(value = { "searchuser" }, method = RequestMethod.GET)
+	public String searchusername(@RequestParam("kw") String kw, ModelMap modelMap) {
+		modelMap.put("accounts", accountService.findAccount(kw,3));
+		return "admin/account/listuser";
+	}
+
 }
