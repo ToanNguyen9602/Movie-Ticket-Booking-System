@@ -17,12 +17,21 @@ import jakarta.validation.constraints.NotEmpty;
 @Table(name = "account")
 public class Account implements java.io.Serializable {
 
-	private Integer id;	
+	private Integer id;
+	@NotEmpty
+	@Length(min = 7, max = 10)
 	private String username;
+	@NotEmpty
+	@Length(min = 7, max = 60)
 	private String password;
+	@Email
+	@NotEmpty
 	private String email;
+	@NotEmpty
 	private String phone;
+	@NotEmpty
 	private String fullname;
+	@NotEmpty
 	private String address;
 	private Boolean status;
 	private Set<Booking> bookings = new HashSet<Booking>(0);

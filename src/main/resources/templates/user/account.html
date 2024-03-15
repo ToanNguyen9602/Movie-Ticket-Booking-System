@@ -1,4 +1,7 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Login', ~{this :: .main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Info', ~{this :: .main})}">
+<head>
+	<title></title>
+</head>
 
 <main class="main">
 	<div class="page-header text-center" style="background-image: url('/user/assets/images/page-header-bg.jpg')">
@@ -84,7 +87,7 @@
 									<input type="email" class="form-control" th:field="${account.email}" required>
 
 									<label>Password</label>
-									<input type="password" class="form-control" th:field="${account.password}" required>
+									<input type="password" class="form-control" th:field="${account.password}">
 
 
 									<label>Phone</label>
@@ -92,6 +95,9 @@
 
 									<label>Address</label>
 									<input type="text" class="form-control mb-2" th:field="${account.address}" required>
+									<input type="hidden" th:field="${account.username}">
+									<input type="hidden" th:field="${account.status}">
+									<input type="hidden" th:field="${account.id}">
 
 									<button type="submit" class="btn btn-outline-primary-2">
 										<span>SAVE CHANGES</span>

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,7 +27,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.entities.Account;
 import com.demo.entities.Role;
+import com.demo.helpers.CodeHelper;
 import com.demo.services.AccountService;
+import com.demo.services.MailService;
 import com.demo.services.RoleService;
 
 import jakarta.servlet.http.HttpSession;
@@ -44,7 +47,12 @@ public class AccountController {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
-	 
+	@Autowired
+	private MailService mailService;
+
+	@Autowired
+	private Environment environment;
+
 	@RequestMapping(value = { "account" }, method = RequestMethod.GET)
 	public String index() {
 		return "user/account";
@@ -128,25 +136,40 @@ public class AccountController {
 	public String accessdenied() {
 		return "user/accessdenied";
 	}
-
-	@RequestMapping(value = { "update/{username}" }, method = RequestMethod.GET)
-	public String update(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
+	
+	@RequestMapping(value = { "/{username}" }, method = RequestMethod.GET)
+	public String updateuser(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
+		
+	    if (authentication == null || !authentication.isAuthenticated()) {
+	        return "redirect:/user/login";
+	    }
 		username = authentication.getName();
 		Account account = accountService.findbyusername(username);
 		modelMap.put("account", account);
 		return "user/account";
 
 	}
+	
+
+
+//	@RequestMapping(value = { "update/{username}" }, method = RequestMethod.GET)
+//	public String update(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
+//		username = authentication.getName();
+//		Account account = accountService.findbyusername(username);
+//		modelMap.put("account", account);
+//		return "user/account";
+//
+//	}
 
 	@RequestMapping(value = { "update" }, method = RequestMethod.POST)
 	public String update(@ModelAttribute("account") Account account, RedirectAttributes redirectAttributes) {
 
 		try {
 
-	        Account existingAccount = accountService.findbyusername(account.getUsername());
-	        Set<Role> existingRoles = existingAccount.getRoles();
-	        
-	        account.setRoles(existingRoles);
+			Account existingAccount = accountService.findbyusername(account.getUsername());
+			Set<Role> existingRoles = existingAccount.getRoles();
+
+			account.setRoles(existingRoles);
 
 			if (account.getPassword().isEmpty()) {
 				account.setPassword(accountService.getpassword(account.getUsername()));
@@ -170,6 +193,43 @@ public class AccountController {
 			e.printStackTrace();
 		}
 		return "redirect:/account/logout";
+
+	}
+
+	@RequestMapping(value = { "forgetpassword" }, method = RequestMethod.GET)
+	public String forgetpassword() {
+
+		return "user/forgetpassword";
+	}
+
+	@RequestMapping(value = { "forgetpassword" }, method = RequestMethod.POST)
+	public String forgetpassword(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
+		Account account = accountService.findbyemail(email);
+		if (account == null) {
+			redirectAttributes.addFlashAttribute("msg", "account not found");
+			return "redirect:/account/forgetpassword";
+		} else {
+
+			try {
+				String password = CodeHelper.generate();
+				account.setPassword(encoder.encode(password));
+				if (accountService.save(account)) {
+					String content = "This is your new Password: " + password + " for account: " + account.getUsername()
+							+ "<br>Please login and update your password";
+
+					redirectAttributes.addFlashAttribute("msg", "Your new password is sent to your email");
+					mailService.Send(environment.getProperty("spring.mail.username"), account.getEmail(),
+							"Your new Password", content);
+
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+					return "redirect:/account/forgetpassword";
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "redirect:/user/login";
+		}
 
 	}
 }

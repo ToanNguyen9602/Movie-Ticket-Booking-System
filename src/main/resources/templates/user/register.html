@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Home Page', ~{this :: .login})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Register', ~{this :: .login})}">
 
 <head>
 </head>
@@ -6,29 +6,32 @@
 <body>
 
 
-
 	<form id="login-form" class="login" method='post' th:action="@{/user/register}">
 		<p class="login__title">register <br><span class="login-edition">welcome to A.Movie</span></p>
+
 
 		<div class="field-wrap">
 			<input type="text" placeholder="Username" name="user-email" required th:field="${account.username}"
 				class="login__input">
-				<h3 th:if="${#fields.hasErrors('account.username')}" th:errors="${account.username}"></h3>
+			<span th:if="${#fields.hasErrors('account.username')}" th:errors="${account.username}" class="error"></span>
 			<input type="password" placeholder="Password" name="user-password" required th:field="${account.password}"
 				class="login__input">
-			<input type="text" placeholder="FullName" class="login__input" name="user-email" required
-				th:field="${account.fullname}" >
-			<input type="tel" placeholder="Phone Number" class="login__input" name="user-password" required
+			<span th:if="${#fields.hasErrors('account.password')}" th:errors="${account.password}" class="error"></span>
+			<input type="text" placeholder="FullName" class="login__input" name="user-fullname" required
+				th:field="${account.fullname}">
+			<span th:if="${#fields.hasErrors('account.fullname')}" th:errors="${account.fullname}"class="error" ></span>
+			<input type="tel" placeholder="Phone Number" class="login__input" name="user-phone" required
 				pattern="[0-9]{10}" th:field="${account.phone}">
+			<span th:if="${#fields.hasErrors('account.phone')}" th:errors="${account.phone}" class="error"></span>
 			<input type="email" placeholder="Email" class="login__input" name="user-email" required
 				th:field="${account.email}">
-
-			<textarea class="login__input" th:field="${account.address}" placeholder="Address"  ></textarea>
+			<span th:if="${#fields.hasErrors('account.email')}" th:errors="${account.email}" class="error"></span>
+			<textarea class="login__input" th:field="${account.address}" placeholder="Address"></textarea>
+			<span th:if="${#fields.hasErrors('account.address')}" th:errors="${account.address}" class="error"></span>
 		</div>
 
 		<div class="login__control">
 			<button type='submit' class="btn btn-md btn--warning btn--wider">Submit</button>
-			<a href="#" class="login__tracker form__tracker">Forgot password?</a>
 		</div>
 	</form>
 

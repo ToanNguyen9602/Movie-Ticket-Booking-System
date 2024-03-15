@@ -11,10 +11,10 @@ import com.demo.entities.City;
 
 public interface BlogsRepository  extends CrudRepository<Blogs, Integer>{
 	
-	@Query("from Blogs where status=true order by id DESC ")
+	@Query("from Blogs where status=true and created <= current_date order by id DESC ")
 	public List<Blogs> findByAll();
 	
-	@Query("from Blogs where id=:id and status=true")
+	@Query("from Blogs where id=:id and status=true and created <= current_date")
 	public Blogs findById(@Param("id") int id);
 
 	@Query("from Blogs order by id DESC ")
