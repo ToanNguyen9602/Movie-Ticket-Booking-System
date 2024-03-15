@@ -556,7 +556,7 @@ public class DashboardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/admin/dashboard";
+		return "redirect:/admin/liststaff";
 	}
 
 	@RequestMapping(value = { "update/{username}" }, method = RequestMethod.GET)
@@ -721,6 +721,46 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listblog";
 
+	}
+	
+	@RequestMapping(value = { "account/staff/{id}" }, method = RequestMethod.GET)
+	public String Setstatus1(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+
+		Account account=accountService.find(id);
+		if (account.isStatus()) {
+			account.setStatus(false);
+		} else {
+			account.setStatus(true);
+		}
+
+		if (accountService.save(account)) {
+			redirectAttributes.addFlashAttribute("msg", "ok");
+
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "fail");
+
+		}
+		return "redirect:/admin/liststaff";
+	}
+	
+	@RequestMapping(value = { "account/user/{id}" }, method = RequestMethod.GET)
+	public String Setstatus2(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+
+		Account account=accountService.find(id);
+		if (account.isStatus()) {
+			account.setStatus(false);
+		} else {
+			account.setStatus(true);
+		}
+
+		if (accountService.save(account)) {
+			redirectAttributes.addFlashAttribute("msg", "ok");
+
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "fail");
+
+		}
+		return "redirect:/admin/listuser";
 	}
 	
 	
