@@ -460,6 +460,29 @@ public class DashboardController {
 		modelMap.put("movie", movieService.findMovieById(id));
 		return "admin/movie/edit";
 	}
+	
+	@RequestMapping(value = "movie/edit", method = RequestMethod.POST)
+	public String editmovie(@ModelAttribute("movie") Movie movie, @RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+		try {
+			if (file != null && file.getSize() > 0) {
+				File folderImage = new File(new ClassPathResource(".").getFile().getPath() + "/static/images");
+				String fileName = FileHelper.generateFileName(file.getOriginalFilename());
+				Path path = Paths.get(folderImage.getAbsolutePath() + File.separator + fileName);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				movie.setPoster(fileName);
+			}
+			if (movieService.save(movie)) {
+				redirectAttributes.addFlashAttribute("msg", "Success");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "No Update Duplicate Name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("msg", e.getMessage());
+		}
+		return "redirect:/admin/listmovie";
+	}
 
 	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
 	public String register(ModelMap modelMap) {

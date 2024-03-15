@@ -40,7 +40,9 @@
 					</div>
 				</div>
 				<!-- end main title -->
-
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
 				<!-- users -->
 				<div class="col-12">
 					<div class="main__table-wrap">
