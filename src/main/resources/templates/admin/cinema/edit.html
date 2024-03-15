@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Add New Menu', ~{this :: .main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
 
 <head>
 	<title></title>
@@ -12,7 +12,7 @@
 				<!-- main title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2>Update Food </h2>
+						<h2>Update Cinema</h2>
 					</div>
 				</div>
 				<!-- end main title -->
@@ -21,11 +21,9 @@
 				</div>
 				<!-- form -->
 				<div class="col-12">
-					<form th:action="@{/admin/food/edit}" enctype="multipart/form-data" class="form" method="post">
+					<form th:action="@{/admin/cinema/edit}" class="form" enctype="multipart/form-data" method="post">
 						<div class="row">
-							<input type="hidden" th:field="${food.id}">
-							<input type="hidden" th:field="${food.photo}">		
-		
+							<input type="hidden" th:field="${cinema.id}">
 							<div class="col-12 col-md-5 form__cover">
 								<div class="row">
 									<div class="col-12 col-sm-6 col-md-12">
@@ -33,33 +31,46 @@
 											<label for="form__img-upload">Photo</label>
 											<input id="form__img-upload" name="file" type="file"
 												accept=".png, .jpg, .jpeg">
-											<img id="form__img" th:src="@{'/images/' + ${food.photo}}">
+											<img id="form__img" th:src="@{'/images/' + ${cinema.photo}}">
 										</div>
 									</div>
 								</div>
 							</div>
-
+							
 							<div class="col-12 col-md-7 form__content">
 								<div class="row">
 									<div class="col-12">
 										<div class="form__group">
-											<h4 style="color: aliceblue;">Name Food</h4>
-											<input type="text" th:field="${food.name}" class="form__input"
-												placeholder="Name">
+											<input type="text" th:field="${cinema.name}" class="form__input"
+												placeholder="Name Cinema">
 										</div>
 									</div>
 
 									<div class="col-12">
 										<div class="form__group">
-											<h4 style="color: aliceblue;">Price</h4><input type="text" th:field="${food.price}" class="form__input"
-												placeholder="Price">
+											<textarea id="text" th:field="${cinema.address}" name="text"
+												class="form__textarea" placeholder="Address"></textarea>
 										</div>
 									</div>
+
+									<div class="col-12 col-lg-6">
+										<div class="form__group">
+											<select class="js-example-basic-multiple" id="genre"
+												th:field="${cinema.city}">
+												<option th:each="city:${citys}" th:value="${city.id}"
+													th:text="${city.name}"></option>
+											</select>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
 
 							<div class="col-12">
 								<div class="row">
 									<div class="col-12">
-										<input type="submit" value="Submit" class="form__btn" />
+										<input type="submit" value="Publish" class="form__btn" />
 
 									</div>
 								</div>

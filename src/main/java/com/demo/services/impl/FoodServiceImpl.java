@@ -46,6 +46,19 @@ public class FoodServiceImpl implements FoodService {
 		// TODO Auto-generated method stub
 		return foodRepository.findById(id).get();
 	}
+	
+	@Override
+	public boolean save2(FoodMenu food) {
+		try {
+				
+				foodRepository.save(food);
+				return true;
+			}
+
+		 catch (Exception e) {
+			return false;
+		}
+	}
 
 	
 

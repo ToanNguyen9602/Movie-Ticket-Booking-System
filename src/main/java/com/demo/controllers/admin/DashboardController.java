@@ -322,19 +322,35 @@ public class DashboardController {
 
 	}
 	
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
-	public String delete(@PathVariable("id") int id, ModelMap modelMap) {
-		modelMap.put("food", foodService.find(id));
-		return "admin/food/listfood";
+	@RequestMapping(value = { "food/action/{id}" }, method = RequestMethod.GET)
+	public String deletefood(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+
+		FoodMenu foodMenu = foodService.find(id);
+			if(foodMenu.isStatus()) {
+				foodMenu.setStatus(false);
+			}
+			else
+			{
+				foodMenu.setStatus(true);
+			}
+			
+		if (foodService.save2(foodMenu)) {
+			redirectAttributes.addFlashAttribute("msg", "ok");
+
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "fail");
+
+		}
+		return "redirect:/admin/listfood";
 	}
 
-	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "food/edit/{id}", method = RequestMethod.GET)
 	public String edit(@PathVariable("id") int id, ModelMap modelMap) {
 		modelMap.put("food", foodService.find(id));
 		return "admin/food/edit";
 	}
 	
-	@RequestMapping(value = "edit", method = RequestMethod.POST)
+	@RequestMapping(value = "food/edit", method = RequestMethod.POST)
 	public String editfood(@ModelAttribute("food") FoodMenu food, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 		try {
@@ -359,6 +375,92 @@ public class DashboardController {
 	}
 	
 	
+	@RequestMapping(value = "city/edit/{id}", method = RequestMethod.GET)
+	public String editcity(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("city", cityService.findId(id));
+		return "admin/city/edit";
+	}
+	
+	@RequestMapping(value = "city/edit", method = RequestMethod.POST)
+	public String editcity(@ModelAttribute("city") City city ,
+			RedirectAttributes redirectAttributes) {
+		try {
+			
+			if (cityService.save(city)) {
+				redirectAttributes.addFlashAttribute("msg", "Success");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "No Update Duplicate Name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("msg", e.getMessage());
+		}
+		return "redirect:/admin/listcity";
+	}
+	
+	@RequestMapping(value = { "city/delete/{id}" }, method = RequestMethod.GET)
+	public String deleteCity(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		
+		City city= cityService.findId(id);
+		if(city.getCinemas().isEmpty()) {
+			cityService.delete(id);
+			redirectAttributes.addFlashAttribute("msg", "ok");
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "fail");
+
+		}
+		return "redirect:/admin/listcity";
+	}
+	
+	@RequestMapping(value = "cinema/edit/{id}", method = RequestMethod.GET)
+	public String editcinema(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("cinema", cinemaService.findById(id));
+		modelMap.put("citys", cityService.findAll());
+		return "admin/cinema/edit";
+	}
+	
+	@RequestMapping(value = "cinema/edit", method = RequestMethod.POST)
+	public String editcinema(@ModelAttribute("cinema") Cinema cinema, @RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+		try {
+			if (file != null && file.getSize() > 0) {
+				File folderImage = new File(new ClassPathResource(".").getFile().getPath() + "/static/images");
+				String fileName = FileHelper.generateFileName(file.getOriginalFilename());
+				Path path = Paths.get(folderImage.getAbsolutePath() + File.separator + fileName);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				cinema.setPhoto(fileName);
+			}
+			if (cinemaService.save(cinema)) {
+				redirectAttributes.addFlashAttribute("msg", "Success");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "No Update Duplicate Name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("msg", e.getMessage());
+		}
+		return "redirect:/admin/listcinema";
+	}
+	
+	@RequestMapping(value = { "cinema/delete/{id}" }, method = RequestMethod.GET)
+	public String deleteCinema(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		
+		Cinema cinema= cinemaService.findById(id);
+		if(cinema.getHalls().isEmpty() || cinema.getShowses().isEmpty()) {
+			cinemaService.delete(id);
+			redirectAttributes.addFlashAttribute("msg", "ok");
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "fail");
+
+		}
+		return "redirect:/admin/listcinema";
+	}
+	
+	@RequestMapping(value = "movie/edit/{id}", method = RequestMethod.GET)
+	public String editmovie(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("movie", movieService.findMovieById(id));
+		return "admin/movie/edit";
+	}
 
 	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
 	public String register(ModelMap modelMap) {

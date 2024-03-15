@@ -9,6 +9,7 @@ public interface CinemaService {
 	
 	public List<Cinema> findAll();
 	public Cinema findById(int id);
+	public boolean delete(int id);
 	boolean save(Cinema cinema);
 	List<Cinema> findCinemasFromCityAndMovie(Integer cityId, Integer movieId);
 	

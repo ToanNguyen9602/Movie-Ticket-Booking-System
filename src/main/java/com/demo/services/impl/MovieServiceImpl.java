@@ -160,5 +160,16 @@ public class MovieServiceImpl implements MovieService {
 		return movie.getReleaseDate().before(currentDate) && movie.getEndDate().after(currentDate);
 	}
 
+	@Override
+	public boolean delete(int id) {
+		try {
+			movieRepository.delete(findMovieById(id));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	
 }

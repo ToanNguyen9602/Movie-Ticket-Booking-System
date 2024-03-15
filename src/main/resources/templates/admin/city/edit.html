@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Dashboard Page', ~{this :: .main})}">
+
+<head>
+	<title></title>
+</head>
+
+<body>
+
+	<main class="main">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2>Update City</h2>
+					</div>
+				</div>
+				<!-- end main title -->
+
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
+				<!-- form -->
+				<div class="col-12">
+					<form th:action="@{/admin/city/edit}" class="form" method="post">
+						<div class="row">
+							<div class="col-12">
+								<div>
+									<div class="form__group">
+										<input type="hidden" th:field="${city.id}">
+										<select class="js-example-basic-multiple" th:field="${city.name}"
+											id="country">
+											<option value="Hà Nội">Hà Nội</option>
+											<option value="Thành phố Hồ Chí Minh">Thành phố Hồ Chí Minh</option>
+											<option value="Đà Nẵng">Đà Nẵng</option>
+											<option value="Hải Phòng">Hải Phòng</option>
+											<option value="Bình Dương">Bình Dương</option>
+											<option value="Đồng Nai">Đồng Nai</option>
+											<option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
+											<option value="Bến Tre">Bến Tre</option>
+											<option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+											<option value="Tiền Giang">Tiền Giang</option>
+											<option value="Vĩnh Long">Vĩnh Long</option>
+											<option value="Phú Thọ">Phú Thọ</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-12">
+								<div class="row">
+									<div class="col-12">
+										<input type="submit" value="Publish" class="form__btn" />
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- end form -->
+			</div>
+		</div>
+	</main>
+
+
+</body>

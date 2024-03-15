@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Add new movie', ~{this :: .main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Update movie', ~{this :: .main})}">
 
 <head>
 	<title></title>
@@ -13,7 +13,7 @@
 				<!-- main title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2>Add new Movie</h2>
+						<h2>Update Movie</h2>
 					</div>
 				</div>
 				<!-- end main title -->
@@ -22,7 +22,7 @@
 				</div>
 				<!-- form -->
 				<div class="col-12">
-					<form th:action="@{/admin/addmovie}" enctype="multipart/form-data" class="form" method="post">
+					<form th:action="@{/admin/movie/edit}" enctype="multipart/form-data" class="form" method="post">
 						<div class="row">
 							<div class="col-12 col-md-5 form__cover">
 								<div class="row">
@@ -31,7 +31,7 @@
 											<label for="form__img-upload">Poster</label>
 											<input id="form__img-upload" name="file" type="file"
 												accept=".png, .jpg, .jpeg">
-											<img id="form__img" src="#" alt=" ">
+											<img id="form__img" th:src="@{'/images/'+ ${movie.poster}}">
 										</div>
 									</div>
 								</div>
@@ -41,14 +41,14 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="form__group">
-											<input type="text" th:field="${phim.title}" class="form__input"
+											<input type="text" th:field="${movie.title}" class="form__input"
 												placeholder="Title">
 										</div>
 									</div>
 
 									<div class="col-12">
 										<div class="form__group">
-											<textarea id="text" th:field="${phim.description}" name="text"
+											<textarea id="text" th:field="${movie.description}" name="text"
 												class="form__textarea" placeholder="Description"></textarea>
 										</div>
 									</div>
@@ -58,14 +58,14 @@
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
 											<h4 style="color: aliceblue;">Created</h4>
-											<input type="date" th:field="${phim.releaseDate}" id="releaseDate"
+											<input type="date" th:field="${movie.releaseDate}" id="releaseDate"
 												class="form__input" placeholder="Release_date">
 
 
 										</div>
 										<div class="form__group">
 												<h4 style="color: aliceblue;">endDate</h4>
-											<input type="date" th:field="${phim.endDate}" id="endDate"
+											<input type="date" th:field="${movie.endDate}" id="endDate"
 												class="form__input" placeholder="End_Date">
 										</div>
 										
@@ -76,7 +76,7 @@
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
 											<h4 style="color: aliceblue;">Duration</h4>
-											<input type="text" th:field="${phim.duration}" class="form__input"
+											<input type="text" th:field="${movie.duration}" class="form__input"
 												placeholder="Duration">
 										</div>
 									</div>
@@ -85,7 +85,7 @@
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
 											<h4 style="color: aliceblue;">Director</h4>
-											<input type="text" th:field="${phim.directors}" class="form__input"
+											<input type="text" th:field="${movie.directors}" class="form__input"
 												placeholder="director">
 										</div>
 									</div>
@@ -94,14 +94,14 @@
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
 											<h4 style="color: aliceblue;">Age</h4>
-											<input type="text" th:field="${phim.rating}" class="form__input"
+											<input type="text" th:field="${movie.rating}" class="form__input"
 												placeholder="Age">
 										</div>
 									</div>
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
 											<h4 style="color: aliceblue;">Price</h4>
-											<input type="number" th:field="${phim.price}" id="price"
+											<input type="number" th:field="${movie.price}" id="price"
 												class="form__input" placeholder="Price">
 										</div>
 									</div>
@@ -111,7 +111,7 @@
 									<div class="col-12 col-lg-6">
 										<div class="form__group">
 											<h4 style="color: aliceblue;">Genre</h4>
-											<select class="js-example-basic-multiple" th:field="${phim.genre}"
+											<select class="js-example-basic-multiple" th:field="${movie.genre}"
 												id="genre" multiple="multiple">
 												<option value="Action">Action</option>
 												<option value="Animation">Animation</option>
@@ -134,7 +134,7 @@
 									<div class="col-12 col-sm-6 col-lg-3">
 										<div class="form__group">
 											<h4 style="color: aliceblue;">Casters</h4>
-											<input type="text" th:field="${phim.casters}" class="form__input"
+											<input type="text" th:field="${movie.casters}" class="form__input"
 												placeholder="casters">
 										</div>
 									</div>
@@ -149,7 +149,7 @@
 							<div class="col-12">
 								<div class="form__group form__group--link">
 									<h4 style="color: aliceblue;">Trailer</h4>
-									<input type="text" th:field="${phim.trailer}" class="form__input"
+									<input type="text" th:field="${movie.trailer}" class="form__input"
 										placeholder="Trailer">
 								</div>
 							</div>
@@ -157,6 +157,7 @@
 							<div class="col-12">
 								<div class="row">
 									<div class="col-12">
+										<input type="hidden" th:field="${movie.id}">
 										<input type="submit" value="Publish" class="form__btn" />
 
 									</div>
