@@ -104,6 +104,10 @@ public class AccountServiceImp implements AccountService {
 		{
 			throw new UsernameNotFoundException("username not found");
 		}
+		if(!account.isStatus())
+		{
+			throw new UsernameNotFoundException("this user is blocked");
+		}
 		else
 		{
 			List<GrantedAuthority> authorities= new ArrayList<GrantedAuthority>();

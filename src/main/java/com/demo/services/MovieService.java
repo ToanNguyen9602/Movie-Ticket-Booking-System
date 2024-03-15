@@ -6,11 +6,10 @@ import java.util.List;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import com.demo.MovieStatus;
-
 import com.demo.entities.Movie;
 
 import com.demo.entities.Shows;
+import com.demo.enums.MovieStatus;
 
 public interface MovieService {
 	boolean save(Movie movie);

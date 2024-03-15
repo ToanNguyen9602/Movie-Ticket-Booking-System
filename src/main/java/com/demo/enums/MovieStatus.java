@@ -1,4 +1,4 @@
-package com.demo;
+package com.demo.enums;
 
 public enum MovieStatus {
 	SHOWN,

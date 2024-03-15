@@ -49,10 +49,19 @@
 					<div class="col-sm-3">
 						<p class="time-select__place" th:text="${cinema.name}"></p>
 					</div>
+					<!--
 					<ul class="col-sm-6 items-wrap">
 						<li th:each="show : ${shows}" class="time-select__item"
 							th:data-time="${#dates.format(show.startTime, 'HH:mm')}"
-							th:text="${#dates.format(show.startTime, 'HH:mm')}">
+							th:text="${#dates.format(show.startTime, 'HH:mm')}"> chi oi
+						</li>
+					</ul>
+					-->
+					<ul class="col-sm-6 items-wrap">
+						<li th:each="show : ${shows}" class="time-select__item"
+							th:data-time="${#dates.format(show.startTime, 'HH:mm')}">
+							<a th:href="@{'/order/order-seats?showId=' + ${show.id}}" th:text="${#dates.format(show.startTime, 'HH:mm')}"
+							style="color: black"></a>
 						</li>
 					</ul>
 				</div>

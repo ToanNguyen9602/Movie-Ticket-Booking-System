@@ -14,10 +14,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import com.demo.MovieStatus;
 import com.demo.entities.Cinema;
 import com.demo.entities.Movie;
 import com.demo.entities.Shows;
+import com.demo.enums.MovieStatus;
+
 import static com.demo.helpers.DateHelper.*;
 import com.demo.repositories.CinemaRepository;
 import com.demo.repositories.MovieRepository;

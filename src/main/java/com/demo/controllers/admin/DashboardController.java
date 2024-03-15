@@ -187,7 +187,6 @@ public class DashboardController {
 
 	@RequestMapping(value = { "addmovie" }, method = RequestMethod.GET)
 	public String addMovie(ModelMap modelMap) {
-
 		Movie movie = new Movie();
 		modelMap.put("phim", movie);
 		return "admin/movie/addmovie";
@@ -529,11 +528,6 @@ public class DashboardController {
 
 			account.setRoles(existingRoles);
 
-//			Role role = roleService.findrolebyid(2);
-//			Set<Role> roles = new HashSet<>();
-//			roles.add(role);
-//			account.setRoles(roles);
-
 			if (account.getPassword().isEmpty()) {
 				account.setPassword(accountService.getpassword(account.getUsername()));
 			} else {
@@ -663,6 +657,7 @@ public class DashboardController {
 			if (blogs.getCreated() == null) {
 				blogs.setCreated(new Date());
 			}
+			blogs.setUpdated(new Date());
 			Account account = accountService.findbyusername(authentication.getName());
 			blogs.setAccount(account);
 			if (blogsService.save(blogs)) {

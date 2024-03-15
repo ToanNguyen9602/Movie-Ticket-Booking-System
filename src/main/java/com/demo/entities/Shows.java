@@ -15,6 +15,7 @@ public class Shows implements java.io.Serializable {
 
 	private Integer id;
 	private Cinema cinema;
+	private Hall hall;
 	private Movie movie;
 	private Date startTime;
 	private Date endTime;
@@ -57,6 +58,16 @@ public class Shows implements java.io.Serializable {
 
 	public void setCinema(Cinema cinema) {
 		this.cinema = cinema;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "hall_id", nullable = false)
+	public Hall getHall() {
+		return this.hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

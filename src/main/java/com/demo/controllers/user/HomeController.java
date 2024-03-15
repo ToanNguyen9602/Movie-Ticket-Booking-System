@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.demo.MovieStatus;
 import com.demo.entities.Movie;
 import com.demo.entities.Shows;
+import com.demo.enums.MovieStatus;
 import com.demo.helpers.DateHelper;
 
 import static com.demo.helpers.DateHelper.*;
