@@ -9,11 +9,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.demo.entities.Cinema;
+import com.demo.entities.FoodMenu;
 import com.demo.entities.Movie;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	@Query("from Movie where title like %:title%") 
-	public List<Movie> searchMoviesByTitle(@Param("title") String title); 
+	public List<Movie> searchMoviesByTitle(@Param("title") String title);
+	
+	@Query("from Movie order by id DESC")
+	public List<Movie> findAll_ListMovie();
 	
 }

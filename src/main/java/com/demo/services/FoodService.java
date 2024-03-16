@@ -14,5 +14,6 @@ public interface FoodService {
 	public boolean save2(FoodMenu food);
 	public List<FoodMenu> findAll_ListFood();
 	public FoodMenu find(int id);
+	public List<FoodMenu> SearchByFoodName(String kw);
 	
 }
