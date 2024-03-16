@@ -65,7 +65,7 @@ public class ShowServiceImpl implements ShowService {
 					seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
 		}).toList();
 
-		List<ShowSeatsDTO> seats = defaultSeats.stream()
+		List<ShowSeatsDTO> seats1 = defaultSeats.stream()
 				.map(seat -> {
 					var orderedSeat = getSeats(orderedSeats, seat.getRow(), seat.getNumber());
 					return mapFromSeat(showId, seat, seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
@@ -75,11 +75,11 @@ public class ShowServiceImpl implements ShowService {
 					return seat.getStatus().equals(seatStatus);
 				})
 				.toList();
-		seats.forEach(System.out::println);
+		seats1.forEach(System.out::println);
 
 		Map<String, Integer> rowAndMaxNumberOfTheRow = hallService.findRowAndMaxColOfTheRow(hall.getId());
 
-		return new ShowSeatsOrderingStatus(seats, rowAndMaxNumberOfTheRow, MapUtils.getKeyList(rowAndMaxNumberOfTheRow),
+		return new ShowSeatsOrderingStatus(seats1, rowAndMaxNumberOfTheRow, MapUtils.getKeyList(rowAndMaxNumberOfTheRow),
 				getListNumberOfLargestRow(rowAndMaxNumberOfTheRow));
 	}
 
