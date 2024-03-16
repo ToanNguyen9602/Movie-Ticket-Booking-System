@@ -1,0 +1,75 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Edit Show', ~{this :: .main})}">
+
+<head>
+	<title></title>
+</head>
+
+<body>
+
+	<main class="main">
+
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2 th:text="${movie.title}+' '+'-'+${cinema.name}">
+						</h2>
+					</div>
+				</div>
+				<!-- end main title -->
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
+				<!-- form -->
+				<div class="col-12">
+					<form class="form" th:action="@{/admin/shows/update}" method="post">
+						<div class="row">
+							<div class="col-12 col-md-7 form__content">
+								<div class="row">
+									<div class="col-12 col-sm-6 col-lg-4">
+										<div class="form__group">
+											<h4 style="color: aliceblue;">Start Time</h4>
+											<input type="datetime-local" id="releaseDate" class="form__input"
+												placeholder="Release_date" name="starttime"
+												th:value="${show.startTime}">
+										</div>
+									</div>
+
+
+									<div class="col-12 col-lg-3">
+										<div class="form__group">
+											<h4 style="color: aliceblue;">Hall</h4>
+											<select class="js-example-basic-multiple" id="hall" th:field="${show.hall}">
+												<option th:each="hall:${halls}" th:value="${hall.id}"
+													th:text="${hall.name}"></option>
+												<!-- Initial "Select Hall" option -->
+											</select>
+										</div>
+									</div>
+
+
+								</div>
+
+							</div>
+
+							<div class="col-12">
+								<div class="row">
+									<div class="col-12">
+										<input type="submit" value="Submit" class="form__btn" />
+<input type="hidden" th:field="${show.id}">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- end form -->
+			</div>
+		</div>
+	</main>
+
+
+</body>
+
+</html>

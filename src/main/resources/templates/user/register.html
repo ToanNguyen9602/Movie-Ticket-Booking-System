@@ -14,14 +14,14 @@
 			<input type="text" placeholder="Username" name="user-email" required th:field="${account.username}"
 				class="login__input">
 			<span th:if="${#fields.hasErrors('account.username')}" th:errors="${account.username}" class="error"></span>
-			<input type="password" placeholder="Password" name="user-password" required th:field="${account.password}"
-				class="login__input">
+			<input type="password" placeholder="Password- at least 7 characters" name="user-password" required th:field="${account.password}"
+				class="login__input" pattern="^.{7,60}$">
 			<span th:if="${#fields.hasErrors('account.password')}" th:errors="${account.password}" class="error"></span>
 			<input type="text" placeholder="FullName" class="login__input" name="user-fullname" required
 				th:field="${account.fullname}">
 			<span th:if="${#fields.hasErrors('account.fullname')}" th:errors="${account.fullname}"class="error" ></span>
 			<input type="tel" placeholder="Phone Number" class="login__input" name="user-phone" required
-				pattern="[0-9]{10}" th:field="${account.phone}">
+				pattern="^\d{10}$" th:field="${account.phone}">
 			<span th:if="${#fields.hasErrors('account.phone')}" th:errors="${account.phone}" class="error"></span>
 			<input type="email" placeholder="Email" class="login__input" name="user-email" required
 				th:field="${account.email}">

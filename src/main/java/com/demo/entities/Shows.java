@@ -4,6 +4,9 @@ package com.demo.entities;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
 
 /**
@@ -17,7 +20,9 @@ public class Shows implements java.io.Serializable {
 	private Cinema cinema;
 	private Hall hall;
 	private Movie movie;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date startTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date endTime;
 	private Set<BookingDetails> bookingDetailses = new HashSet<BookingDetails>(0);
 
@@ -40,7 +45,7 @@ public class Shows implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
@@ -59,7 +64,7 @@ public class Shows implements java.io.Serializable {
 	public void setCinema(Cinema cinema) {
 		this.cinema = cinema;
 	}
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hall_id", nullable = false)
 	public Hall getHall() {
@@ -111,9 +116,8 @@ public class Shows implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "Shows [id=" + id + ", cinema=" + cinema.getName() + ", movie=" + movie.getId() + ", startTime=" + startTime + ", endTime="
-				+ endTime + "]";
+		return "Shows [id=" + id + ", cinema=" + cinema.getName() + ", movie=" + movie.getId() + ", startTime="
+				+ startTime + ", endTime=" + endTime + "]";
 	}
 
-	
 }

@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -762,7 +763,7 @@ public class DashboardController {
 
 		modelMap.put("accounts", accountService.findAccount(kw, 2));
 
-		modelMap.put("accounts", accountService.findAccount(kw,2));
+		modelMap.put("accounts", accountService.findAccount(kw, 2));
 		modelMap.put("kw", kw);
 
 		return "admin/account/liststaff";
@@ -785,43 +786,39 @@ public class DashboardController {
 
 		modelMap.put("accounts", accountService.findAccount(kw, 3));
 
-		modelMap.put("accounts", accountService.findAccount(kw,3));
+		modelMap.put("accounts", accountService.findAccount(kw, 3));
 		modelMap.put("kw", kw);
 
 		return "admin/account/listuser";
 	}
-	
+
 	@RequestMapping(value = { "searchbyfood" }, method = RequestMethod.GET)
 	public String searchbyfood(@RequestParam("kw") String kw, ModelMap modelMap) {
 		modelMap.put("foods", foodService.SearchByFoodName(kw));
 		modelMap.put("kw", kw);
 		return "admin/food/listfood";
 	}
-	
+
 	@RequestMapping(value = { "searchbycity" }, method = RequestMethod.GET)
 	public String searchbycity(@RequestParam("kw") String kw, ModelMap modelMap) {
 		modelMap.put("citys", cityService.SearchByCityName(kw));
 		modelMap.put("kw", kw);
 		return "admin/city/listcity";
 	}
-	
+
 	@RequestMapping(value = { "searchbycinema" }, method = RequestMethod.GET)
 	public String searchbycinema(@RequestParam("kw") String kw, ModelMap modelMap) {
 		modelMap.put("cinemas", cinemaService.SearchByCinemaName(kw));
 		modelMap.put("kw", kw);
 		return "admin/cinema/listcinema";
 	}
-	
+
 	@RequestMapping(value = { "searchbymovie" }, method = RequestMethod.GET)
 	public String searchbymovie(@RequestParam("title") String title, ModelMap modelMap) {
 		modelMap.put("movies", movieService.searchMoviesByTitle1(title));
 		modelMap.put("kw", title);
 		return "admin/movie/listmovie";
 	}
-	
-	
-	
-
 
 	@RequestMapping(value = "addshows", method = RequestMethod.GET)
 	public String testaddshow(ModelMap modelMap) {
@@ -917,6 +914,64 @@ public class DashboardController {
 
 		}
 		return "redirect:/admin/shows/" + movieid;
+	}
+
+	@RequestMapping(value = "shows/update/{showId}", method = RequestMethod.GET)
+	public String UpdateShows(ModelMap modelMap, @PathVariable("showId") int showId) {
+		Shows show = showService.findShowsbyId(showId);
+		Hall hall = hallService.findHallbyId(show.getHall().getId());
+		Movie movie = movieService.findMovieById(show.getMovie().getId());
+		City city = cityService.findId(show.getCinema().getCity().getId());
+		modelMap.put("show", show);
+		modelMap.put("city", city);
+		modelMap.put("movie", movie);
+		modelMap.put("cinema", cinemaService.findById(show.getCinema().getId()));
+		modelMap.put("halls", hallService.findHallsByCinemaId(show.getCinema().getId()));
+
+		return "admin/shows/update";
+	}
+
+	@RequestMapping(value = "shows/update", method = RequestMethod.POST)
+	public String UpdateShows(@ModelAttribute("show") Shows show, RedirectAttributes redirectAttributes,
+			@RequestParam("starttime") String starttime) {
+		int movieid = showService.findShowsbyId(show.getId()).getMovie().getId();
+		try {
+
+			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			Date start = inputFormat.parse(starttime);
+			show.setStartTime(start);
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(start);
+			show.setMovie(showService.findShowsbyId(show.getId()).getMovie());
+			calendar.add(Calendar.MINUTE, showService.findShowsbyId(show.getId()).getMovie().getDuration());
+			show.setEndTime(calendar.getTime());
+			show.setCinema(showService.findShowsbyId(show.getId()).getCinema());
+
+//			System.out.println("id: " + show.getId());
+//			System.out.println("hall: " + show.getHall().getName());
+//			System.out.println("cinema: " + show.getCinema().getName());
+//			System.out.println("movie" + show.getMovie().getTitle());
+//			System.out.println("start: " + show.getStartTime());
+//			System.out.println("end: " + show.getEndTime());
+
+			if (showService.save(show)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "fail");
+				return "redirect:/admin/index";
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("msg", e.getMessage());
+
+		}
+
+		return "redirect:/admin/shows/" + movieid;
+
 	}
 
 }

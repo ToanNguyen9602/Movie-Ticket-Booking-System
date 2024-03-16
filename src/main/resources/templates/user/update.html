@@ -21,7 +21,7 @@
 			<input type="text" placeholder="FullName" class="login__input" name="user-email"
 				th:field="${account.fullname}" required>
 			<input type="tel" placeholder="Phone Number" class="login__input" name="user-password" required
-				pattern="[0-9]{10}" th:field="${account.phone}">
+				pattern="^\d{10}$" th:field="${account.phone}">
 			<input type="email" placeholder="Email" class="login__input" name="user-email" required
 				th:field="${account.email}">
 

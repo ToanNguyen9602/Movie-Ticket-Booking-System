@@ -28,6 +28,7 @@ public class Account implements java.io.Serializable {
 	@NotEmpty
 	private String email;
 	@NotEmpty
+	@Length(min=10)
 	private String phone;
 	@NotEmpty
 	private String fullname;
