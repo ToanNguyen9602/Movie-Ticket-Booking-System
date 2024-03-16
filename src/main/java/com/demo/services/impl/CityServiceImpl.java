@@ -45,8 +45,8 @@ public class CityServiceImpl implements CityService {
 	}
 
 	@Override
-	public Iterable<City> findAll() {
-		return cityRepository.findAll();
+	public List<City> findAll_ListCity() {
+		return cityRepository.findAll_ListCity();
 	}
 
 	@Override
@@ -77,6 +77,18 @@ public class CityServiceImpl implements CityService {
 		// TODO Auto-generated method stub
 		return modelMapper.map(cityRepository.findAll(), new TypeToken<List<CityDTO>>() {
 		}.getType());
+	}
+
+	@Override
+	public List<City> SearchByCityName(String kw) {
+		// TODO Auto-generated method stub
+		return cityRepository.SearchByCityName(kw);
+	}
+
+	@Override
+	public Iterable<City> findAll() {
+		// TODO Auto-generated method stub
+		return cityRepository.findAll();
 	}
 
 }

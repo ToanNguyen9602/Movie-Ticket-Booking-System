@@ -60,6 +60,12 @@ public class FoodServiceImpl implements FoodService {
 		}
 	}
 
+	@Override
+	public List<FoodMenu> SearchByFoodName(String kw) {
+		// TODO Auto-generated method stub
+		return foodRepository.SearchByFoodName(kw);
+	}
+
 	
 
 	

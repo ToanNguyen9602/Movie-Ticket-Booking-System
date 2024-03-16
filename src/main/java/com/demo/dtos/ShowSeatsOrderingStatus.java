@@ -18,9 +18,6 @@ public class ShowSeatsOrderingStatus {
 		this.rowAndMaxRowNumberMap = rowAndMaxRowNumberMap;
 	}
 	
-	
-	
-
 	public ShowSeatsOrderingStatus(List<ShowSeatsDTO> seats, Map<String, Integer> rowAndMaxRowNumberMap,
 			List<String> rowNames, List<Integer> maxNumbers) {
 		super();

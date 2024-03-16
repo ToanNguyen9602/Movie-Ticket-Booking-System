@@ -81,8 +81,8 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<Movie> findAll() {
-		return movieRepository.findAll();
+	public List<Movie> findAll_ListMovie(){
+		return movieRepository.findAll_ListMovie();
 	}
 
 	@Override
@@ -170,6 +170,18 @@ public class MovieServiceImpl implements MovieService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public List<Movie> searchMoviesByTitle1(String title) {
+		// TODO Auto-generated method stub
+		return movieRepository.searchMoviesByTitle(title);
+	}
+
+	@Override
+	public List<Movie> findAll() {
+		// TODO Auto-generated method stub
+		return movieRepository.findAll();
 	}
 
 	

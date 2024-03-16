@@ -88,10 +88,23 @@ public class CinemaServiceImpl implements CinemaService {
 	}
 
 	@Override
+
 	public List<CinemaDTO> findallCinemabyCityid(int cityid) {
 		// TODO Auto-generated method stub
 		return modelMapper.map(cinemaRepository.findCinemabyCityId(cityid), new TypeToken<List<CinemaDTO>>() {
 		}.getType());
+	}
+
+
+	public List<Cinema> SearchByCinemaName(String kw) {
+		// TODO Auto-generated method stub
+		return cinemaRepository.SearchByCinemaName(kw);	
+	}
+
+	@Override
+	public List<Cinema> findAll_ListCinema() {
+		// TODO Auto-generated method stub
+		return cinemaRepository.findAll_ListCinema();
 	}
 
 

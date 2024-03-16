@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.demo.enums.SeatOrderingStatus;
 import com.demo.services.ShowService;
 import com.demo.services.impl.ShowServiceImpl;
 
@@ -22,7 +23,8 @@ public class OrderController {
 	public String orderSeats(ModelMap modelMap,
 			@RequestParam("showId") Integer showId) {
 		modelMap.put("seatPrice", showService.findPrice(showId));
-		modelMap.put("seatInformation", showService.findSeatOrderingStatusOfAShow(showId)); 
+		modelMap.put("seatInformation", showService.findSeatOrderingStatusOfAShow(showId, SeatOrderingStatus.ORDERED)); 
+		modelMap.put("service", showService);
 		return "bookseat/index";
 	}
 	@GetMapping("order-food")

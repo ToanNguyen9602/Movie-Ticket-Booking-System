@@ -95,19 +95,19 @@ public class DashboardController {
 
 	@RequestMapping(value = { "listmovie" }, method = RequestMethod.GET)
 	public String ListMovie(ModelMap modelMap) {
-		modelMap.put("movies", movieService.findAll());
+		modelMap.put("movies", movieService.findAll_ListMovie());
 		return "admin/movie/listmovie";
 	}
 
 	@RequestMapping(value = { "listcity" }, method = RequestMethod.GET)
 	public String ListCity(ModelMap modelMap) {
-		modelMap.put("citys", cityService.findAll());
+		modelMap.put("citys", cityService.findAll_ListCity());
 		return "admin/city/listcity";
 	}
 
 	@RequestMapping(value = { "listcinema" }, method = RequestMethod.GET)
 	public String ListCinema(ModelMap modelMap) {
-		modelMap.put("cinemas", cinemaService.findAll());
+		modelMap.put("cinemas", cinemaService.findAll_ListCinema());
 		return "admin/cinema/listcinema";
 	}
 
@@ -500,13 +500,6 @@ public class DashboardController {
 			movieService.delete(id);
 			redirectAttributes.addFlashAttribute("msg", "ok");
 		}
-//		
-//		if(movieService.delete(id)) {
-//			redirectAttributes.addFlashAttribute("msg", "ok");
-//		} else {
-//			redirectAttributes.addFlashAttribute("msg", "fail");
-//
-//		}
 		return "redirect:/admin/listmovie";
 	}
 
@@ -766,7 +759,12 @@ public class DashboardController {
 
 	@RequestMapping(value = { "searchbyusername" }, method = RequestMethod.GET)
 	public String searchbyusername(@RequestParam("kw") String kw, ModelMap modelMap) {
+
 		modelMap.put("accounts", accountService.findAccount(kw, 2));
+
+		modelMap.put("accounts", accountService.findAccount(kw,2));
+		modelMap.put("kw", kw);
+
 		return "admin/account/liststaff";
 	}
 
@@ -778,14 +776,52 @@ public class DashboardController {
 			System.out.println("title:" + blog.getTitle());
 		}
 		modelMap.put("blogs", blogsService.searchblogs(title));
+		modelMap.put("kw", title);
 		return "admin/blog/listblog";
 	}
 
 	@RequestMapping(value = { "searchuser" }, method = RequestMethod.GET)
 	public String searchusername(@RequestParam("kw") String kw, ModelMap modelMap) {
+
 		modelMap.put("accounts", accountService.findAccount(kw, 3));
+
+		modelMap.put("accounts", accountService.findAccount(kw,3));
+		modelMap.put("kw", kw);
+
 		return "admin/account/listuser";
 	}
+	
+	@RequestMapping(value = { "searchbyfood" }, method = RequestMethod.GET)
+	public String searchbyfood(@RequestParam("kw") String kw, ModelMap modelMap) {
+		modelMap.put("foods", foodService.SearchByFoodName(kw));
+		modelMap.put("kw", kw);
+		return "admin/food/listfood";
+	}
+	
+	@RequestMapping(value = { "searchbycity" }, method = RequestMethod.GET)
+	public String searchbycity(@RequestParam("kw") String kw, ModelMap modelMap) {
+		modelMap.put("citys", cityService.SearchByCityName(kw));
+		modelMap.put("kw", kw);
+		return "admin/city/listcity";
+	}
+	
+	@RequestMapping(value = { "searchbycinema" }, method = RequestMethod.GET)
+	public String searchbycinema(@RequestParam("kw") String kw, ModelMap modelMap) {
+		modelMap.put("cinemas", cinemaService.SearchByCinemaName(kw));
+		modelMap.put("kw", kw);
+		return "admin/cinema/listcinema";
+	}
+	
+	@RequestMapping(value = { "searchbymovie" }, method = RequestMethod.GET)
+	public String searchbymovie(@RequestParam("title") String title, ModelMap modelMap) {
+		modelMap.put("movies", movieService.searchMoviesByTitle1(title));
+		modelMap.put("kw", title);
+		return "admin/movie/listmovie";
+	}
+	
+	
+	
+
 
 	@RequestMapping(value = "addshows", method = RequestMethod.GET)
 	public String testaddshow(ModelMap modelMap) {

@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import com.demo.dtos.ShowSeatsDTO;
@@ -50,18 +51,32 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 	@Override
-	public ShowSeatsOrderingStatus findSeatOrderingStatusOfAShow(Integer showId) {
+	public ShowSeatsOrderingStatus findSeatOrderingStatusOfAShow(Integer showId, @Nullable SeatOrderingStatus seatStatus) {
 		var show = showsRepository.findById(showId).get();
 		var bookingDetails = show.getBookingDetailses();
 		var hall = show.getHall();
 
 		List<Seats> orderedSeats = bookingDetails.stream().map(BookingDetails::getSeats).toList();
 		List<Seats> defaultSeats = getSeats(hall.getId());
+
 		List<ShowSeatsDTO> seats = defaultSeats.stream().map(seat -> {
 			var orderedSeat = getSeats(orderedSeats, seat.getRow(), seat.getNumber());
 			return mapFromSeat(showId, seat,
 					seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
 		}).toList();
+
+		List<ShowSeatsDTO> seats = defaultSeats.stream()
+				.map(seat -> {
+					var orderedSeat = getSeats(orderedSeats, seat.getRow(), seat.getNumber());
+					return mapFromSeat(showId, seat, seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
+				})
+				.filter(seat -> {
+					if(seatStatus == null) return true;
+					return seat.getStatus().equals(seatStatus);
+				})
+				.toList();
+		seats.forEach(System.out::println);
+
 		Map<String, Integer> rowAndMaxNumberOfTheRow = hallService.findRowAndMaxColOfTheRow(hall.getId());
 
 		return new ShowSeatsOrderingStatus(seats, rowAndMaxNumberOfTheRow, MapUtils.getKeyList(rowAndMaxNumberOfTheRow),
@@ -131,4 +146,11 @@ public class ShowServiceImpl implements ShowService {
 		}
 	}
 
+	@Override
+	public boolean isSeatAnOrderedSeats(List<ShowSeatsDTO> seats, String currentRow, Integer currentNumber) {
+		return !(seats.stream()
+					.filter(seat -> seat.getRow().equalsIgnoreCase(currentRow) && seat.getNumber() == currentNumber)
+					.findAny()
+					.isEmpty());
+	}
 }
