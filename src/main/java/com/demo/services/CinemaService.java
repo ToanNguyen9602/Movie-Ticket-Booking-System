@@ -1,6 +1,8 @@
 package com.demo.services;
 
 import java.util.List;
+
+import com.demo.dtos.CinemaDTO;
 import com.demo.entities.Cinema;
 import com.demo.entities.Hall;
 import com.demo.entities.Movie;
@@ -15,4 +17,5 @@ public interface CinemaService {
 	
 	public List<Hall> findHallsByCinemaId(int cinemaid);
 	public List<Cinema> findCinemaByCityId(int city_id);
+	public List<CinemaDTO> findallCinemabyCityid (int cityid);
 }

@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('Movie', ~{this :: .main})}">
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout/admin :: content(${movie.title}+'`s Shows', ~{this :: .main})}">
 
 <head>
 	<title></title>
@@ -12,14 +13,14 @@
 				<!-- main title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2>Movie
+						<h2 th:text="${movie.title}">
 						</h2>
-						<a th:href="@{/admin/addmovie}" class="main__title-link">add Movie</a>
+						<a th:href="@{'/admin/addshow/'+${movie.id}}" class="main__title-link">Add Show</a>
 
 
 						<div class="main__title-wrap">
 							<!-- filter sort -->
-							
+
 							<!-- end filter sort -->
 
 							<!-- search -->
@@ -44,52 +45,56 @@
 					<p style="color: red" th:text="${msg}"></p>
 				</div>
 				<!-- users -->
+
+				
+				<th:block th:if="${shows!=null}">
 				<div class="col-12">
 					<div class="main__table-wrap">
 						<table class="main__table">
 							<thead>
 								<tr>
-									<th>Title</th>
-									<th>Director</th>
-									<th>Casters</th>
-									<th>Poster</th>
-									<th>ReleaseDate</th>
+									<th>Id</th>
+									<th>Cinema</th>
+									<th>Hall</th>
+									<th>Start</th>
+									<th>End</th>
 									<th>ACTIONS</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								<tr th:each="movie : ${movies}">
+								<tr th:each="show : ${shows}">
 
 									<td>
-										<div class="main__table-text"><a th:href="@{'/admin/shows/'+${movie.id}}"
-										th:text="${movie.title}"></a></div>
+										<div class="main__table-text" th:text="${show.id}"></div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${movie.directors}"></div>
+										<div class="main__table-text" th:text="${show.cinema.name}"></div>
+									</td>
+																		<td>
+										<div class="main__table-text" th:text="${show.hall.name}"></div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${movie.casters}"></div>
+										<div class="main__table-text main__table-text--rate"
+											th:text="${#dates.format(show.startTime, 'dd/MM/yyyy HH:mm')}"></div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate"><img th:src="@{'/images/' + ${movie.poster}}" width="31" height="31"></div>
+										<div class="main__table-text main__table-text--rate"
+											th:text="${#dates.format(show.endTime, 'dd/MM/yyyy HH:mm')}"></div>
 									</td>
-									<td>
-										<div class="main__table-text main__table-text--rate" th:text="${#dates.format(movie.releaseDate, 'dd/MM/yyyy')}"></div>
-									</td>
-
-
 
 									<td>
 										<div class="main__table-btns">
-											
-											<a th:href="@{'/admin/movie/edit/'+${movie.id}}" class="main__table-btn main__table-btn--edit">
+
+											<a th:href="@{'/admin/movie/edit/'+${show.id}}"
+												class="main__table-btn main__table-btn--edit">
 												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 													<path
 														d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z" />
 												</svg>
 											</a>
-											<a th:href="@{'/admin/movie/delete/'+${movie.id}}" onclick="return confirm('delete?')"
+											<a th:href="@{'/admin/shows/delete/'+${show.id}}"
+												onclick="return confirm('delete?')"
 												class="main__table-btn main__table-btn--delete">
 												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 													<path
@@ -106,6 +111,7 @@
 						</table>
 					</div>
 				</div>
+				</th:block>
 				<!-- end users -->
 
 				<!-- paginator -->

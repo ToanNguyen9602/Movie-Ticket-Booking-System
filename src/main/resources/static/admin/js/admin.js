@@ -73,6 +73,15 @@ $(document).ready(function () {
 	$('#genre').select2({
 		placeholder: "Choose genre / genres"
 	});
+		$('#cinema').select2({
+		placeholder: "Choose cinema"
+	});
+		$('#hall').select2({
+		placeholder: "Choose hall"
+	});
+			$('#city').select2({
+		placeholder: "Choose city"
+	});
 
 	$('#subscription, #rights').select2();
 

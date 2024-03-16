@@ -2,10 +2,13 @@ package com.demo.services.impl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.demo.dtos.CityDTO;
 import com.demo.entities.Blogs;
 import com.demo.entities.Cinema;
 import com.demo.entities.City;
@@ -20,6 +23,8 @@ public class CityServiceImpl implements CityService {
 	private CityRepository cityRepository;
 	@Autowired
 	private CinemaRepository cinemaRepository;
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public boolean save(City city) {
@@ -65,6 +70,13 @@ public class CityServiceImpl implements CityService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	@Override
+	public List<CityDTO> findAllCityDTO() {
+		// TODO Auto-generated method stub
+		return modelMapper.map(cityRepository.findAll(), new TypeToken<List<CityDTO>>() {
+		}.getType());
 	}
 
 }

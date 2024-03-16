@@ -59,6 +59,7 @@ public class SecurityConfiguration {
 	                    .requestMatchers(new AntPathRequestMatcher("/bookseat/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/order/**")).permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/food/**")).permitAll()
+	                    .requestMatchers(new AntPathRequestMatcher("/ajax/**")).permitAll()
 	                    .requestMatchers("/images/**").permitAll()
 	                    .requestMatchers(new AntPathRequestMatcher("/admin/register")).hasRole("ADMIN")
 						.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyRole("STAFF","ADMIN");

@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.demo.dtos.CinemaDTO;
+import com.demo.dtos.HallDTO;
 import com.demo.entities.Blogs;
 import com.demo.entities.Cinema;
 import com.demo.entities.City;
@@ -27,6 +31,8 @@ public class HallServiceImpl implements HallService {
 
 	@Autowired
 	private HallRepository hallRepository;
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public List<Hall> findHallsByCinemaId(int cinemaid) {
@@ -66,8 +72,8 @@ public class HallServiceImpl implements HallService {
 			String row = seat.getRow();
 			Integer number = seat.getNumber();
 			if (rowAndMaxColNumber.get(row) != null) {
-				if(rowAndMaxColNumber.get(row).compareTo(number) < 0) {
-					rowAndMaxColNumber.put(row, number);					
+				if (rowAndMaxColNumber.get(row).compareTo(number) < 0) {
+					rowAndMaxColNumber.put(row, number);
 				}
 			} else {
 				rowAndMaxColNumber.put(row, number);
@@ -76,6 +82,10 @@ public class HallServiceImpl implements HallService {
 		return MapUtils.captializeKey(MapUtils.sortByKeyString(rowAndMaxColNumber));
 	}
 
-	
+	@Override
+	public List<HallDTO> findHallDTObyCinemaID(int cinemaid) {
+		return modelMapper.map(hallRepository.findHallsByCinemaId(cinemaid), new TypeToken<List<HallDTO>>() {
+		}.getType());
+	}
 
 }

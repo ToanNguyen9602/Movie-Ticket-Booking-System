@@ -6,6 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,6 +41,7 @@ import com.demo.entities.Hall;
 import com.demo.entities.Movie;
 import com.demo.entities.Role;
 import com.demo.entities.Seats;
+import com.demo.entities.Shows;
 import com.demo.helpers.FileHelper;
 import com.demo.services.AccountService;
 import com.demo.services.BlogsService;
@@ -48,6 +52,7 @@ import com.demo.services.HallService;
 import com.demo.services.MovieService;
 import com.demo.services.RoleService;
 import com.demo.services.SeatsService;
+import com.demo.services.ShowService;
 
 @Controller
 @RequestMapping({ "admin" })
@@ -66,6 +71,8 @@ public class DashboardController {
 	private HallService hallService;
 	@Autowired
 	private SeatsService seatsService;
+	@Autowired
+	private ShowService showService;
 
 	//
 	@Autowired
@@ -759,7 +766,7 @@ public class DashboardController {
 
 	@RequestMapping(value = { "searchbyusername" }, method = RequestMethod.GET)
 	public String searchbyusername(@RequestParam("kw") String kw, ModelMap modelMap) {
-		modelMap.put("accounts", accountService.findAccount(kw,2));
+		modelMap.put("accounts", accountService.findAccount(kw, 2));
 		return "admin/account/liststaff";
 	}
 
@@ -773,11 +780,107 @@ public class DashboardController {
 		modelMap.put("blogs", blogsService.searchblogs(title));
 		return "admin/blog/listblog";
 	}
-	
+
 	@RequestMapping(value = { "searchuser" }, method = RequestMethod.GET)
 	public String searchusername(@RequestParam("kw") String kw, ModelMap modelMap) {
-		modelMap.put("accounts", accountService.findAccount(kw,3));
+		modelMap.put("accounts", accountService.findAccount(kw, 3));
 		return "admin/account/listuser";
+	}
+
+	@RequestMapping(value = "addshows", method = RequestMethod.GET)
+	public String testaddshow(ModelMap modelMap) {
+		Shows show = new Shows();
+		modelMap.put("show", show);
+		return "admin/shows/index";
+	}
+
+	@RequestMapping(value = "shows/{movie_id}", method = RequestMethod.GET)
+	public String ShowsbyMovie_id(ModelMap modelMap, @PathVariable("movie_id") int movie_id) {
+		modelMap.put("movie", movieService.findMovieById(movie_id));
+		modelMap.put("shows", showService.FindShowsbyMovieid(movie_id));
+		return "admin/shows/index";
+	}
+
+	@RequestMapping(value = { "addshow/{movieid}" }, method = RequestMethod.GET)
+	public String addshow(ModelMap modelMap, @PathVariable("movieid") int movieid) {
+		Shows show = new Shows();
+		Movie movie = movieService.findMovieById(movieid);
+
+		// modelMap.put("cinemas", cinemaService.f);
+		modelMap.put("cities", cityService.findAllCityDTO());
+		// modelMap.put("halss", hallService.findHallsByCinemaId(movieid));
+		modelMap.put("show", show);
+		modelMap.put("movie", movie);
+
+		return "admin/shows/addshow";
+	}
+
+	@RequestMapping(value = { "addshow/{movieid}" }, method = RequestMethod.POST)
+	public String addshow(@ModelAttribute("shows") Shows show, @RequestParam("starttime") String starttime,
+			@PathVariable("movieid") int movieid, RedirectAttributes redirectAttributes,
+			@RequestParam("selectedCinemaId") int selectedCinemaId, @RequestParam("selectedHallId") int selectedHallId
+
+	) {
+		try {
+			Movie movie = movieService.findMovieById(movieid);
+			show.setMovie(movie);
+
+			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			Date start = inputFormat.parse(starttime);
+
+			// set starttime
+			show.setStartTime(start);
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(start);
+
+			// starttime + movie.duration
+			calendar.add(Calendar.MINUTE, movie.getDuration());
+			// set endtime
+			show.setEndTime(calendar.getTime());
+			Cinema cinema = cinemaService.findById(selectedCinemaId);
+			Hall hall = hallService.findHallbyId(selectedHallId);
+			show.setCinema(cinema);
+			show.setMovie(movie);
+			show.setHall(hall);
+			System.out.println("movie: " + movie.getTitle());
+			System.out.println("start: " + show.getStartTime());
+			System.out.println("end: " + show.getEndTime());
+			System.out.println("cinema: " + cinema.getName());
+			System.out.println("hall: " + hall.getId());
+			movieid = movie.getId();
+
+			if (showService.save(show)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "fail");
+				return "redirect:/admin/addshow/" + movieid;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("msg", e.getMessage());
+		}
+		return "redirect:/admin/shows/" + movieid;
+	}
+
+	@RequestMapping(value = { "shows/delete/{id}" }, method = RequestMethod.GET)
+	public String showdelete(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		Shows show = showService.findShowsbyId(id);
+		int movieid = show.getMovie().getId();
+		if (show.getBookingDetailses().isEmpty()) {
+			if (showService.delete(id)) {
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "fail");
+			}
+
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "cant delete this show");
+
+		}
+		return "redirect:/admin/shows/" + movieid;
 	}
 
 }

@@ -1,0 +1,154 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout/admin :: content('Add show for '+${movie.id}, ~{this :: .main})}">
+
+<head>
+	<title></title>
+</head>
+
+<body>
+
+	<main class="main">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				// Function to fetch cinemas when city is changed
+				$('#city').change(function () {
+					var cityId = $(this).val();
+					$.ajax({
+						url: '/ajax/cinemas',
+						type: 'GET',
+						data: {cityid: cityId},
+						success: function (data) {
+							$('#cinema').empty();
+							$('#hall').empty();
+							$.each(data, function (index, cinema) {
+								$('#cinema').append($('<option>').text(cinema.name).attr('value', cinema.id));
+							});
+							// Trigger change event of cinema dropdown to update halls
+							$('#cinema').trigger('change');
+						},
+						error: function () {
+							console.log('Error occurred while fetching cinemas.');
+						}
+					});
+				});
+
+				// Function to fetch halls when cinema is changed
+				$('#cinema').change(function () {
+					var cinemaId = $(this).val();
+					$('#selectedCinemaId').val(cinemaId);
+					$.ajax({
+						url: '/ajax/halls',
+						type: 'GET',
+						data: {cinemaid: cinemaId},
+						success: function (data) {
+							$('#hall').empty();
+							$.each(data, function (index, hall) {
+								$('#hall').append($('<option>').text(hall.name).attr('value', hall.id));
+							});
+							// Trigger change event of hall dropdown to update selectedHallId input
+							$('#hall').trigger('change');
+						},
+						error: function () {
+							console.log('Error occurred while fetching halls.');
+						}
+					});
+				});
+
+				// Function to update selectedHallId input when hall is changed
+				$('#hall').change(function () {
+					var hallId = $(this).val();
+					$('#selectedHallId').val(hallId);
+				});
+			});
+		</script>
+
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2> Add new Show for <Br>
+							<th:block th:text="${movie.title}"></th:block>
+						</h2>
+					</div>
+				</div>
+				<!-- end main title -->
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
+				<!-- form -->
+				<div class="col-12">
+					<form th:action="@{'/admin/addshow/'+${movie.id}}" class="form" method="post">
+						<div class="row">
+
+							<div class="col-12 col-md-7 form__content">
+								<div class="row">
+									<div class="col-12 col-sm-6 col-lg-3">
+										<div class="form__group">
+											<h4 style="color: aliceblue;">Start Time</h4>
+											<input type="datetime-local" id="releaseDate" class="form__input"
+												placeholder="Release_date" name="starttime">
+										</div>
+									</div>
+
+									<div class="col-12 col-lg-3">
+										<div class="form__group">
+											<h4 style="color: aliceblue;">City</h4>
+											<select class="js-example-basic-multiple" id="city">
+												<option value=""></option>
+												<option th:each="city:${cities}" th:value="${city.id}"
+													th:text="${city.name}"></option>
+												<!-- Initial "Select Hall" option -->
+											</select>
+										</div>
+									</div>
+
+									<div class="col-12 col-lg-3">
+										<div class="form__group">
+											<h4 style="color: aliceblue;">Cinema</h4>
+											<select class="js-example-basic-multiple" id="cinema">
+												<option value=""></option>
+											</select>
+
+										</div>
+									</div>
+
+
+									<div class="col-12 col-lg-3">
+										<div class="form__group">
+											<h4 style="color: aliceblue;">Hall</h4>
+											<select class="js-example-basic-multiple" id="hall">
+												<option value=""></option>
+												<!-- Initial "Select Hall" option -->
+											</select>
+										</div>
+									</div>
+
+
+								</div>
+
+							</div>
+
+							<div class="col-12">
+								<div class="row">
+									<div class="col-12">
+										<input type="hidden" id="selectedCinemaId" name="selectedCinemaId" />
+										<input type="hidden" id="selectedHallId" name="selectedHallId" />
+										<input type="submit" value="Submit" class="form__btn" />
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- end form -->
+			</div>
+		</div>
+	</main>
+
+
+</body>
+
+</html>
