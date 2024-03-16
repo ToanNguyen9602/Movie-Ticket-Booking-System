@@ -33,5 +33,7 @@ public interface AccountService extends UserDetailsService {
 	public String getpassword(String username);
 	
 	public boolean isLoggedIn();
+	
+	public List<Account> findAccount(String kw, int id);
 
 }

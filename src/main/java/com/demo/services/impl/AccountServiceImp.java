@@ -173,6 +173,11 @@ public class AccountServiceImp implements AccountService {
 		return false;
 	}
 
+	@Override
+	public List<Account> findAccount(String kw, int id) {
+		return accountRepository.searchAccounts(kw, id);
+	}
+
 
 
 }

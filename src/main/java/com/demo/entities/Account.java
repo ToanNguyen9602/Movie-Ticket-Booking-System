@@ -19,7 +19,7 @@ public class Account implements java.io.Serializable {
 
 	private Integer id;
 	@NotEmpty
-	@Length(min = 7, max = 10)
+	@Length(min = 7, max = 20)
 	private String username;
 	@NotEmpty
 	@Length(min = 7, max = 60)

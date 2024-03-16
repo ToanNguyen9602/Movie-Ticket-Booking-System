@@ -10,9 +10,14 @@ public interface CityService {
 
 	public Iterable<City> findAll();
 
+	public List<City> findAll_ListCity();
+
 	public List<Cinema> findCinemasByCityId(int id);
-	
+
 	public City findId(int id);
+
 	public boolean delete(int id);
+
+	public List<City> SearchByCityName(String kw);
 
 }

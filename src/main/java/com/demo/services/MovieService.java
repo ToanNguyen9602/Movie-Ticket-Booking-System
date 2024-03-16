@@ -14,13 +14,17 @@ import com.demo.enums.MovieStatus;
 public interface MovieService {
 	boolean save(Movie movie);
 
-	List<Movie> findAll();
+	public List<Movie> findAll_ListMovie();
+	
+	public List<Movie> findAll();
 	
 	List<Movie> findAll(Integer cinemaId);
 
 	List<Movie> findAll(@Nullable Integer cinemaId, MovieStatus STATUS);
 
 	List<Movie> searchMoviesByTitle(String title);
+	
+	List<Movie> searchMoviesByTitle1(String title);
 	
 	Movie findMovieById(Integer id);
 	

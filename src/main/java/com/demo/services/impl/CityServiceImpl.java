@@ -40,8 +40,8 @@ public class CityServiceImpl implements CityService {
 	}
 
 	@Override
-	public Iterable<City> findAll() {
-		return cityRepository.findAll();
+	public List<City> findAll_ListCity() {
+		return cityRepository.findAll_ListCity();
 	}
 
 	@Override
@@ -65,6 +65,18 @@ public class CityServiceImpl implements CityService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public List<City> SearchByCityName(String kw) {
+		// TODO Auto-generated method stub
+		return cityRepository.SearchByCityName(kw);
+	}
+
+	@Override
+	public Iterable<City> findAll() {
+		// TODO Auto-generated method stub
+		return cityRepository.findAll();
 	}
 
 }

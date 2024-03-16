@@ -24,7 +24,8 @@
 					<p class="movie__time" th:text="${movie.duration}"> </p>
 					<p class="movie__option"><strong>Genre: </strong><a th:text="${movie.genre}"></a></p>
 					<p class="movie__option"><strong>Release date: </strong>
-						<th th:text="${movie.releaseDate}"></th>
+					
+						<th th:text="${#dates.format(movie.releaseDate, 'dd/MM/yyyy')}"></th>
 					</p>
 					<p class="movie__option"><strong>Director: </strong><a th:text="${movie.directors}"> </a></p>
 					<p class="movie__option"><strong>Actors: </strong><a th:text="${movie.casters}"> </a> </p>

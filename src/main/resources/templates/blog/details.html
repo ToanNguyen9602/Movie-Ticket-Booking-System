@@ -16,7 +16,7 @@
                         </a>
 
                         <h1><a th:href="@{'/blog/'+${blog.id}}" class="post__title-link" th:text="${blog.title}"></a></h1>
-                        <p class="post__date" th:text="${blog.created}"></p>
+                        <p class="post__date" th:text="${#dates.format(blog.created, 'dd/MM/yyyy')}"></p>
 
                         <div class="wave-devider"></div>
 

@@ -14,5 +14,7 @@ public interface BlogsService {
 	public List<Blogs> findByAllonAdminPage();
 	public Blogs findByIdonAdminPage(int id);
 	public boolean delete(int id);
+	
+	public List<Blogs> searchblogs(String title);
 
 }

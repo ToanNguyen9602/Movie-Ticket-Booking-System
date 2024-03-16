@@ -22,4 +22,7 @@ public interface BlogsRepository  extends CrudRepository<Blogs, Integer>{
 	
 	@Query("from Blogs where id=:id")
 	public Blogs findByIdonAdminPage(@Param("id") int id);
+	
+	@Query("from Blogs where title like %:title% ")
+	public List<Blogs> findallbytitle(@Param("title") String title);
 }
