@@ -32,8 +32,8 @@
 
 	<!-- Main CSS File -->
 	<link rel="apple-touch-icon" sizes="180x180" th:href="@{/user/assets/images/icons/apple-touch-icon.png}">
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/user/assets/images/icons/favicon-32x32.png}">
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/user/assets/images/icons/favicon-16x16.png}">
+	<link rel="icon" type="image/png" sizes="32x32" th:href="@{/user/assets/images/icons/favicon-32x32.png}">
+	<link rel="icon" type="image/png" sizes="16x16" th:href="@{/user/assets/images/icons/favicon-16x16.png}">
 	<link rel="manifest" th:href="@{/user/assets/images/icons/site.html}">
 	<link rel="mask-icon" th:href="@{/user/assets/images/icons/safari-pinned-tab.svg}" color="#666666">
 	<link rel="shortcut icon" th:href="@{/user/assets/images/icons/favicon.ico}">
@@ -250,7 +250,11 @@
 			init_Home();
 		});
 	</script>
-
+	<script type="text/javascript">
+		$(document).ready(function () {
+			init_BookingOne();
+		});
+	</script>
 	<script type="text/javascript">
 		$(document).ready(function () {
 			init_BookingTwo();
@@ -261,25 +265,21 @@
 			init_MovieList();
 		});
 	</script>
-	<script type="text/javascript">
-		$(document).ready(function () {
-			init_BookingOne();
-		});
-	</script>
+
 	<script type="text/javascript">
 		$(document).ready(function () {
 			init_Contact();
 		});
 	</script>
 	<!-- MOLLA -->
-	  <script th:src="@{/user/assets/js/jquery.min.js}"></script>
-    <script th:src="@{/user/assets/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/user/assets/js/jquery.hoverIntent.min.js}"></script>
-    <script th:src="@{/user/assets/js/jquery.waypoints.min.js}"></script>
-    <script th:src="@{/user/assets/js/superfish.min.js}"></script>
-    <script th:src="@{/user/assets/js/owl.carousel.min.js}"></script>
-    <!-- Main JS File -->
-    <script th:src="@{/user/assets/js/main.js}"></script>
+	<script th:src="@{/user/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/user/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/user/assets/js/jquery.hoverIntent.min.js}"></script>
+	<script th:src="@{/user/assets/js/jquery.waypoints.min.js}"></script>
+	<script th:src="@{/user/assets/js/superfish.min.js}"></script>
+	<script th:src="@{/user/assets/js/owl.carousel.min.js}"></script>
+	<!-- Main JS File -->
+	<script th:src="@{/user/assets/js/main.js}"></script>
 </body>
 
 </html>

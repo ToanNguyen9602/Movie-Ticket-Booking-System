@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import com.demo.dtos.ShowSeatsDTO;
@@ -54,7 +55,7 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 	@Override
-	public ShowSeatsOrderingStatus findSeatOrderingStatusOfAShow(Integer showId) {
+	public ShowSeatsOrderingStatus findSeatOrderingStatusOfAShow(Integer showId, @Nullable SeatOrderingStatus seatStatus) {
 		var show = showsRepository.findById(showId).get();
 		var bookingDetails = show.getBookingDetailses();
 		var hall = show.getHall();
@@ -66,7 +67,12 @@ public class ShowServiceImpl implements ShowService {
 					var orderedSeat = getSeats(orderedSeats, seat.getRow(), seat.getNumber());
 					return mapFromSeat(showId, seat, seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
 				})
+				.filter(seat -> {
+					if(seatStatus == null) return true;
+					return seat.getStatus().equals(seatStatus);
+				})
 				.toList();
+		seats.forEach(System.out::println);
 		Map<String, Integer> rowAndMaxNumberOfTheRow = hallService.findRowAndMaxColOfTheRow(hall.getId());
 
 		return new ShowSeatsOrderingStatus(
@@ -106,5 +112,12 @@ public class ShowServiceImpl implements ShowService {
 	public Double findPrice(Integer showId) {
 		return showsRepository.findById(showId).get().getMovie().getPrice();
 	}
-
+	
+	@Override
+	public boolean isSeatAnOrderedSeats(List<ShowSeatsDTO> seats, String currentRow, Integer currentNumber) {
+		return !(seats.stream()
+					.filter(seat -> seat.getRow().equalsIgnoreCase(currentRow) && seat.getNumber() == currentNumber)
+					.findAny()
+					.isEmpty());
+	}
 }
