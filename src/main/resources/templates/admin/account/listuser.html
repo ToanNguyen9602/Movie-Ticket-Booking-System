@@ -65,11 +65,12 @@
 								<tr th:each="account : ${accounts}">
 
 									<td>
-										<div class="main__table-text"><a href="#" th:text="${account.id}"></a></div>
+										<div class="main__table-text" th:text="${account.id}"></div>
 									</td>
 									<td>
-										<div class="main__table-text main__table-text--rate"
-											th:text="${account.username}"></div>
+										<div class="main__table-text main__table-text--rate"><a
+												th:href="@{'/admin/user/details/'+ ${account.id}}"
+												th:text="${account.username}"></a></div>
 									</td>
 									<td>
 										<div class="main__table-text main__table-text--rate"

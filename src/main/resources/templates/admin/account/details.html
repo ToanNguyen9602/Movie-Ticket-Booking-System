@@ -1,0 +1,97 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content('User`s booking', ~{this :: .main})}">
+
+<head>
+	<title></title>
+</head>
+
+<body>
+
+	<main class="main">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2 th:text="${account.username}">
+						</h2>
+
+
+						<div class="main__title-wrap">
+							<!-- filter sort -->
+
+							<!-- end filter sort -->
+
+							<!-- search -->
+
+						</div>
+					</div>
+				</div>
+				<!-- end main title -->
+
+				<!-- users -->
+
+
+				<th:block th:if="${shows!=null}">
+
+					<div class="col-12">
+						<div class="main__table-wrap">
+							<table class="main__table">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Movie</th>
+										<th>City</th>
+										<th>Cinema</th>
+										<th>Hall</th>
+										<th>Start</th>
+										<th>End</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr th:each="show : ${shows}">
+
+										<td>
+											<div class="main__table-text" th:text="${show.id}"></div>
+										</td>
+										<td>
+											<div class="main__table-text" th:text="${show.movie.title}"></div>
+										</td>
+										<td>
+											<div class="main__table-text" th:text="${show.cinema.city.name}"></div>
+										</td>
+										<td>
+											<div class="main__table-text" th:text="${show.cinema.name}"></div>
+										</td>
+
+										<td>
+											<div class="main__table-text" th:text="${show.hall.name}"></div>
+										</td>
+										<td>
+											<div class="main__table-text main__table-text--rate"
+												th:text="${#dates.format(show.startTime, 'yyyy/MM/dd HH:mm')}"></div>
+										</td>
+										<td>
+											<div class="main__table-text main__table-text--rate"
+												th:text="${#dates.format(show.endTime, 'yyyy/MM/dd HH:mm')}"></div>
+										</td>
+									</tr>
+
+
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</th:block>
+				<!-- end users -->
+
+				<!-- paginator -->
+
+				<!-- end paginator -->
+			</div>
+		</div>
+	</main>
+
+
+</body>

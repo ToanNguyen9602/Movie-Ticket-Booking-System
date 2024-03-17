@@ -1020,4 +1020,12 @@ public class DashboardController {
 		return "admin/shows/searchresult";
 	}
 
+	@RequestMapping(value = { "user/details/{id}" }, method = RequestMethod.GET)
+	public String userDetails(ModelMap modelMap, @PathVariable("id") int id) {
+		modelMap.put("shows", showService.findAllShowsByAccountId(id));
+		modelMap.put("account", accountService.find(id));
+		return "admin/account/details";
+
+	}
+
 }
