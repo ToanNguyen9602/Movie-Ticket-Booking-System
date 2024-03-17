@@ -1,6 +1,8 @@
 package com.demo.services.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,7 +53,8 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 	@Override
-	public ShowSeatsOrderingStatus findSeatOrderingStatusOfAShow(Integer showId, @Nullable SeatOrderingStatus seatStatus) {
+	public ShowSeatsOrderingStatus findSeatOrderingStatusOfAShow(Integer showId,
+			@Nullable SeatOrderingStatus seatStatus) {
 		var show = showsRepository.findById(showId).get();
 		var bookingDetails = show.getBookingDetailses();
 		var hall = show.getHall();
@@ -65,22 +68,21 @@ public class ShowServiceImpl implements ShowService {
 					seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
 		}).toList();
 
-		List<ShowSeatsDTO> seats1 = defaultSeats.stream()
-				.map(seat -> {
-					var orderedSeat = getSeats(orderedSeats, seat.getRow(), seat.getNumber());
-					return mapFromSeat(showId, seat, seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
-				})
-				.filter(seat -> {
-					if(seatStatus == null) return true;
-					return seat.getStatus().equals(seatStatus);
-				})
-				.toList();
+		List<ShowSeatsDTO> seats1 = defaultSeats.stream().map(seat -> {
+			var orderedSeat = getSeats(orderedSeats, seat.getRow(), seat.getNumber());
+			return mapFromSeat(showId, seat,
+					seat.equals(orderedSeat) ? SeatOrderingStatus.ORDERED : SeatOrderingStatus.BLANK);
+		}).filter(seat -> {
+			if (seatStatus == null)
+				return true;
+			return seat.getStatus().equals(seatStatus);
+		}).toList();
 		seats1.forEach(System.out::println);
 
 		Map<String, Integer> rowAndMaxNumberOfTheRow = hallService.findRowAndMaxColOfTheRow(hall.getId());
 
-		return new ShowSeatsOrderingStatus(seats1, rowAndMaxNumberOfTheRow, MapUtils.getKeyList(rowAndMaxNumberOfTheRow),
-				getListNumberOfLargestRow(rowAndMaxNumberOfTheRow));
+		return new ShowSeatsOrderingStatus(seats1, rowAndMaxNumberOfTheRow,
+				MapUtils.getKeyList(rowAndMaxNumberOfTheRow), getListNumberOfLargestRow(rowAndMaxNumberOfTheRow));
 	}
 
 	private List<Integer> getListNumberOfLargestRow(Map<String, Integer> rowAndMaxNumberOfTheRow) {
@@ -149,8 +151,17 @@ public class ShowServiceImpl implements ShowService {
 	@Override
 	public boolean isSeatAnOrderedSeats(List<ShowSeatsDTO> seats, String currentRow, Integer currentNumber) {
 		return !(seats.stream()
-					.filter(seat -> seat.getRow().equalsIgnoreCase(currentRow) && seat.getNumber() == currentNumber)
-					.findAny()
-					.isEmpty());
+				.filter(seat -> seat.getRow().equalsIgnoreCase(currentRow) && seat.getNumber() == currentNumber)
+				.findAny().isEmpty());
+	}
+
+	public List<Shows> SearchShows(int movieId, int CinemaId, Date startdate) {
+
+		return showsRepository.SearchShows(movieId, CinemaId, startdate);
+	}
+	
+	public List<Shows> SearchShowsNoDate(int movieId, int CinemaId)
+	{
+		return showsRepository.SearchShowsNoDate(movieId, CinemaId);
 	}
 }

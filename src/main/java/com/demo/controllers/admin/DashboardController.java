@@ -19,6 +19,7 @@ import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -831,6 +832,7 @@ public class DashboardController {
 	public String ShowsbyMovie_id(ModelMap modelMap, @PathVariable("movie_id") int movie_id) {
 		modelMap.put("movie", movieService.findMovieById(movie_id));
 		modelMap.put("shows", showService.FindShowsbyMovieid(movie_id));
+		modelMap.put("cities", cityService.findAll_ListCity());
 		return "admin/shows/index";
 	}
 
@@ -972,6 +974,31 @@ public class DashboardController {
 
 		return "redirect:/admin/shows/" + movieid;
 
+	}
+
+	@RequestMapping(value = { "searchshows" }, method = RequestMethod.GET)
+	public String searchshows(ModelMap modelMap, @RequestParam("selectedCinemaId") int selectedCinemaId,
+			@RequestParam("selectedMovieId") int selectedMovieId,
+			@RequestParam(value = "startdate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date startdate) {
+		if (startdate == null) {
+			List<Shows> shows = showService.SearchShowsNoDate(selectedMovieId, selectedCinemaId);
+			modelMap.put("shows", shows);
+		} else {
+			Date formatedDate;
+			try {
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+				formatedDate = dateFormat.parse(null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			List<Shows> shows = showService.SearchShows(selectedMovieId, selectedCinemaId, startdate);
+			modelMap.put("shows", shows);
+		}
+
+		modelMap.put("cities", cityService.findAll());
+		modelMap.put("movie", movieService.findMovieById(selectedMovieId));
+		modelMap.put("selectedMovieId", selectedMovieId);
+		return "admin/shows/searchresult";
 	}
 
 }

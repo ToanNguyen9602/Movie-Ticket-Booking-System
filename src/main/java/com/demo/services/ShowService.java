@@ -1,4 +1,5 @@
 package com.demo.services;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.lang.Nullable;
@@ -23,4 +24,7 @@ public interface ShowService {
 	public boolean delete(int id);
 
 	boolean isSeatAnOrderedSeats(List<ShowSeatsDTO> seats, String currentRow, Integer currentNumber);
+	
+	public List<Shows> SearchShows(int movieId, int CinemaId, Date startdate);
+	public List<Shows> SearchShowsNoDate(int movieId, int CinemaId);
 }
