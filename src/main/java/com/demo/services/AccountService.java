@@ -9,7 +9,6 @@ import com.demo.entities.Account;
 
 public interface AccountService extends UserDetailsService {
 
-
 	public Account find(int id);
 
 	public boolean save(Account account);
@@ -23,17 +22,23 @@ public interface AccountService extends UserDetailsService {
 	public Account login(String username, String password);
 
 	public Account findbyemail(String email);
-	
+
 	public boolean checkexistence(String username);
+
 	public boolean checkphone(String phone);
+
 	public boolean checkemail(String email);
-	
+
 	public List<Account> findAllByRole(int n);
-	
+
 	public String getpassword(String username);
-	
+
 	public boolean isLoggedIn();
-	
+
 	public List<Account> findAccount(String kw, int id);
+
+	public Integer paidForMoviebyAccountId(int id);
+
+	public Integer sumFoodPricesByAccountId(int id);
 
 }

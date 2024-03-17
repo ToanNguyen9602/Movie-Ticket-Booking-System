@@ -29,4 +29,5 @@ public interface ShowService {
 	public List<Shows> SearchShows(int movieId, int CinemaId, Date startdate);
 	public List<Shows> SearchShowsNoDate(int movieId, int CinemaId);
 	public Shows FindShowByTimeandHall(int hallid, Date startdate);
+	public List<Shows> findAllShowsByAccountId(int accountId); 
 }

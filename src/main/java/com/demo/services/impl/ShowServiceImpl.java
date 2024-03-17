@@ -170,4 +170,8 @@ public class ShowServiceImpl implements ShowService {
 		} else
 			return null;
 	}
+
+	public List<Shows> findAllShowsByAccountId(int accountId) {
+		return showsRepository.findAllShowsByAccountId(accountId);
+	}
 }

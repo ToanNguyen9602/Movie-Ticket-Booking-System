@@ -32,7 +32,12 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 	public List<Account> findAll();
 
 	@Query("SELECT a FROM Account a JOIN a.roles r WHERE a.username LIKE %:username% AND r.id = :id")
-	public List<Account> searchAccounts(@Param("username") String username,
-			@Param("id") int id);
+	public List<Account> searchAccounts(@Param("username") String username, @Param("id") int id);
+
+	@Query("SELECT SUM(bd.price) FROM Account a JOIN a.bookings b JOIN b.bookingDetailses bd WHERE a.id = :accountId")
+	public Integer sumBookingPricesByAccountId(@Param("accountId") Integer accountId);
+	
+	@Query("SELECT SUM(bd.price) FROM Account a JOIN a.bookings b JOIN b.foodBookingDetailses bd WHERE a.id = :accountId")
+	public Integer sumFoodPricesByAccountId(@Param("accountId") Integer accountId);
 
 }

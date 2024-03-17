@@ -29,4 +29,7 @@ public interface ShowsRepository extends JpaRepository<Shows, Integer> {
 	@Query("SELECT s FROM Shows s WHERE s.hall.id = :hallid AND s.startTime <=:startdate and s.endTime>=:startdate")
 	public Shows findShowByTimeAndHall(@Param("hallid") int hallid, @Param("startdate") Date startdate);
 
+	@Query("SELECT s FROM Shows s JOIN s.bookingDetailses bd JOIN bd.booking b WHERE b.account.id = :accountId order by s.id desc")
+	List<Shows> findAllShowsByAccountId(@Param("accountId") Integer accountId);
+
 }

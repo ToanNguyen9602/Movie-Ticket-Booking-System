@@ -3,7 +3,7 @@
 <main class="main">
 	<div class="page-header text-center" style="background-image: url('/user/assets/images/page-header-bg.jpg')">
 		<div class="container">
-			<h1 class="page-title">My Account </h1>
+			<h1 class="page-title">My Account</h1>
 		</div><!-- End .container -->
 	</div><!-- End .page-header -->
 
@@ -17,7 +17,7 @@
 							<li class="nav-item">
 								<a class="nav-link active" id="tab-dashboard-link" data-toggle="tab"
 									href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
-									aria-selected="true">Order</a>
+									aria-selected="true">Booking's History</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account"
@@ -35,27 +35,60 @@
 							<div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel"
 								aria-labelledby="tab-dashboard-link">
 								<div class="row">
-								    		<div class="col-lg-6">
-								    			<div class="card card-dashboard">
-								    				<div class="card-body">
-								    					<h3 class="card-title">Billing Address</h3><!-- End .card-title -->
+									<div class="col-lg-18">
+										<div class="card card-dashboard">
+											<div class="card-body text-center">
+												<h3 class="card-title">Total Paid</h3>
+												<h4 th:if="${Paid == null}">0</h4>
+												<h4 th:if="${Paid != null}" th:text="${Paid}"></h4>
+												<!-- End .card-title -->
+											</div><!-- End .card-body -->
 
-													
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
 
-								    		<div class="col-lg-6">
-								    			<div class="card card-dashboard">
-								    				<div class="card-body">
-								    					<h3 class="card-title">Shipping Address</h3><!-- End .card-title -->
+										</div><!-- End .card-dashboard -->
+									</div><!-- End .col-lg-6 -->
 
-														<a href="#">Edit <i class="icon-edit"></i></a></p>
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
-								    	</div><!-- End .row -->
-								    </div><!-- .End .tab-pane -->
+									<div class="col-lg-18">
+										<div class="card card-dashboard">
+											<div class="card-body text-center">
+												<h3 class="card-title" text-center>Booking Ticket's History</h3>
+												<!-- End .card-title -->
+												<table class="main__table">
+													<thead>
+														<tr>
+															<th>Id</th>
+															<th>Movie</th>
+															<th>Date</th>
+														</tr>
+													</thead>
+
+													<tbody>
+														<tr th:each="show : ${shows}">
+															<td>
+																<div class="main__table-text main__table-text--rate"
+																	th:text="${show.id}"></div>
+															</td>
+
+															<td>
+																<div class="main__table-text"
+																	th:text="${show.movie.title}"></div>
+															</td>
+															<td>
+																<div class="main__table-text main__table-text--rate"
+																	th:text="${#dates.format(show.startTime, 'yyyy/MM/dd HH:mm')}"></div>
+															</td>
+														</tr>
+
+
+
+													</tbody>
+												</table>
+												<!--<a href="#">Details <i class="icon-edit"></i></a></p>-->
+											</div><!-- End .card-body -->
+										</div><!-- End .card-dashboard -->
+									</div><!-- End .col-lg-6 -->
+								</div><!-- End .row -->
+							</div><!-- .End .tab-pane -->
 
 
 
