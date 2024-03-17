@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -853,7 +854,8 @@ public class DashboardController {
 	@RequestMapping(value = { "addshow/{movieid}" }, method = RequestMethod.POST)
 	public String addshow(@ModelAttribute("shows") Shows show, @RequestParam("starttime") String starttime,
 			@PathVariable("movieid") int movieid, RedirectAttributes redirectAttributes,
-			@RequestParam("selectedCinemaId") int selectedCinemaId, @RequestParam("selectedHallId") int selectedHallId
+			@RequestParam("selectedCinemaId") Integer selectedCinemaId,
+			@RequestParam("selectedHallId") Integer selectedHallId
 
 	) {
 		try {
@@ -885,14 +887,21 @@ public class DashboardController {
 			System.out.println("hall: " + hall.getId());
 			movieid = movie.getId();
 
-			if (showService.save(show)) {
-				redirectAttributes.addFlashAttribute("msg", "ok");
-
+			LocalDateTime localDateTime = LocalDateTime.parse(starttime);
+			localDateTime = localDateTime.truncatedTo(ChronoUnit.MINUTES);
+			Date startTimeDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+			Shows checkedshow = showService.FindShowByTimeandHall(show.getHall().getId(), startTimeDate);
+			if (checkedshow != null) {
+				redirectAttributes.addFlashAttribute("msg", "This Hall has a show at that time");
 			} else {
-				redirectAttributes.addFlashAttribute("msg", "fail");
-				return "redirect:/admin/addshow/" + movieid;
-			}
+				if (showService.save(show)) {
+					redirectAttributes.addFlashAttribute("msg", "ok");
 
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+					return "redirect:admin/shows/" + movieid;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("msg", e.getMessage());
@@ -950,20 +959,23 @@ public class DashboardController {
 			show.setEndTime(calendar.getTime());
 			show.setCinema(showService.findShowsbyId(show.getId()).getCinema());
 
-//			System.out.println("id: " + show.getId());
-//			System.out.println("hall: " + show.getHall().getName());
-//			System.out.println("cinema: " + show.getCinema().getName());
-//			System.out.println("movie" + show.getMovie().getTitle());
-//			System.out.println("start: " + show.getStartTime());
-//			System.out.println("end: " + show.getEndTime());
-
-			if (showService.save(show)) {
-				redirectAttributes.addFlashAttribute("msg", "ok");
-
+			LocalDateTime localDateTime = LocalDateTime.parse(starttime);
+			localDateTime = localDateTime.truncatedTo(ChronoUnit.MINUTES);
+			Date startTimeDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+			Shows checkedshow = showService.FindShowByTimeandHall(show.getHall().getId(), startTimeDate);
+			if (checkedshow != null) {
+				redirectAttributes.addFlashAttribute("msg", "This Hall has a show at that time");
 			} else {
-				redirectAttributes.addFlashAttribute("msg", "fail");
-				return "redirect:/admin/index";
 
+				if (showService.save(show)) {
+					System.out.println("startitme saved: " + show.getStartTime());
+					redirectAttributes.addFlashAttribute("msg", "ok");
+
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+					return "redirect:/admin/listcinema";
+
+				}
 			}
 
 		} catch (Exception e) {
@@ -984,7 +996,6 @@ public class DashboardController {
 		if (startdate == null) {
 			if (selectedCinemaId == null) {
 				modelMap.put("error", "Please select both city and cinema.");
-
 
 			} else {
 				List<Shows> shows = showService.SearchShowsNoDate(selectedMovieId, selectedCinemaId);

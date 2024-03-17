@@ -164,4 +164,14 @@ public class ShowServiceImpl implements ShowService {
 	{
 		return showsRepository.SearchShowsNoDate(movieId, CinemaId);
 	}
+	
+	public Shows FindShowByTimeandHall(int hallid, Date startdate)
+	{
+		if(showsRepository.findShowByTimeAndHall(hallid, startdate)!=null)
+		{
+			return showsRepository.findShowByTimeAndHall(hallid, startdate);
+		}
+		else
+		return null;
+	}
 }

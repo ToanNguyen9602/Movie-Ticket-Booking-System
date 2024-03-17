@@ -2,6 +2,7 @@ package com.demo.services;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 
 import com.demo.dtos.ShowSeatsDTO;
@@ -27,4 +28,5 @@ public interface ShowService {
 	
 	public List<Shows> SearchShows(int movieId, int CinemaId, Date startdate);
 	public List<Shows> SearchShowsNoDate(int movieId, int CinemaId);
+	public Shows FindShowByTimeandHall(int hallid, Date startdate);
 }

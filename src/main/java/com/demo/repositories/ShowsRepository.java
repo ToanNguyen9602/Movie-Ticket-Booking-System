@@ -21,8 +21,12 @@ public interface ShowsRepository extends JpaRepository<Shows, Integer> {
 
 	@Query("from Shows where movie.id =:movieId and cinema.id=:cinemaId and DATE(startTime)=:startdate")
 	public List<Shows> SearchShows(@Param("movieId") int movieId, @Param("cinemaId") int cinemaId,
-			@Param("startdate") Date startdate );
-	
+			@Param("startdate") Date startdate);
+
 	@Query("from Shows where movie.id =:movieId and cinema.id=:cinemaId")
 	public List<Shows> SearchShowsNoDate(@Param("movieId") int movieId, @Param("cinemaId") int cinemaId);
+
+	@Query("SELECT s FROM Shows s WHERE s.hall.id = :hallid AND s.startTime <=:startdate and s.endTime>=:startdate")
+	public Shows findShowByTimeAndHall(@Param("hallid") int hallid, @Param("startdate") Date startdate);
+
 }

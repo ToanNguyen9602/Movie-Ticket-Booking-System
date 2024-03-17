@@ -94,16 +94,14 @@
 					</div>
 				</div>
 				<!-- end main title -->
-				<div th:if="${msg}">
-					<p style="color: red" th:text="${msg}"></p>
-				</div>
+
 				<!-- users -->
 
 
 				<th:block th:if="${shows!=null}">
 
 					<form th:action="@{/admin/searchshows}" class="form" method="get">
-					<!--	<input type="date" class="form__input" name="startdate"> -->
+						<!--	<input type="date" class="form__input" name="startdate"> -->
 						<select class="js-example-basic-multiple" id="city" name="cityId">
 							<option value=""></option>
 							<option th:each="city:${cities}" th:value="${city.id}" th:text="${city.name}"></option>
@@ -117,7 +115,9 @@
 						<input type="submit" value="Submit" class="form__btn" />
 					</form>
 
-
+					<div th:if="${msg}">
+						<p style="color: red" th:text="${msg}"></p>
+					</div>
 
 					<div class="col-12">
 						<div class="main__table-wrap">
