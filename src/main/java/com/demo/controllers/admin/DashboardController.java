@@ -992,7 +992,7 @@ public class DashboardController {
 	public String searchshows(ModelMap modelMap,
 			@RequestParam(value = "selectedCinemaId", required = false) Integer selectedCinemaId,
 			@RequestParam("selectedMovieId") Integer selectedMovieId,
-			@RequestParam(value = "startdate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date startdate) {
+			@RequestParam(value = "startdate", required = false) String startdate) {
 		if (startdate == null) {
 			if (selectedCinemaId == null) {
 				modelMap.put("error", "Please select both city and cinema.");
@@ -1003,15 +1003,15 @@ public class DashboardController {
 			}
 
 		} else {
-			Date formatedDate;
 			try {
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-				formatedDate = dateFormat.parse(null);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date formattedStartDate = dateFormat.parse(startdate);
+				List<Shows> shows = showService.SearchShows(selectedMovieId, selectedCinemaId, formattedStartDate);
+				modelMap.put("shows", shows);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			List<Shows> shows = showService.SearchShows(selectedMovieId, selectedCinemaId, startdate);
-			modelMap.put("shows", shows);
+
 		}
 
 		modelMap.put("cities", cityService.findAll_ListCity());

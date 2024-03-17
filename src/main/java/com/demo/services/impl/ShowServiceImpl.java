@@ -159,19 +159,15 @@ public class ShowServiceImpl implements ShowService {
 
 		return showsRepository.SearchShows(movieId, CinemaId, startdate);
 	}
-	
-	public List<Shows> SearchShowsNoDate(int movieId, int CinemaId)
-	{
+
+	public List<Shows> SearchShowsNoDate(int movieId, int CinemaId) {
 		return showsRepository.SearchShowsNoDate(movieId, CinemaId);
 	}
-	
-	public Shows FindShowByTimeandHall(int hallid, Date startdate)
-	{
-		if(showsRepository.findShowByTimeAndHall(hallid, startdate)!=null)
-		{
+
+	public Shows FindShowByTimeandHall(int hallid, Date startdate) {
+		if (showsRepository.findShowByTimeAndHall(hallid, startdate) != null) {
 			return showsRepository.findShowByTimeAndHall(hallid, startdate);
-		}
-		else
-		return null;
+		} else
+			return null;
 	}
 }

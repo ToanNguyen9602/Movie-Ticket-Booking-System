@@ -101,7 +101,7 @@
 				<th:block th:if="${shows!=null}">
 
 					<form th:action="@{/admin/searchshows}" class="form" method="get">
-						<!--	<input type="date" class="form__input" name="startdate"> -->
+						<input type="date" class="form__input" name="startdate">
 						<select class="js-example-basic-multiple" id="city" name="cityId">
 							<option value=""></option>
 							<option th:each="city:${cities}" th:value="${city.id}" th:text="${city.name}"></option>
