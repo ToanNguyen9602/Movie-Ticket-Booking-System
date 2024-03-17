@@ -977,12 +977,20 @@ public class DashboardController {
 	}
 
 	@RequestMapping(value = { "searchshows" }, method = RequestMethod.GET)
-	public String searchshows(ModelMap modelMap, @RequestParam("selectedCinemaId") int selectedCinemaId,
-			@RequestParam("selectedMovieId") int selectedMovieId,
+	public String searchshows(ModelMap modelMap,
+			@RequestParam(value = "selectedCinemaId", required = false) Integer selectedCinemaId,
+			@RequestParam("selectedMovieId") Integer selectedMovieId,
 			@RequestParam(value = "startdate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date startdate) {
 		if (startdate == null) {
-			List<Shows> shows = showService.SearchShowsNoDate(selectedMovieId, selectedCinemaId);
-			modelMap.put("shows", shows);
+			if (selectedCinemaId == null) {
+				modelMap.put("error", "Please select both city and cinema.");
+
+
+			} else {
+				List<Shows> shows = showService.SearchShowsNoDate(selectedMovieId, selectedCinemaId);
+				modelMap.put("shows", shows);
+			}
+
 		} else {
 			Date formatedDate;
 			try {
@@ -995,7 +1003,7 @@ public class DashboardController {
 			modelMap.put("shows", shows);
 		}
 
-		modelMap.put("cities", cityService.findAll());
+		modelMap.put("cities", cityService.findAll_ListCity());
 		modelMap.put("movie", movieService.findMovieById(selectedMovieId));
 		modelMap.put("selectedMovieId", selectedMovieId);
 		return "admin/shows/searchresult";

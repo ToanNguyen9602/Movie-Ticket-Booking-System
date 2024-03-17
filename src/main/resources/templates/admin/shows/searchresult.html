@@ -16,7 +16,6 @@
 						</h2>
 						<a th:href="@{'/admin/addshow/'+${movie.id}}" class="main__title-link">Add Show</a>
 
-
 						<div class="main__title-wrap">
 							<!-- filter sort -->
 
@@ -93,13 +92,10 @@
 					</div>
 				</div>
 				<!-- end main title -->
-				<div th:if="${msg}">
-					<p style="color: red" th:text="${msg}"></p>
-				</div>
+
 				<!-- users -->
 
 
-				<th:block th:if="${shows!=null}">
 
 					<form th:action="@{/admin/searchshows}" class="form" method="get">
 					<!--	<input type="date" class="form__input" name="startdate"> -->
@@ -117,7 +113,7 @@
 					</form>
 
 
-
+				<th:block th:if="${shows!=null}">
 					<div class="col-12">
 						<div class="main__table-wrap">
 							<table class="main__table">
