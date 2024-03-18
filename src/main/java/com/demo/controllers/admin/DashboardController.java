@@ -106,17 +106,16 @@ public class DashboardController {
 		}
 		modelMap.put("sumOfPricesMap", sumOfPricesMap);
 		modelMap.put("topaccounts", accountService.top5paid());
-		
-		List<Account> topaccounts= accountService.top5paid();
+
+		List<Account> topaccounts = accountService.top5paid();
 		Map<Integer, Integer> sumOfUserPaidMap = new HashMap<>();
-		
+
 		for (Account account : topaccounts) {
-			Integer sumOfUserPaid = accountService.allPaidbyAccountId(account.getId());
+			Integer sumOfUserPaid = accountService.paidForMoviebyAccountId(account.getId())
+					+ accountService.sumFoodPricesByAccountId(account.getId());
 			sumOfUserPaidMap.put(account.getId(), sumOfUserPaid);
 		}
 		modelMap.put("sumOfUserPaidMap", sumOfUserPaidMap);
-		
-		
 
 		return "admin/dashboard";
 	}

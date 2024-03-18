@@ -170,18 +170,20 @@ public class AccountServiceImp implements AccountService {
 
 	@Override
 	public Integer paidForMoviebyAccountId(int id) {
-		return accountRepository.sumBookingPricesByAccountId(id);
+		Integer sum = accountRepository.sumBookingPricesByAccountId(id);
+		return sum != null ? sum : 0;
 	}
 
 	@Override
 	public Integer sumFoodPricesByAccountId(int id) {
-		// TODO Auto-generated method stub
-		return accountRepository.sumFoodPricesByAccountId(id);
+		Integer sum = accountRepository.sumFoodPricesByAccountId(id);
+		return sum != null ? sum : 0;
 	}
 
 	@Override
 	public Integer countAccountsWithRoleId(int id) {
-		return accountRepository.countAccountsWithRoleId(id);
+		Integer sum = accountRepository.countAccountsWithRoleId(id);
+		return sum != null ? sum : 0;
 	}
 
 	@Override
@@ -192,7 +194,8 @@ public class AccountServiceImp implements AccountService {
 
 	@Override
 	public Integer allPaidbyAccountId(int accountId) {
-		return accountRepository.getTotalPriceByAccountId(accountId);
+		Integer sum = accountRepository.getTotalPriceByAccountId(accountId);
+		return sum != null ? sum : 0;
 	}
 
 }
