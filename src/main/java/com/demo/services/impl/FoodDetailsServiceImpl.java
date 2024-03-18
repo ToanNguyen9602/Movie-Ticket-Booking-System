@@ -39,19 +39,13 @@ import com.demo.services.ShowService;
 
 @Service
 public class FoodDetailsServiceImpl implements FoodDetailsService {
-@Autowired
-private FoodDetailRepository foodDetailRepository;
+	@Autowired
+	private FoodDetailRepository foodDetailRepository;
 
-@Override
-public Integer incomefromFood() {
-	// TODO Auto-generated method stub
-	return foodDetailRepository.IncomeFromFood();
-}
-	
-	
+	@Override
+	public Integer incomefromFood() {
+		Integer sum = foodDetailRepository.IncomeFromFood();
+		return sum != null ? sum : 0;
+	}
 
-
-
-
-	
 }

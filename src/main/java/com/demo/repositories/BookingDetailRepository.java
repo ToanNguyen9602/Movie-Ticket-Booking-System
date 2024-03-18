@@ -14,13 +14,13 @@ import com.demo.entities.Hall;
 
 public interface BookingDetailRepository extends CrudRepository<BookingDetails, Integer> {
 
-	@Query("Select sum(price) from BookingDetails")
+	@Query("Select COALESCE(sum(price)) from BookingDetails")
 	public Integer IncomeFromMovie();
 
-	@Query("Select sum(price) from BookingDetails where booking.account=:account")
+	@Query("Select COALESCE(sum(price)) from BookingDetails where booking.account=:account")
 	public Integer PaidforMovieByAccount(@Param("account") Account account);
 
-	@Query("SELECT SUM(b.price) " + "FROM BookingDetails b " + "WHERE b.shows.movie.id = :movieId")
+	@Query("SELECT COALESCE(SUM(b.price)) " + "FROM BookingDetails b " + "WHERE b.shows.movie.id = :movieId")
 	public Integer sumPriceByMovieId(Integer movieId);
 
 	@Query("SELECT COALESCE(SUM(b.price), 0) " + "FROM BookingDetails b " + "WHERE b.shows.movie.id = :movieId")
