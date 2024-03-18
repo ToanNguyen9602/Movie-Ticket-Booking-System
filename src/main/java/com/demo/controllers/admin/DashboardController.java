@@ -51,6 +51,7 @@ import com.demo.services.BlogsService;
 import com.demo.services.BookingDetailsService;
 import com.demo.services.CinemaService;
 import com.demo.services.CityService;
+import com.demo.services.FoodDetailsService;
 import com.demo.services.FoodService;
 import com.demo.services.HallService;
 import com.demo.services.MovieService;
@@ -87,14 +88,17 @@ public class DashboardController {
 	private BCryptPasswordEncoder encoder;
 	@Autowired
 	private BookingDetailsService bookingDetailsService;
+	
+	@Autowired
+	private FoodDetailsService foodDetailsService;
 
 	@RequestMapping(value = { "dashboard", "index", "" }, method = RequestMethod.GET)
 	public String index(ModelMap modelMap) {
 
 		modelMap.put("movieincome", bookingDetailsService.incomefromMovies());
-		modelMap.put("foodincome", bookingDetailsService.incomefromMovies());
+		modelMap.put("foodincome", foodDetailsService.incomefromFood());
 		modelMap.put("totalincome",
-				bookingDetailsService.incomefromMovies() + bookingDetailsService.incomefromMovies());
+				bookingDetailsService.incomefromMovies() + foodDetailsService.incomefromFood());
 		modelMap.put("users", accountService.countAccountsWithRoleId(3));
 		modelMap.put("countedshows", showService.countShowsEnd());
 		modelMap.put("movies", movieService.top5Movies());

@@ -15,7 +15,7 @@ import com.demo.entities.Hall;
 
 public interface FoodDetailRepository extends CrudRepository<FoodBookingDetails, Integer> {
 
-	@Query("Select sum(price) from FoodBookingDetails")
+	@Query("Select sum(price*quantity) from FoodBookingDetails")
 	public Integer IncomeFromFood();
 
 
