@@ -45,7 +45,7 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 
 	@Query("SELECT a, COALESCE(SUM(bd.price),0) + COALESCE(SUM(fbd.price*fbd.quantity),0) AS totalSum "
 			+ "FROM Account a " + "LEFT JOIN a.bookings b " + "LEFT JOIN b.bookingDetailses bd "
-			+ "LEFT JOIN b.foodBookingDetailses fbd " + "GROUP BY a " + "ORDER BY totalSum DESC LIMIT 5")
+			+ "LEFT JOIN b.foodBookingDetailses fbd " + "GROUP BY a " + "ORDER BY totalSum DESC LIMIT 10")
 	public List<Account> findTop5AccountsByTotalPriceWithLimit();
 
 	@Query("SELECT COALESCE(SUM(bd.price),0) + COALESCE(SUM(fbd.price*fbd.quantity),0) " + "FROM BookingDetails bd "

@@ -27,7 +27,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
             "JOIN m.showses s " +
             "JOIN s.bookingDetailses b " +
             "GROUP BY m " +
-            "ORDER BY totalRevenue DESC LIMIT 5")
+            "ORDER BY totalRevenue DESC LIMIT 10")
     public List<Movie> findTop5MoviesByRevenue();
 
 }
