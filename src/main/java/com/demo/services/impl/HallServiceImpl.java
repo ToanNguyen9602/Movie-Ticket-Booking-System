@@ -87,5 +87,16 @@ public class HallServiceImpl implements HallService {
 		return modelMapper.map(hallRepository.findHallsByCinemaId(cinemaid), new TypeToken<List<HallDTO>>() {
 		}.getType());
 	}
+	
+	@Override
+	public boolean delete(int id) {
+		try {
+			hallRepository.delete(hallRepository.findHallbyId(id));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 }

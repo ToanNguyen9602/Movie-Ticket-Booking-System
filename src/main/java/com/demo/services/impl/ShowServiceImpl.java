@@ -199,5 +199,9 @@ public class ShowServiceImpl implements ShowService {
 				.toList()
 				.get(0);
 	}
+	
+	public Integer countShowsEnd() {
+		return showsRepository.countShowsWithEndTimeBeforeNow();
+	}
 }
 
