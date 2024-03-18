@@ -174,4 +174,8 @@ public class ShowServiceImpl implements ShowService {
 	public List<Shows> findAllShowsByAccountId(int accountId) {
 		return showsRepository.findAllShowsByAccountId(accountId);
 	}
+
+	public Integer countShowsEnd() {
+		return showsRepository.countShowsWithEndTimeBeforeNow();
+	}
 }

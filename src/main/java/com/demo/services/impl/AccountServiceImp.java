@@ -179,4 +179,20 @@ public class AccountServiceImp implements AccountService {
 		return accountRepository.sumFoodPricesByAccountId(id);
 	}
 
+	@Override
+	public Integer countAccountsWithRoleId(int id) {
+		return accountRepository.countAccountsWithRoleId(id);
+	}
+
+	@Override
+	public List<Account> top5paid() {
+		// TODO Auto-generated method stub
+		return accountRepository.findTop5AccountsByTotalPriceWithLimit();
+	}
+
+	@Override
+	public Integer allPaidbyAccountId(int accountId) {
+		return accountRepository.getTotalPriceByAccountId(accountId);
+	}
+
 }

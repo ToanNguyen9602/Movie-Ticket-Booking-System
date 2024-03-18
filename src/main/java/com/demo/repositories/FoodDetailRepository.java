@@ -15,10 +15,8 @@ import com.demo.entities.Hall;
 
 public interface FoodDetailRepository extends CrudRepository<FoodBookingDetails, Integer> {
 
-	@Query("Select sum(price) from BookingDetails")
-	public Integer IncomeFromMovie();
+	@Query("Select sum(price) from FoodBookingDetails")
+	public Integer IncomeFromFood();
 
-	@Query("Select sum(price) from BookingDetails where booking.account=:account")
-	public Integer PaidforMovieByAccount(@Param("account") Account account);
 
 }

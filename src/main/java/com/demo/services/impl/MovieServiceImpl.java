@@ -184,5 +184,11 @@ public class MovieServiceImpl implements MovieService {
 		return movieRepository.findAll();
 	}
 
+	@Override
+	public List<Movie> top5Movies() {
+		// TODO Auto-generated method stub
+		return movieRepository.findTop5MoviesByRevenue();
+	}
+
 	
 }

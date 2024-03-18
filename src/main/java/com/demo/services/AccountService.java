@@ -40,5 +40,11 @@ public interface AccountService extends UserDetailsService {
 	public Integer paidForMoviebyAccountId(int id);
 
 	public Integer sumFoodPricesByAccountId(int id);
+	
+	public Integer countAccountsWithRoleId(int id);
+	
+	public List<Account> top5paid();
+	
+	public Integer allPaidbyAccountId(int accountId);
 
 }

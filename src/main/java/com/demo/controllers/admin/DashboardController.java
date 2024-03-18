@@ -48,6 +48,7 @@ import com.demo.entities.Shows;
 import com.demo.helpers.FileHelper;
 import com.demo.services.AccountService;
 import com.demo.services.BlogsService;
+import com.demo.services.BookingDetailsService;
 import com.demo.services.CinemaService;
 import com.demo.services.CityService;
 import com.demo.services.FoodService;
@@ -84,9 +85,39 @@ public class DashboardController {
 	private RoleService roleService;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	@Autowired
+	private BookingDetailsService bookingDetailsService;
 
 	@RequestMapping(value = { "dashboard", "index", "" }, method = RequestMethod.GET)
-	public String index() {
+	public String index(ModelMap modelMap) {
+
+		modelMap.put("movieincome", bookingDetailsService.incomefromMovies());
+		modelMap.put("foodincome", bookingDetailsService.incomefromMovies());
+		modelMap.put("totalincome",
+				bookingDetailsService.incomefromMovies() + bookingDetailsService.incomefromMovies());
+		modelMap.put("users", accountService.countAccountsWithRoleId(3));
+		modelMap.put("countedshows", showService.countShowsEnd());
+		modelMap.put("movies", movieService.top5Movies());
+		List<Movie> movies = movieService.top5Movies();
+		Map<Integer, Integer> sumOfPricesMap = new HashMap<>();
+		for (Movie movie : movies) {
+			Integer sumOfPrices = bookingDetailsService.sumOfPricesByMovieId(movie.getId());
+			sumOfPricesMap.put(movie.getId(), sumOfPrices);
+		}
+		modelMap.put("sumOfPricesMap", sumOfPricesMap);
+		modelMap.put("topaccounts", accountService.top5paid());
+		
+		List<Account> topaccounts= accountService.top5paid();
+		Map<Integer, Integer> sumOfUserPaidMap = new HashMap<>();
+		
+		for (Account account : topaccounts) {
+			Integer sumOfUserPaid = accountService.allPaidbyAccountId(account.getId());
+			sumOfUserPaidMap.put(account.getId(), sumOfUserPaid);
+		}
+		modelMap.put("sumOfUserPaidMap", sumOfUserPaidMap);
+		
+		
+
 		return "admin/dashboard";
 	}
 
@@ -664,7 +695,7 @@ public class DashboardController {
 
 				int lastCharofRows = seatsService.countUniqueRowsByHallId(hallid);
 				int biggestnumberColumns = seatsService.countUniqueColumnsByHallId(hallid);
-				//numberOfColumns = 0;
+				// numberOfColumns = 0;
 				for (int i = 0; i < numberOfRows; i++) {
 					char selectedRow = charArray[lastCharofRows + i];
 					for (int j = 1; j <= biggestnumberColumns; j++) {
