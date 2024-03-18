@@ -17,5 +17,11 @@ public interface SeatsRepository  extends JpaRepository<Seats, Integer>{
 	public Integer countseatsByHallid(@Param("hallid") int hallid); 
 
 	@Query("from Seats where hall.id=:hallid") 
-	public List<Seats> findallSeatsbyHallid(@Param("hallid") int hallid); 
+	public List<Seats> findallSeatsbyHallid(@Param("hallid") int hallid);
+	
+    @Query("SELECT COUNT(DISTINCT s.row) FROM Seats s WHERE s.hall.id = :hallId")
+    public Integer countUniqueRowsByHallId(@Param("hallId") int hallId);
+    
+    @Query("SELECT COUNT(DISTINCT s.number) FROM Seats s WHERE s.hall.id = :hallId")
+    public Integer countUniqueColumnsByHallId(@Param("hallId") int hallId);
 }

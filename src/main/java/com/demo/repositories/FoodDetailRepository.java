@@ -10,9 +10,10 @@ import com.demo.entities.Account;
 import com.demo.entities.Blogs;
 import com.demo.entities.BookingDetails;
 import com.demo.entities.City;
+import com.demo.entities.FoodBookingDetails;
 import com.demo.entities.Hall;
 
-public interface BookingDetailRepository extends CrudRepository<BookingDetails, Integer> {
+public interface FoodDetailRepository extends CrudRepository<FoodBookingDetails, Integer> {
 
 	@Query("Select sum(price) from BookingDetails")
 	public Integer IncomeFromMovie();

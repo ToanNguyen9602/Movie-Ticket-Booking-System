@@ -48,5 +48,26 @@ public class SeatsServiceImpl implements SeatsService {
 		return seatsRepository.findallSeatsbyHallid(hallid);
 	}
 
+	@Override
+	public Integer countUniqueRowsByHallId(int hallId) {
+		return seatsRepository.countUniqueRowsByHallId(hallId);
+	}
+
+	@Override
+	public Integer countUniqueColumnsByHallId(int hallId) {
+		return seatsRepository.countUniqueColumnsByHallId(hallId);
+	}
+	
+	@Override
+	public boolean delete(int id) {
+		try {
+			seatsRepository.deleteAll(seatsRepository.findallSeatsbyHallid(id));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 
 }

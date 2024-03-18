@@ -613,7 +613,8 @@ public class DashboardController {
 			@RequestParam("numberOfColumns") int numberOfColumns) {
 		try {
 
-			char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l' };
+			char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
+					'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 			Cinema cinema = cinemaService.findById(cinemaid);
 			hall.setCinema(cinema);
 			Integer hallid = hallService.saveAndGetId(hall);
@@ -639,6 +640,56 @@ public class DashboardController {
 		}
 		return "redirect:/admin/cinema/" + cinemaid;
 
+	}
+
+	@RequestMapping(value = { "edithall/{id}/{cinemaid}" }, method = RequestMethod.GET)
+	public String EditHall(ModelMap modelMap, @PathVariable("id") int id, @PathVariable("cinemaid") int cinemaid) {
+		Hall hall = hallService.findHallbyId(id);
+		modelMap.put("hall", hall);
+		System.out.println("result of rows: " + seatsService.countUniqueRowsByHallId(id));
+		System.out.println("result of columns: " + seatsService.countUniqueColumnsByHallId(id));
+		return "admin/hall/edit";
+	}
+
+	@RequestMapping(value = "edithall/{hallid}", method = RequestMethod.POST)
+	public String updateHall(@ModelAttribute("hall") Hall hall, RedirectAttributes redirectAttributes,
+			ModelMap modelMap, @PathVariable("hallid") int hallid, @RequestParam("numberOfSeats") int numberOfRows,
+			@RequestParam("numberOfColumns") int numberOfColumns) {
+		try {
+			Hall existingHall = hallService.findHallbyId(hallid);
+
+			if (existingHall != null) {
+				char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+						'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+				int lastCharofRows = seatsService.countUniqueRowsByHallId(hallid);
+				int biggestnumberColumns = seatsService.countUniqueColumnsByHallId(hallid);
+				//numberOfColumns = 0;
+				for (int i = 0; i < numberOfRows; i++) {
+					char selectedRow = charArray[lastCharofRows + i];
+					for (int j = 1; j <= biggestnumberColumns; j++) {
+						Seats newSeat = new Seats(hall, String.valueOf(selectedRow), j);
+						seatsService.save(newSeat);
+					}
+				}
+
+//				for (int i = 0; i < numberOfColumns + biggestnumberColumns; i++) {
+//					char selectedColumns = charArray[lastCharofRows + i];
+//					for (int j = 1; j <= biggestnumberColumns + numberOfColumns; j++) {
+//						Seats newSeat = new Seats(hall, String.valueOf(selectedColumns), j + biggestnumberColumns);
+//						seatsService.save(newSeat);
+//					}
+//				}
+
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Fail");
+				return "redirect:/admin/edithall/" + hallid;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/cinema/" + 1;
 	}
 
 	@RequestMapping(value = { "blogs/delete/{id}" }, method = RequestMethod.GET)
@@ -1026,6 +1077,32 @@ public class DashboardController {
 		modelMap.put("account", accountService.find(id));
 		return "admin/account/details";
 
+	}
+
+	@RequestMapping(value = { "deletehall/{id}" }, method = RequestMethod.GET)
+	public String halldelete(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		Hall hall = hallService.findHallbyId(id);
+		int cinemaId = hall.getCinema().getId();
+		if (hall.getShows().isEmpty() || hall.getShows() == null) {
+			try {
+				if (hall.getSeatses() != null) {
+					seatsService.delete(id);
+				}
+
+				if (hallService.delete(id)) {
+					redirectAttributes.addFlashAttribute("msg", "ok");
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "cant delete this Hall because it has shows");
+
+		}
+		return "redirect:/admin/cinema/" + cinemaId;
 	}
 
 }
