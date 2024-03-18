@@ -2,6 +2,7 @@ package com.demo.services.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import com.demo.dtos.OrderSeat;
 import com.demo.dtos.ShowSeatsDTO;
 import com.demo.dtos.ShowSeatsOrderingStatus;
 import com.demo.entities.BookingDetails;
@@ -174,4 +176,28 @@ public class ShowServiceImpl implements ShowService {
 	public List<Shows> findAllShowsByAccountId(int accountId) {
 		return showsRepository.findAllShowsByAccountId(accountId);
 	}
+
+	@Override
+	public List<Seats> mapToSeat(OrderSeat seats) {
+		Shows show = showsRepository.findById(seats.getShowId()).get();
+		Hall hall = show.getHall();
+		List<Seats> defaultSeats = hall.getSeatses();
+		List<String> orderSeatIds = Arrays.asList(seats.getBookingSeats().split(";"));
+		List<Seats> orderedSeats = orderSeatIds.stream()
+			.map(seatId -> {
+				String[] rowAndNumber = seatId.split("");
+				return findSeatsByRowAndNumber(defaultSeats, rowAndNumber[0], Integer.valueOf(rowAndNumber[1]));
+			})
+			.toList();
+		
+		return orderedSeats;
+	}
+	
+	private Seats findSeatsByRowAndNumber(List<Seats> seats, String row, Integer number) {
+		return seats.stream()
+				.filter(seat -> seat.getRow().equals(row) && seat.getNumber().compareTo(number) == 0)
+				.toList()
+				.get(0);
+	}
 }
+

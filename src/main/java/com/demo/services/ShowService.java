@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 
+import com.demo.dtos.OrderSeat;
 import com.demo.dtos.ShowSeatsDTO;
 import com.demo.dtos.ShowSeatsOrderingStatus;
 import com.demo.entities.Seats;
@@ -30,4 +31,5 @@ public interface ShowService {
 	public List<Shows> SearchShowsNoDate(int movieId, int CinemaId);
 	public Shows FindShowByTimeandHall(int hallid, Date startdate);
 	public List<Shows> findAllShowsByAccountId(int accountId); 
+	public List<Seats> mapToSeat(OrderSeat seats);
 }

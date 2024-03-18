@@ -1,0 +1,57 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Home Page', ~{this :: .container})}">
+<div class="cart" style="margin-top: 50;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-9">
+				<table class="table table-cart table-mobile">
+					<thead>
+						<tr>
+							<th>Product</th>
+							<th>Price</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:each="food : ${foods}">
+							<td class="product-col">
+								<div class="product">
+									<figure class="product-media">
+										<a href="#">
+											<img th:src="@{'/images/' + ${food.photo}}" alt="Product image">
+										</a>
+									</figure>
+
+									<h3 class="product-title" th:text="${food.name}">
+
+									</h3><!-- End .product-title -->
+								</div><!-- End .product -->
+							</td>
+							<td class="price-col" th:text="@{'$' + ${food.price}}"></td>
+							<td class="quantity-col">
+								<div class="cart-product-quantity">
+									<input type="hidden" th:name="@{'food' + ${food.id}}" th:value="${food.id}">
+									<input type="hidden"  th:value="${food.price}">
+									<input type="number" class="form-control" value="0" min="0" max="10" step="1"
+										data-decimals="0" required>
+								</div><!-- End .cart-product-quantity -->
+							</td>
+						</tr>
+
+					</tbody>
+				</table><!-- End .table table-wishlist -->
+
+				<!-- End .cart-bottom -->
+			</div><!-- End .col-lg-9 -->
+			<aside class="col-lg-3">
+				<div class="summary summary-cart" style="margin-top: 50;">
+					<h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
+					<button type="button" onclick="onChooseFood()">Check Out</button>	
+
+
+					<a   onclick="onChooseFood()" class="btn btn-outline-primary-2 btn-order btn-block">NEXT</a>
+				</div><!-- End .summary -->
+			</aside><!-- End .col-lg-3 -->
+		</div><!-- End .row -->
+	</div><!-- End .container -->
+</div><!-- End .cart -->

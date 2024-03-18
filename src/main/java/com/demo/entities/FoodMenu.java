@@ -94,4 +94,14 @@ public class FoodMenu implements java.io.Serializable {
 		this.foodBookingDetailses = foodBookingDetailses;
 	}
 
+	@Override
+	public String toString() {
+		return "FoodMenu [id=" + id + ", name=" + name + ", price=" + price + ", photo=" + photo + ", status=" + status
+				+ ", foodBookingDetailses=" + foodBookingDetailses + "]";
+	}
+	
+	
+	
+	
+
 }
