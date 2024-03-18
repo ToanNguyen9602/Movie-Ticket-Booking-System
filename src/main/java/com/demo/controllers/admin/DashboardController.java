@@ -88,7 +88,7 @@ public class DashboardController {
 	private BCryptPasswordEncoder encoder;
 	@Autowired
 	private BookingDetailsService bookingDetailsService;
-	
+
 	@Autowired
 	private FoodDetailsService foodDetailsService;
 
@@ -97,8 +97,7 @@ public class DashboardController {
 
 		modelMap.put("movieincome", bookingDetailsService.incomefromMovies());
 		modelMap.put("foodincome", foodDetailsService.incomefromFood());
-		modelMap.put("totalincome",
-				bookingDetailsService.incomefromMovies() + foodDetailsService.incomefromFood());
+		modelMap.put("totalincome", bookingDetailsService.incomefromMovies() + foodDetailsService.incomefromFood());
 		modelMap.put("users", accountService.countAccountsWithRoleId(3));
 		modelMap.put("countedshows", showService.countShowsEnd());
 		modelMap.put("movies", movieService.top5Movies());
@@ -976,6 +975,7 @@ public class DashboardController {
 			localDateTime = localDateTime.truncatedTo(ChronoUnit.MINUTES);
 			Date startTimeDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 			Shows checkedshow = showService.FindShowByTimeandHall(show.getHall().getId(), startTimeDate);
+
 			if (checkedshow != null) {
 				redirectAttributes.addFlashAttribute("msg", "This Hall has a show at that time");
 			} else {
@@ -1025,6 +1025,7 @@ public class DashboardController {
 		modelMap.put("halls", hallService.findHallsByCinemaId(show.getCinema().getId()));
 
 		return "admin/shows/update";
+
 	}
 
 	@RequestMapping(value = "shows/update", method = RequestMethod.POST)
