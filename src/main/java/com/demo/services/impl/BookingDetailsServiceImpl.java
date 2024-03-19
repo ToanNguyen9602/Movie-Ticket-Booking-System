@@ -43,12 +43,14 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 	@Override
 	public Integer incomefromMovies() {
 		// TODO Auto-generated method stub
-		return bookingDetailRepository.IncomeFromMovie();
+		Integer sum = bookingDetailRepository.IncomeFromMovie();
+		return sum != null ? sum : 0;
 	}
 
 	@Override
 	public Integer sumOfPricesByMovieId(int id) {
-		return bookingDetailRepository.sumOfPricesByMovieId(id);
+		Integer sum = bookingDetailRepository.sumOfPricesByMovieId(id);
+		return sum != null ? sum : 0;
 	}
 
 }

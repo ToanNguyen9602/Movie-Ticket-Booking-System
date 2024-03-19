@@ -19,7 +19,9 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -79,6 +81,9 @@ public class DashboardController {
 	@Autowired
 	private ShowService showService;
 
+	@Autowired
+	private Environment environment;
+
 	//
 	@Autowired
 	private AccountService accountService;
@@ -124,15 +129,62 @@ public class DashboardController {
 	}
 
 	@RequestMapping(value = { "listfood" }, method = RequestMethod.GET)
-	public String ListFood(ModelMap modelMap) {
-		modelMap.put("foods", foodService.findAll_ListFood());
+	public String listFood(ModelMap modelMap, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			@RequestParam(required = false) String keyword) {
+		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
+		Page<FoodMenu> page;
+
+		if (keyword != null) {
+			page = foodService.SearchByFoodName(keyword, pageNo, pageSize);
+		} else {
+			page = foodService.findAll_ListFoodpagin(pageNo, pageSize);
+		}
+
+		modelMap.put("foods", page.getContent());
+		modelMap.put("currentPage", pageNo);
+		modelMap.put("totalPages", page.getTotalPages());
+		modelMap.put("keyword", keyword);
 		return "admin/food/listfood";
 	}
 
-	@RequestMapping(value = { "listmovie" }, method = RequestMethod.GET)
-	public String ListMovie(ModelMap modelMap) {
-		modelMap.put("movies", movieService.findAll_ListMovie());
-		return "admin/movie/listmovie";
+	@RequestMapping(value = { "listnowmovie" }, method = RequestMethod.GET)
+	public String ListNowMovie(ModelMap modelMap,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			@RequestParam(required = false) String keyword) {
+		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
+		Page<Movie> page;
+
+		if (keyword != null) {
+			page = movieService.searchNowShowingMovies(keyword, pageNo, pageSize);
+		} else {
+			page = movieService.findNowShowingMovies(pageNo, pageSize);
+		}
+
+		modelMap.put("movies", page.getContent());
+		modelMap.put("currentPage", pageNo);
+		modelMap.put("totalPages", page.getTotalPages());
+		modelMap.put("keyword", keyword);
+		return "admin/movie/listnowmovie";
+	}
+
+	@RequestMapping(value = { "listcomingmovie" }, method = RequestMethod.GET)
+	public String ListComing_soonMovie(ModelMap modelMap,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			@RequestParam(required = false) String keyword) {
+		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
+		Page<Movie> page;
+
+		if (keyword != null) {
+			page = movieService.searchUpcomingMovies(keyword, pageNo, pageSize);
+		} else {
+			page = movieService.findUpcomingMovies(pageNo, pageSize);
+		}
+
+		modelMap.put("movies", page.getContent());
+		modelMap.put("currentPage", pageNo);
+		modelMap.put("totalPages", page.getTotalPages());
+		modelMap.put("keyword", keyword);
+		return "admin/movie/listcomingmovie";
 	}
 
 	@RequestMapping(value = { "listcity" }, method = RequestMethod.GET)
@@ -169,14 +221,42 @@ public class DashboardController {
 	}
 
 	@RequestMapping(value = { "listuser" }, method = RequestMethod.GET)
-	public String ListUser(ModelMap modelMap) {
-		modelMap.put("accounts", accountService.findAllByRole(3));
+	public String ListUser(ModelMap modelMap,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			@RequestParam(required = false) String keyword) {
+		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
+		Page<Account> page;
+
+		if (keyword != null) {
+			page = accountService.findAccount(keyword,3, pageNo, pageSize);
+		} else {
+			page = accountService.findAllByRole(3,pageNo, pageSize);
+		}
+
+		modelMap.put("accounts", page.getContent());
+		modelMap.put("currentPage", pageNo);
+		modelMap.put("totalPages", page.getTotalPages());
+		modelMap.put("keyword", keyword);
 		return "admin/account/listuser";
 	}
 
 	@RequestMapping(value = { "liststaff" }, method = RequestMethod.GET)
-	public String ListStaff(ModelMap modelMap) {
-		modelMap.put("accounts", accountService.findAllByRole(2));
+	public String ListStaff(ModelMap modelMap,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+			@RequestParam(required = false) String keyword) {
+		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
+		Page<Account> page;
+
+		if (keyword != null) {
+			page = accountService.findAccount(keyword,2, pageNo, pageSize);
+		} else {
+			page = accountService.findAllByRole(2,pageNo, pageSize);
+		}
+
+		modelMap.put("accounts", page.getContent());
+		modelMap.put("currentPage", pageNo);
+		modelMap.put("totalPages", page.getTotalPages());
+		modelMap.put("keyword", keyword);
 		return "admin/account/liststaff";
 	}
 
@@ -252,7 +332,7 @@ public class DashboardController {
 				movie.setPoster("no-image.jpg");
 			}
 
-			if (movieService.save(movie)) {
+			if (movieService.save2(movie)) {
 				redirectAttributes.addFlashAttribute("msg", "ok");
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "Fail or duplicate name");
@@ -261,7 +341,7 @@ public class DashboardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/admin/listmovie";
+		return "redirect:/admin/listnowmovie";
 
 	}
 
@@ -403,7 +483,7 @@ public class DashboardController {
 				food.setPhoto(fileName);
 			}
 			food.setStatus(true);
-			if (foodService.save(food)) {
+			if (foodService.save2(food)) {
 				redirectAttributes.addFlashAttribute("msg", "Success");
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "No Update Duplicate Name");
@@ -521,7 +601,36 @@ public class DashboardController {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("msg", e.getMessage());
 		}
-		return "redirect:/admin/listmovie";
+		return "redirect:/admin/listnowmovie";
+	}
+	
+	@RequestMapping(value = "movie/edit2/{id}", method = RequestMethod.GET)
+	public String editmovie2(@PathVariable("id") int id, ModelMap modelMap) {
+		modelMap.put("movie", movieService.findMovieById(id));
+		return "admin/movie/edit";
+	}
+
+	@RequestMapping(value = "movie/edit2", method = RequestMethod.POST)
+	public String editmovie2(@ModelAttribute("movie") Movie movie, @RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+		try {
+			if (file != null && file.getSize() > 0) {
+				File folderImage = new File(new ClassPathResource(".").getFile().getPath() + "/static/images");
+				String fileName = FileHelper.generateFileName(file.getOriginalFilename());
+				Path path = Paths.get(folderImage.getAbsolutePath() + File.separator + fileName);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				movie.setPoster(fileName);
+			}
+			if (movieService.save(movie)) {
+				redirectAttributes.addFlashAttribute("msg", "Success");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "No Update Duplicate Name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("msg", e.getMessage());
+		}
+		return "redirect:/admin/listcomingmovie";
 	}
 
 	@RequestMapping(value = { "movie/delete/{id}" }, method = RequestMethod.GET)
@@ -536,7 +645,22 @@ public class DashboardController {
 			movieService.delete(id);
 			redirectAttributes.addFlashAttribute("msg", "ok");
 		}
-		return "redirect:/admin/listmovie";
+		return "redirect:/admin/listnowmovie";
+	}
+	
+	@RequestMapping(value = { "movie/delete2/{id}" }, method = RequestMethod.GET)
+	public String deleteMovie2(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+
+		Movie checkedmovie = movieService.findMovieById(id);
+		if (!checkedmovie.getShowses().isEmpty()) {
+
+			redirectAttributes.addFlashAttribute("msg", "fail");
+			return "redirect:/admin/listmovie";
+		} else {
+			movieService.delete(id);
+			redirectAttributes.addFlashAttribute("msg", "ok");
+		}
+		return "redirect:/admin/listcomingmovie";
 	}
 
 	@RequestMapping(value = { "register" }, method = RequestMethod.GET)
@@ -844,16 +968,7 @@ public class DashboardController {
 		return "redirect:/admin/listuser";
 	}
 
-	@RequestMapping(value = { "searchbyusername" }, method = RequestMethod.GET)
-	public String searchbyusername(@RequestParam("kw") String kw, ModelMap modelMap) {
 
-		modelMap.put("accounts", accountService.findAccount(kw, 2));
-
-		modelMap.put("accounts", accountService.findAccount(kw, 2));
-		modelMap.put("kw", kw);
-
-		return "admin/account/liststaff";
-	}
 
 	@RequestMapping(value = { "blogsearch" }, method = RequestMethod.GET)
 	public String blogsearch(@RequestParam("title") String title, ModelMap modelMap) {
@@ -867,23 +982,9 @@ public class DashboardController {
 		return "admin/blog/listblog";
 	}
 
-	@RequestMapping(value = { "searchuser" }, method = RequestMethod.GET)
-	public String searchusername(@RequestParam("kw") String kw, ModelMap modelMap) {
+	
 
-		modelMap.put("accounts", accountService.findAccount(kw, 3));
-
-		modelMap.put("accounts", accountService.findAccount(kw, 3));
-		modelMap.put("kw", kw);
-
-		return "admin/account/listuser";
-	}
-
-	@RequestMapping(value = { "searchbyfood" }, method = RequestMethod.GET)
-	public String searchbyfood(@RequestParam("kw") String kw, ModelMap modelMap) {
-		modelMap.put("foods", foodService.SearchByFoodName(kw));
-		modelMap.put("kw", kw);
-		return "admin/food/listfood";
-	}
+	
 
 	@RequestMapping(value = { "searchbycity" }, method = RequestMethod.GET)
 	public String searchbycity(@RequestParam("kw") String kw, ModelMap modelMap) {
@@ -899,12 +1000,7 @@ public class DashboardController {
 		return "admin/cinema/listcinema";
 	}
 
-	@RequestMapping(value = { "searchbymovie" }, method = RequestMethod.GET)
-	public String searchbymovie(@RequestParam("title") String title, ModelMap modelMap) {
-		modelMap.put("movies", movieService.searchMoviesByTitle1(title));
-		modelMap.put("kw", title);
-		return "admin/movie/listmovie";
-	}
+
 
 	@RequestMapping(value = "addshows", method = RequestMethod.GET)
 	public String testaddshow(ModelMap modelMap) {
