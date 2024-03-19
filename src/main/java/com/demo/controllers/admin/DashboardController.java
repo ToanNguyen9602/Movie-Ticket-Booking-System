@@ -148,8 +148,7 @@ public class DashboardController {
 	}
 
 	@RequestMapping(value = { "listnowmovie" }, method = RequestMethod.GET)
-	public String ListNowMovie(ModelMap modelMap,
-			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+	public String ListNowMovie(ModelMap modelMap, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			@RequestParam(required = false) String keyword) {
 		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
 		Page<Movie> page;
@@ -221,16 +220,15 @@ public class DashboardController {
 	}
 
 	@RequestMapping(value = { "listuser" }, method = RequestMethod.GET)
-	public String ListUser(ModelMap modelMap,
-			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+	public String ListUser(ModelMap modelMap, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			@RequestParam(required = false) String keyword) {
 		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
 		Page<Account> page;
 
 		if (keyword != null) {
-			page = accountService.findAccount(keyword,3, pageNo, pageSize);
+			page = accountService.findAccount(keyword, 3, pageNo, pageSize);
 		} else {
-			page = accountService.findAllByRole(3,pageNo, pageSize);
+			page = accountService.findAllByRole(3, pageNo, pageSize);
 		}
 
 		modelMap.put("accounts", page.getContent());
@@ -241,16 +239,15 @@ public class DashboardController {
 	}
 
 	@RequestMapping(value = { "liststaff" }, method = RequestMethod.GET)
-	public String ListStaff(ModelMap modelMap,
-			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+	public String ListStaff(ModelMap modelMap, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
 			@RequestParam(required = false) String keyword) {
 		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
 		Page<Account> page;
 
 		if (keyword != null) {
-			page = accountService.findAccount(keyword,2, pageNo, pageSize);
+			page = accountService.findAccount(keyword, 2, pageNo, pageSize);
 		} else {
-			page = accountService.findAllByRole(2,pageNo, pageSize);
+			page = accountService.findAllByRole(2, pageNo, pageSize);
 		}
 
 		modelMap.put("accounts", page.getContent());
@@ -603,7 +600,7 @@ public class DashboardController {
 		}
 		return "redirect:/admin/listnowmovie";
 	}
-	
+
 	@RequestMapping(value = "movie/edit2/{id}", method = RequestMethod.GET)
 	public String editmovie2(@PathVariable("id") int id, ModelMap modelMap) {
 		modelMap.put("movie", movieService.findMovieById(id));
@@ -640,14 +637,14 @@ public class DashboardController {
 		if (!checkedmovie.getShowses().isEmpty()) {
 
 			redirectAttributes.addFlashAttribute("msg", "fail");
-			return "redirect:/admin/listmovie";
+			return "redirect:/admin/listnowmovie";
 		} else {
 			movieService.delete(id);
 			redirectAttributes.addFlashAttribute("msg", "ok");
 		}
 		return "redirect:/admin/listnowmovie";
 	}
-	
+
 	@RequestMapping(value = { "movie/delete2/{id}" }, method = RequestMethod.GET)
 	public String deleteMovie2(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
 
@@ -655,7 +652,7 @@ public class DashboardController {
 		if (!checkedmovie.getShowses().isEmpty()) {
 
 			redirectAttributes.addFlashAttribute("msg", "fail");
-			return "redirect:/admin/listmovie";
+			return "redirect:/admin/listcomingmovie";
 		} else {
 			movieService.delete(id);
 			redirectAttributes.addFlashAttribute("msg", "ok");
@@ -968,8 +965,6 @@ public class DashboardController {
 		return "redirect:/admin/listuser";
 	}
 
-
-
 	@RequestMapping(value = { "blogsearch" }, method = RequestMethod.GET)
 	public String blogsearch(@RequestParam("title") String title, ModelMap modelMap) {
 		List<Blogs> blogs = blogsService.searchblogs(title);
@@ -981,10 +976,6 @@ public class DashboardController {
 		modelMap.put("kw", title);
 		return "admin/blog/listblog";
 	}
-
-	
-
-	
 
 	@RequestMapping(value = { "searchbycity" }, method = RequestMethod.GET)
 	public String searchbycity(@RequestParam("kw") String kw, ModelMap modelMap) {
@@ -999,8 +990,6 @@ public class DashboardController {
 		modelMap.put("kw", kw);
 		return "admin/cinema/listcinema";
 	}
-
-
 
 	@RequestMapping(value = "addshows", method = RequestMethod.GET)
 	public String testaddshow(ModelMap modelMap) {

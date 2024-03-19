@@ -162,17 +162,18 @@ public class AccountServiceImp implements AccountService {
 	
 
 	public List<Account> findAllByRole(int n) {
-		List<Account> accounts = accountRepository.findAll();
-		List<Account> accountsByRole = new ArrayList<>();
-		for (Account account : accounts) {
-			Set<Role> roles = account.getRoles();
-			for (Role role : roles) {
-				if (role.getId() == n) {
-					accountsByRole.add(account);
-				}
-			}
-		}
-		return accountsByRole;
+//		List<Account> accounts = accountRepository.findAll();
+//		List<Account> accountsByRole = new ArrayList<>();
+//		for (Account account : accounts) {
+//			Set<Role> roles = account.getRoles();
+//			for (Role role : roles) {
+//				if (role.getId() == n) {
+//					accountsByRole.add(account);
+//				}
+//			}
+//		}
+//		return accountsByRole;
+		return null;
 	}
 
 	public String getpassword(String username) {
