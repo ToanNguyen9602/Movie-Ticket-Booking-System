@@ -233,4 +233,10 @@ public class AccountServiceImp implements AccountService {
 		return sum != null ? sum : 0;
 	}
 
+	@Override
+	public List<Account> findAccount(String kw, int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

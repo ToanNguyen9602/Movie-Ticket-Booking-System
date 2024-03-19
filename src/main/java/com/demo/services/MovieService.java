@@ -49,6 +49,7 @@ public interface MovieService {
 
 	
 	public boolean isMovieShowingNow(Integer movieId);
+	
 	public List<Movie> top5Movies();
 	
 	
