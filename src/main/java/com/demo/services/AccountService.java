@@ -32,7 +32,7 @@ public interface AccountService extends UserDetailsService {
 
 	public Page<Account> findAllByRole(int n, int pageNo, int pageSize);
 
-	public List<Account> findAllByRole(int n);
+	public List<Account> findAllByRoles(int n);
 
 	public String getpassword(String username);
 
@@ -40,7 +40,7 @@ public interface AccountService extends UserDetailsService {
 
 	public List<Account> findAccount1(String kw, int id);
 
-	public Page<Account> findAccount(String kw, int id, int pageNo, int pageSize);
+	//public Page<Account> findAccount(String kw, int id, int pageNo, int pageSize);
 
 	public List<Account> findAccount(String kw, int id);
 
