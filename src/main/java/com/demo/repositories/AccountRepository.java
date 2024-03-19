@@ -30,7 +30,7 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 	@Query("from Account where phone=:phone")
 	public Account findbyphone(@Param("phone") String phone);
 
-	@Query("from Account order by id DESC")
+	@Query("from Account order by id desc")
 	public Page<Account> findAll(Pageable pageable);
 
 	@Query("SELECT a FROM Account a JOIN a.roles r WHERE a.username LIKE %:username% AND r.id = :id")
@@ -54,5 +54,8 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 			+ "JOIN bd.booking b " + "JOIN FoodBookingDetails fbd " + "ON bd.id.bookingId = fbd.id.bookingId "
 			+ "WHERE b.account.id = :accountId order by COALESCE(SUM(bd.price)) + COALESCE(SUM(fbd.price*fbd.quantity))")
 	public Integer getTotalPriceByAccountId(Integer accountId);
+
+	@Query("from Account order by id desc")
+	public List<Account> findallaccount();
 
 }

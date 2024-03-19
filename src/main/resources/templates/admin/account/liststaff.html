@@ -25,8 +25,8 @@
 							<!-- end filter sort -->
 
 							<!-- search -->
-							<form th:action="@{/admin/liststaff}" class="main__title-form" method="get">
-								<input type="text" placeholder="Find Staff" name="keyword" th:value="${keyword}">
+							<form th:action="@{/admin/searchbyusername/staff}" class="main__title-form" method="get">
+								<input type="text" placeholder="Find Staff" name="kw" th:value="${kw}">
 								<button type="submit">
 									<svg width="18" height="18" viewBox="0 0 18 18" fill="none"
 										xmlns="http://www.w3.org/2000/svg">
@@ -119,7 +119,7 @@
 				</div>
 				<!-- end users -->
 
-				<!-- paginator -->
+				<!-- paginator 
 				<div class="col-12">
 					<div class="paginator">
 						<span class="paginator__pages"></span>
@@ -155,7 +155,7 @@
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div> -->
 				<!-- end paginator -->
 			</div>
 		</div>

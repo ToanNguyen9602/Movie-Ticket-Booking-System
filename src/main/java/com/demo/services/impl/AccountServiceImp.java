@@ -144,36 +144,36 @@ public class AccountServiceImp implements AccountService {
 
 	@Override
 
-    public Page<Account> findAllByRole(int n, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        Page<Account> accounts = accountRepository.findAll(pageable);
-        List<Account> accountsByRole = new ArrayList<>();
-        for (Account account : accounts.getContent()) {
-            Set<Role> roles = account.getRoles();
-            for (Role role : roles) {
-                if (role.getId() == n) {
-                    accountsByRole.add(account);
-                    break; // Break out of inner loop once role is found
-                }
-            }
-        }
-        return new PageImpl<>(accountsByRole, pageable, accountsByRole.size());
-    }
-	
+	public Page<Account> findAllByRole(int roleId, int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		Page<Account> accounts = accountRepository.findAll(pageable);
+		List<Account> accountsByRole = new ArrayList<>();
 
-	public List<Account> findAllByRole(int n) {
-//		List<Account> accounts = accountRepository.findAll();
-//		List<Account> accountsByRole = new ArrayList<>();
-//		for (Account account : accounts) {
-//			Set<Role> roles = account.getRoles();
-//			for (Role role : roles) {
-//				if (role.getId() == n) {
-//					accountsByRole.add(account);
-//				}
-//			}
-//		}
-//		return accountsByRole;
-		return null;
+		for (Account account : accounts.getContent()) {
+			Set<Role> roles = account.getRoles();
+			for (Role role : roles) {
+				if (role.getId() == roleId) {
+					accountsByRole.add(account);
+					break; // Break out of inner loop once role is found
+				}
+			}
+		}
+
+		return new PageImpl<>(accountsByRole, pageable, accountsByRole.size());
+	}
+
+	public List<Account> findAllByRoles(int n) {
+		List<Account> accounts = accountRepository.findallaccount();
+		List<Account> accountsByRole = new ArrayList<>();
+		for (Account account : accounts) {
+			Set<Role> roles = account.getRoles();
+			for (Role role : roles) {
+				if (role.getId() == n) {
+					accountsByRole.add(account);
+				}
+			}
+		}
+		return accountsByRole;
 	}
 
 	public String getpassword(String username) {
@@ -194,16 +194,25 @@ public class AccountServiceImp implements AccountService {
 
 	@Override
 
-	public Page<Account> findAccount(String kw, int id, int pageNo, int pageSize) {
-		List list = this.findAccount1(kw,id);
-		
-		Pageable pageable = PageRequest.of(pageNo -1 , pageSize);
-		
-		Integer start = (int) pageable.getOffset();
-		Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() : pageable.getOffset() + pageable.getPageSize());
-		list = list.subList(start, end);
-		return new PageImpl<Account>(list, pageable, this.findAccount1(kw,id).size());
-	}
+//	public Page<Account> findAccount(String kw, int id, int pageNo, int pageSize) {
+//		List<Account> list= this.findAccount1(kw,id);
+//		
+//	    if (kw != null && !kw.isEmpty()) {
+//	        // If keyword is not null or empty, perform search with the keyword
+//	        list = this.findAccount1(kw, id);
+//	    } else {
+//	        // If keyword is null or empty, fetch all accounts by role without filtering by keyword
+//	        list = findAllByRoles(id);
+//	    }
+//		
+//		
+//		Pageable pageable = PageRequest.of(pageNo -1 , pageSize);
+//		
+//		Integer start = (int) pageable.getOffset();
+//		Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() : pageable.getOffset() + pageable.getPageSize());
+//		list = list.subList(start, end);
+//		return new PageImpl<Account>(list, pageable, this.findAccount1(kw,id).size());
+//	}
 
 	public Integer paidForMoviebyAccountId(int id) {
 		Integer sum = accountRepository.sumBookingPricesByAccountId(id);
@@ -236,8 +245,7 @@ public class AccountServiceImp implements AccountService {
 
 	@Override
 	public List<Account> findAccount(String kw, int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return accountRepository.searchAccounts(kw, id);
 	}
 
 }

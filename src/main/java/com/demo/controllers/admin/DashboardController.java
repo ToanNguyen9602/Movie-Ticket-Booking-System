@@ -220,42 +220,72 @@ public class DashboardController {
 	}
 
 	@RequestMapping(value = { "listuser" }, method = RequestMethod.GET)
-	public String ListUser(ModelMap modelMap, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-			@RequestParam(required = false) String keyword) {
-		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
-		Page<Account> page;
+	public String ListUser(ModelMap modelMap) {
+		modelMap.put("accounts", accountService.findAllByRoles(3));
 
-		if (keyword != null) {
-			page = accountService.findAccount(keyword, 3, pageNo, pageSize);
-		} else {
-			page = accountService.findAllByRole(3, pageNo, pageSize);
-		}
-
-		modelMap.put("accounts", page.getContent());
-		modelMap.put("currentPage", pageNo);
-		modelMap.put("totalPages", page.getTotalPages());
-		modelMap.put("keyword", keyword);
 		return "admin/account/listuser";
 	}
 
 	@RequestMapping(value = { "liststaff" }, method = RequestMethod.GET)
-	public String ListStaff(ModelMap modelMap, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-			@RequestParam(required = false) String keyword) {
-		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
-		Page<Account> page;
+	public String ListStaff(ModelMap modelMap) {
+		modelMap.put("accounts", accountService.findAllByRoles(2));
 
-		if (keyword != null) {
-			page = accountService.findAccount(keyword, 2, pageNo, pageSize);
-		} else {
-			page = accountService.findAllByRole(2, pageNo, pageSize);
-		}
-
-		modelMap.put("accounts", page.getContent());
-		modelMap.put("currentPage", pageNo);
-		modelMap.put("totalPages", page.getTotalPages());
-		modelMap.put("keyword", keyword);
 		return "admin/account/liststaff";
 	}
+
+	@RequestMapping(value = { "searchbyusername/staff" }, method = RequestMethod.GET)
+	public String Staffsearchbyusername(@RequestParam("kw") String kw, ModelMap modelMap) {
+		modelMap.put("accounts", accountService.findAccount(kw, 2));
+		modelMap.put("kw", kw);
+
+		return "admin/account/liststaff";
+	}
+
+	@RequestMapping(value = { "searchbyusername/user" }, method = RequestMethod.GET)
+	public String Usersearchbyusername(@RequestParam("kw") String kw, ModelMap modelMap) {
+		modelMap.put("accounts", accountService.findAccount(kw, 3));
+		modelMap.put("kw", kw);
+
+		return "admin/account/listuser";
+	}
+
+//	@RequestMapping(value = { "listuser" }, method = RequestMethod.GET)
+//	public String Listuser(ModelMap modelMap, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+//			@RequestParam(required = false) String keyword) {
+//		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
+//		Page<Account> page;
+//
+//		if (keyword != null) {
+//			page = accountService.findAccount(keyword, 3, pageNo, pageSize);
+//		} else {
+//			page = accountService.findAllByRole(3, pageNo, pageSize);
+//		}
+//
+//		modelMap.put("accounts", page.getContent());
+//		modelMap.put("currentPage", pageNo);
+//		modelMap.put("totalPages", page.getTotalPages());
+//		modelMap.put("keyword", keyword);
+//		return "admin/account/listuser";
+//	}
+
+//	@RequestMapping(value = { "liststaff" }, method = RequestMethod.GET)
+//	public String ListStaff(ModelMap modelMap, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+//			@RequestParam(required = false) String keyword) {
+//		int pageSize = Integer.parseInt(environment.getProperty("pageSize"));
+//		Page<Account> page;
+//
+//		if (keyword != null) {
+//			page = accountService.findAccount(keyword, 2, pageNo, pageSize);
+//		} else {
+//			page = accountService.findAllByRole(2, pageNo, pageSize);
+//		}
+//
+//		modelMap.put("accounts", page.getContent());
+//		modelMap.put("currentPage", pageNo);
+//		modelMap.put("totalPages", page.getTotalPages());
+//		modelMap.put("keyword", keyword);
+//		return "admin/account/liststaff";
+//	}
 
 	@RequestMapping(value = { "addblog" }, method = RequestMethod.GET)
 	public String addBlog(ModelMap modelMap) {
