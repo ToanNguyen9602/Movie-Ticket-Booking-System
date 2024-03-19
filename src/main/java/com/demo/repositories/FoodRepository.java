@@ -3,6 +3,8 @@ package com.demo.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +22,8 @@ public interface FoodRepository extends JpaRepository<FoodMenu, Integer> {
 	
 	@Query("from FoodMenu where name like %:kw% ")
 	public List<FoodMenu> SearchByFoodName(@Param("kw") String kw);
+	
+	@Query("from FoodMenu where status = true order by id DESC")
+	public Page<FoodMenu> findAll_ListFoodpagin(Pageable pageable);
+	
 }

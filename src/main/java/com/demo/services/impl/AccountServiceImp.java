@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.entities.Account;
+import com.demo.entities.FoodMenu;
 import com.demo.entities.Role;
 import com.demo.repositories.AccountRepository;
 import com.demo.services.AccountService;
@@ -148,19 +153,21 @@ public class AccountServiceImp implements AccountService {
 	}
 
 	@Override
-	public List<Account> findAllByRole(int n) {
-	    List<Account> accounts = accountRepository.findAll();
-	    List<Account> accountsByRole = new ArrayList<>();
-	    for (Account account : accounts) {
-	        Set<Role> roles = account.getRoles();
-	        for (Role role : roles) {
-	            if (role.getId() == n) {
-	                accountsByRole.add(account);
-	            }
-	        }
-	    }
-	    return accountsByRole;
-	}
+    public Page<Account> findAllByRole(int n, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        Page<Account> accounts = accountRepository.findAll(pageable);
+        List<Account> accountsByRole = new ArrayList<>();
+        for (Account account : accounts.getContent()) {
+            Set<Role> roles = account.getRoles();
+            for (Role role : roles) {
+                if (role.getId() == n) {
+                    accountsByRole.add(account);
+                    break; // Break out of inner loop once role is found
+                }
+            }
+        }
+        return new PageImpl<>(accountsByRole, pageable, accountsByRole.size());
+    }
 	
 	public String getpassword(String username) {
 		Account account = accountRepository.findbyusername(username);
@@ -174,8 +181,20 @@ public class AccountServiceImp implements AccountService {
 	}
 
 	@Override
-	public List<Account> findAccount(String kw, int id) {
+	public List<Account> findAccount1(String kw, int id) {
 		return accountRepository.searchAccounts(kw, id);
+	}
+
+	@Override
+	public Page<Account> findAccount(String kw, int id, int pageNo, int pageSize) {
+		List list = this.findAccount1(kw,id);
+		
+		Pageable pageable = PageRequest.of(pageNo -1 , pageSize);
+		
+		Integer start = (int) pageable.getOffset();
+		Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size() : pageable.getOffset() + pageable.getPageSize());
+		list = list.subList(start, end);
+		return new PageImpl<Account>(list, pageable, this.findAccount1(kw,id).size());
 	}
 
 

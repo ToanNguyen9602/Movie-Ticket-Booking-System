@@ -2,6 +2,7 @@ package com.demo.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,14 @@ public interface AccountService extends UserDetailsService {
 	public boolean checkphone(String phone);
 	public boolean checkemail(String email);
 	
-	public List<Account> findAllByRole(int n);
+	public Page<Account> findAllByRole(int n,int pageNo, int pageSize);
 	
 	public String getpassword(String username);
 	
 	public boolean isLoggedIn();
 	
-	public List<Account> findAccount(String kw, int id);
+	public List<Account> findAccount1(String kw, int id);
+	
+	public Page<Account> findAccount(String kw, int id, int pageNo, int pageSize);
 
 }

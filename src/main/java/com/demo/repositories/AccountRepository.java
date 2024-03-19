@@ -2,6 +2,8 @@ package com.demo.repositories;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -29,7 +31,7 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 	public Account findbyphone(@Param("phone") String phone);
 
 	@Query("from Account order by id DESC")
-	public List<Account> findAll();
+	public Page<Account> findAll(Pageable pageable);
 
 	@Query("SELECT a FROM Account a JOIN a.roles r WHERE a.username LIKE %:username% AND r.id = :id")
 	public List<Account> searchAccounts(@Param("username") String username,
