@@ -7,9 +7,7 @@
 			<img class="order__images" style="position: absolute; left: 400;  " alt=''
 				th:src="@{/user/images/tickets.png}">
 			<p class="order__title">Book a ticket <br><span class="order__descript">and have fun movie time</span></p>
-			<div class="order__control">
-
-			</div>
+			<div class="order__control"></div>
 		</div>
 	</div>
 	<div class="order-step-area" style="margin-top: 130;">
@@ -20,46 +18,35 @@
 
 	<div class="col-sm-12">
 		<div class="checkout-wrapper" id="totalList">
-			<h2 class="page-heading">price</h2>
+			<h2 class="page-heading">Price</h2>
 			<ul class="book-result">
+				<li class="book-result__item">Name: <span class="book-result__count booking-price"
+						id="seatIds"></span></li>
 				<li class="book-result__item">Tickets: <span class="book-result__count booking-ticket"
 						id="ticketCount"></span></li>
-
 				<li class="book-result__item">One item price: <span class="book-result__count booking-price"
-						id="showPrice"></span>
-				</li>
-				<li class="book-result__item">Total Seat: <span class="book-result__count booking-cost"
+						id="showPrice"></span></li>
+						
+				<li class="book-result__item" style="display: none;">Total Seat: <span class="book-result__count booking-cost"
 						id="ticketTotalPrice"></span></li>
-				<li class="book-result__item">The total amount payable: <span class="book-result__count booking-cost"
-						id="totalCost"></span></li>
-
-			</ul>
-			<h2 class="page-heading">food</h2>
-			<ul class="book-result" id="foodList">
-
-			</ul>
-			<!-- total -->
-			<ul class="book-result" id="foodTotalList">
-				<li class="book-result__item">Total food cost: <span class="book-result__count booking-cost"
-						id="foodTotalCost"></span></li>
 			</ul>
 
+			<ul class="book-result" id="foodList" style="list-style: none;"></ul>
 
+			<hr>
 			<ul class="book-result">
-
+				<li class="book-result__count booking-ticket">The total amount payable: <span
+						class="book-result__count booking-cost" id="totalCost"   ></span></li>
 			</ul>
-			<!-- vnpay -->
-
 		</div>
 
 		<div class="order">
-			<a href="book-final.html" class="btn btn-md btn--warning btn--wide">buy now</a>
+			<button type="button" class="btn btn-md btn--warning btn--wide" onclick="paymentFlight()">Buy Now</button>
 			<script th:inline="javascript">
-
-				const showId = JSON.parse(localStorage.getItem("showId"))
-				const foods = JSON.parse(localStorage.getItem("foods"))
-				const seatIds = JSON.parse(localStorage.getItem("seatIds"))
-				const showPrice = JSON.parse(localStorage.getItem("showPrice"))
+				const showId = JSON.parse(localStorage.getItem("showId"));
+				const foods = JSON.parse(localStorage.getItem("foods"));
+				const seatIds = JSON.parse(localStorage.getItem("seatIds"));
+				const showPrice = JSON.parse(localStorage.getItem("showPrice"));
 				console.log("book-final")
 				console.log("Show ID :" + showId)
 				console.log("Foods :")
@@ -67,48 +54,65 @@
 				console.log("Seat :")
 				console.log(seatIds)
 				console.log("Seat price :" + showPrice)
-
 				document.getElementById('ticketCount').textContent = seatIds ? seatIds.length : 0;
 				document.getElementById('showPrice').textContent = "$" + showPrice;
+				document.getElementById('seatIds').textContent =  seatIds;
 
-				// Calculate and display total ticket cost
 				const totalCostElement = document.getElementById('totalCost');
 				const ticketCount = seatIds ? seatIds.length : 0;
 				const ticketTotalPrice = ticketCount * showPrice;
-				console.log("ticketTotalPrice :" + ticketTotalPrice)
 				document.getElementById('ticketTotalPrice').textContent = "$" + ticketTotalPrice;
-				// Display food information and calculate total food cost if available
+
 				const foodListElement = document.getElementById('foodList');
-				const foodTotalCostElement = document.getElementById('foodTotalCost');
 				let foodTotalPrice = 0;
 				if (foods && foods.length > 0) {
 					foods.forEach(function (food) {
-						const foodItem = document.createElement('div');
-						foodItem.className = "food-item";
-						const foodQuantity = food.quantity || 1; // Default quantity is 1 if not specified
+						const foodItem = document.createElement('ul');
+						foodItem.className = "book-result";
+						const foodQuantity = food.quantity || 1;
 						const foodPrice = parseFloat(food.price);
 						const itemTotalPrice = foodQuantity * foodPrice;
 						foodTotalPrice += itemTotalPrice;
 
-						foodItem.innerHTML = "<li class='food-item'><div class='food-name'>"
-							+ food.name + "</div><div class='food-quantity'>Quantity: "
-							+ foodQuantity + "</div><div class='food-price'>One item price: <span class='book-result__count booking-price' id='showPrice'>$" + showPrice + "</span></div><div class='food-total'>Total Price: $" + itemTotalPrice.toFixed(2) + "</div></li>";
-
+						foodItem.innerHTML = `
+                            <h2 class="page-heading">Food</h2>
+                                <li class="book-result__item"> Name: <span class="book-result__count booking-ticket"> ${food.name}</span></li>
+                                <li class="book-result__item"> Quantity: <span class="book-result__count booking-ticket"> ${foodQuantity}</span></li>
+                                <li class="book-result__item"> Price: <span class="book-result__count booking-ticket"> ${foodPrice}</span></li>
+                                <li class="book-result__item" style="display: none;"> Total Price: <span class="book-result__count booking-cost"> ${itemTotalPrice}</span></li>
+                            `;
 
 						foodListElement.appendChild(foodItem);
 					});
 				}
-				foodTotalCostElement.textContent = "$" + foodTotalPrice;
 
-				// Calculate and display total cost including ticket and food
+
 				const totalCostBill = ticketTotalPrice + foodTotalPrice;
 				totalCostElement.textContent = "$" + totalCostBill;
+				
+				function paymentFlight() {
+					var payment = parseFloat(totalCostBill);
 
+					$.ajax({
+						type: "POST",
+						url: "api/vnpay",
+						data: {payment},
+						dataType: 'JSON',
+						success: function (res) {
+							if (res.code === '00') {
+								window.location.href = res.data
+								//insertBill(res.data);
+							} else {
+								alert(res.Message);
+							}
+						}, error: function (res) {
+							console.log("Fail");
+						}
+					});
+				}
 			</script>
 		</div>
-
 	</div>
-
 </section>
 
 </html>

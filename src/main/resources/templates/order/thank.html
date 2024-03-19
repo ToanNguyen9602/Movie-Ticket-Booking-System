@@ -1,41 +1,89 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{layout/user :: content('BookSeat Page', ~{this :: .container})}">
 
- <section class="container">
-            <div class="order-container">
-             <div class="order" style="margin-top: 50;">
-					<img class="order__images" style="position: absolute; left: 350;  " alt='' th:src="@{/user/images/tickets.png}">
-                    <p class="order__title">Thank you <br><span class="order__descript">you have successfully purchased tickets</span></p>
-                </div>
+<section class="container">
 
-                <div class="ticket">
-                    <div class="ticket-position">
-                        <div class="ticket__indecator indecator--pre"><div class="indecator-text pre--text">online ticket</div> </div>
-                        <div class="ticket__inner">
+	<div class="order-container">
+		<input id="paymentCode" th:attr="value=${_bill_payment_code}" hidden />
+		<input id="status" th:attr="value=${status}" hidden />
+		<div class="order" style="margin-top: 50;">
+			<img class="order__images" style="position: absolute; left: 350;  " alt=''
+				th:src="@{/user/images/tickets.png}">
+			<p class="order__title">Thank you <br><span class="order__descript">you have successfully purchased
+					tickets</span></p>
+		</div>
 
-                            <div class="ticket-secondary">
-                                <span class="ticket__item" style="text-align: center;">Ticket </span>
-                                <span class="ticket__item ticket__date">25/10/2013</span>
-                                <span class="ticket__item ticket__time">17:45</span>
-                                <span class="ticket__item">Cinema: <span class="ticket__cinema">Cineworld</span></span>
-                                <span class="ticket__item">Hall: <span class="ticket__hall">Visconti</span></span>
-                                <span class="ticket__item ticket__price">price: <strong class="ticket__cost">$60</strong></span>
-                            </div>
+		<div class="ticket">
+			<div class="ticket-position">
+				<div class="ticket__indecator indecator--pre">
+					<div class="indecator-text pre--text">online ticket</div>
+				</div>
+				<div class="ticket__inner">
 
-                            <div class="ticket-primery">
-                                <span class="ticket__item ticket__item--primery ticket__film">Film<br><strong class="ticket__movie">The Fifth Estate (2013)</strong></span>
-                                <span class="ticket__item ticket__item--primery">Seats: <span class="ticket__place">11F, 12F, 13F</span></span>
-                            </div>
+					<div class="ticket-secondary">
+						<span class="ticket__item" style="text-align: center;">Ticket </span>
+						<span class="ticket__item ticket__date">25/10/2013</span>
+						<span class="ticket__item ticket__time">17:45</span>
+						<span class="ticket__item">Cinema: <span class="ticket__cinema">Cineworld</span></span>
+						<span class="ticket__item">Hall: <span class="ticket__hall">Visconti</span></span>
+						<span class="ticket__item ticket__price" >price:
+							 <strong class="ticket__cost" > </strong></span>
+								
+					</div>
+
+					<div class="ticket-primery">
+						<span class="ticket__item ticket__item--primery ticket__film">Film<br><strong
+								class="ticket__movie">The Fifth Estate (2013)</strong></span>
+						<span class="ticket__item ticket__item--primery">Seats: <span class="ticket__place">11F, 12F,
+								13F</span></span>
+					</div>
 
 
-                        </div>
-                        <div class="ticket__indecator indecator--post"><div class="indecator-text post--text">online ticket</div></div>
-                    </div>
-                </div>
+				</div>
+				<div class="ticket__indecator indecator--post">
+					<div class="indecator-text post--text">online ticket</div>
+				</div>
+			</div>
+		</div>
 
-              
 
-            </div>
-        </section>
+
+	</div>
+
+	<script th:inline="javascript">
+		const showId = JSON.parse(localStorage.getItem("showId"));
+		const foods = JSON.parse(localStorage.getItem("foods"));
+		const seatIds = JSON.parse(localStorage.getItem("seatIds"));
+		const showPrice = JSON.parse(localStorage.getItem("showPrice"));
+		const status = $("#status").val();
+
+
+		const totalCostElement = document.getElementById('totalCost');
+		
+		function insertBill() {
+			console.log(status)
+			var payment = parseFloat(totalCostBill);
+			
+			$.ajax({
+				type: "POST",
+				url: "order/savethank",
+				data: {
+					showPrice: localStorage.getItem('showPrice'),
+					showId: localStorage.getItem('showId'),
+					foods: localStorage.getItem('foods'),
+					seatIds: localStorage.getItem('seatIds'),
+					
+					},
+				dataType: 'JSON',
+				success: function (res) {
+					
+				}, error: function (res) {
+					console.log("Fail");
+				}
+			});
+		}
+		insertBill();
+	</script>
+</section>
 
 </html>

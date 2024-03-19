@@ -32,7 +32,6 @@ public interface ShowService {
 	public Shows FindShowByTimeandHall(int hallid, Date startdate);
 	public List<Shows> findAllShowsByAccountId(int accountId); 
 	public List<Seats> mapToSeat(OrderSeat seats);
-	public List<Shows> findAllShowsByAccountId(int accountId);
 	
 	public Integer countShowsEnd();
 }

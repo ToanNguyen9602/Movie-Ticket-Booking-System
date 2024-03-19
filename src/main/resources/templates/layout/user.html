@@ -281,11 +281,12 @@
 			const foods = [];
 			for (var food of $(".cart-product-quantity")) {
 				const childrens = food.children;
-				if (childrens[2].value > 0) {
+				if (childrens[3].value > 0) {
 					const item = {
 						id: childrens[0].value,
 						price: childrens[1].value,
-						quantity: childrens[2].value,
+						name :childrens[2].value,
+						quantity: childrens[3].value,
 					}
 					foods.push(item)
 				}

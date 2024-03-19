@@ -1,14 +1,25 @@
 package com.demo.controllers.user;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +27,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.demo.controllers.vnp.Config;
 import com.demo.entities.Movie;
 import com.demo.entities.Shows;
 import com.demo.enums.MovieStatus;
 import com.demo.helpers.DateHelper;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import static com.demo.helpers.DateHelper.*;
 import com.demo.services.CinemaService;
 import com.demo.services.CityService;
 import com.demo.services.MovieService;
 
+import jakarta.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping({ "home", "" })
 public class HomeController {
@@ -108,5 +123,6 @@ public class HomeController {
 		modelMap.put("selectedDate", formatDate(date, DEFAULT_DATE_FORMAT));
 		return "home/choose-time";
 	}
+	
 	
 }
