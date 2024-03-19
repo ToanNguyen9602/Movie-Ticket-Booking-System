@@ -67,23 +67,10 @@
 						</li>
 						<li>
 							<span class="sub-nav-toggle plus"></span>
-							<a>Pages</a>
-							<ul>
-								<li class="menu__nav-item"><a th:href="@{/contact/index}">Contact us</a></li>
-							</ul>
+							<a th:href="@{/contact/index}">Pages</a>
+							 
 						</li>
-						<li>
-							<span class="sub-nav-toggle plus"></span>
-							<a>Booking steps</a>
-							<ul>
-								<li class="menu__nav-item"><a th:href="@{/bookseat/interest}">Cinema interest</a></li>
-								<li class="menu__nav-item"><a th:href="@{/bookseat/index}">Booking seat</a></li>
-								<li class="menu__nav-item"><a th:href="@{/bookseat/buy}">Booking step 3 (buy)</a></li>
-								<li class="menu__nav-item"><a href="book3-reserve.html">Booking step 3 (reserve)</a>
-								</li>
-								<li class="menu__nav-item"><a href="book-final.html">Final ticket view</a></li>
-							</ul>
-						</li>
+						
 						<li>
 							<span class="sub-nav-toggle plus"></span>
 							<a th:href="@{/blog/index}">Blog</a>
@@ -103,7 +90,6 @@
 					<th:block sec:authorize="isAuthenticated()">
 						<a th:href="@{'/user/' + ${#authentication.name}}"
 							class="btn btn-md btn--warning btn--book login-window">
-							Welcome,
 							<th:block sec:authentication="name">
 						</a>
 						<a class="btn btn-md btn--warning btn--book login-window" th:href="@{/account/logout}">

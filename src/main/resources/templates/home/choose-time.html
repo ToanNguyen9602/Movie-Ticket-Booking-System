@@ -49,11 +49,11 @@
 					<div class="col-sm-3">
 						<p class="time-select__place" th:text="${cinema.name}"></p>
 					</div>
-					<ul class="col-sm-6 items-wrap" th:each="show : ${shows}">
+					<ul class="col-sm-6 items-wrap" th:each="show : ${shows}" style="width: 90;">
 						<button 
 							onclick="onChooseShow(this)"
 							th:data-show-id="${show.id}"
-							 style="border:none">
+							 style="border:none;">
 							<li class="time-select__item"
 								th:data-time="${#dates.format(show.startTime, 'HH:mm')}"
 								th:text="${#dates.format(show.startTime, 'HH:mm')}">

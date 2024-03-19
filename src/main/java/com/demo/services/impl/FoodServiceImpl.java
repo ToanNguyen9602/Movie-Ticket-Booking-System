@@ -82,8 +82,7 @@ public class FoodServiceImpl implements FoodService {
 
 	@Override
 	public List<FoodMenu> findAll_ListFood() {
-		// TODO Auto-generated method stub
-		return null;
+		return foodRepository.findAll_ListFood();
 	}
 
 

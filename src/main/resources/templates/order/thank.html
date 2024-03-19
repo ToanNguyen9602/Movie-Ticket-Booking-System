@@ -58,29 +58,28 @@
 		const status = $("#status").val();
 
 
-		const totalCostElement = document.getElementById('totalCost');
 		
 		function insertBill() {
 			console.log(status)
 			var payment = parseFloat(totalCostBill);
 			
-			$.ajax({
-				type: "POST",
-				url: "order/savethank",
-				data: {
-					showPrice: localStorage.getItem('showPrice'),
-					showId: localStorage.getItem('showId'),
-					foods: localStorage.getItem('foods'),
-					seatIds: localStorage.getItem('seatIds'),
+		//	$.ajax({
+			//	type: "POST",
+			//	url: "order/savethank",
+			//	data: {
+			//		showPrice: localStorage.getItem('showPrice'),
+			//		showId: localStorage.getItem('showId'),
+			//		foods: localStorage.getItem('foods'),
+		//	seatIds: localStorage.getItem('seatIds'),
 					
-					},
-				dataType: 'JSON',
-				success: function (res) {
+			//		},
+			//	dataType: 'JSON',
+			//	success: function (res) {
 					
-				}, error: function (res) {
-					console.log("Fail");
-				}
-			});
+				//}, error: function (res) {
+				//	console.log("Fail");
+				//}
+			//});
 		}
 		insertBill();
 	</script>
