@@ -44,5 +44,12 @@ public interface MovieService {
 
 	List<Date> findDatesFromCinemaAndMovieUntilNoutFoundFromNow(@NonNull Integer cinemaId, @NonNull Integer movieId);
 
+
 	boolean isMovieShowingNow(Integer movieId);
+
+	
+	public boolean isMovieShowingNow(Integer movieId);
+	public List<Movie> top5Movies();
+	
+	
 }

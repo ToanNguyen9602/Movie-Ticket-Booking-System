@@ -270,6 +270,30 @@
 		$(document).ready(function () {
 			init_Contact();
 		});
+
+		const onChooseShow = (e) => {
+			const showId = $(e).data("show-id")
+			localStorage.setItem("showId", JSON.stringify(showId))
+			window.location.href = '/order/order-seats?showId=' + showId
+		}
+
+		const onChooseFood = () => {
+			const foods = [];
+			for (var food of $(".cart-product-quantity")) {
+				const childrens = food.children;
+				if (childrens[2].value > 0) {
+					const item = {
+						id: childrens[0].value,
+						price: childrens[1].value,
+						quantity: childrens[2].value,
+					}
+					foods.push(item)
+				}
+			}
+			localStorage.setItem("foods", JSON.stringify(foods))
+			window.location.href = "/order/checkout"
+		}
+
 	</script>
 	<!-- MOLLA -->
 	<script th:src="@{/user/assets/js/jquery.min.js}"></script>

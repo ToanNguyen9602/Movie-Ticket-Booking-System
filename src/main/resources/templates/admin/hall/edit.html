@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/admin :: content( ${hall.name}, ~{this :: .main})}">
+
+<head>
+	<title></title>
+</head>
+
+<body>
+
+	<main class="main">
+
+		<div class="container-fluid">
+			<div class="row">
+				<!-- main title -->
+				<div class="col-12">
+					<div class="main__title">
+						<h2 th:text="'Edit '+${hall.name}"> </h2>
+					</div>
+				</div>
+				<!-- end main title -->
+				<div th:if="${msg}">
+					<p style="color: red" th:text="${msg}"></p>
+				</div>
+				<!-- form -->
+				<div class="col-12">
+					<form th:action="@{'/admin/edithall/'+${hall.id}}" class="form" method="post">
+
+						<div class="row">
+
+							<div class="col-12 col-md-7 form__content">
+								<div class="row">
+									<div class="col-12">
+										<div class="form__group">
+											<input type="text" class="form__input" placeholder="Hall's name"
+												th:field="${hall.name}">
+										</div>
+									</div>
+
+
+									<div class="col-12 col-sm-6 col-lg-3">
+										<div class="form__group">
+											<input type="number" class="form__input" name="numberOfSeats"
+												placeholder="Rows">
+										</div>
+									</div>
+									<!--
+
+									<div class="col-12 col-sm-6 col-lg-3">
+										<div class="form__group">
+											<input type="number" class="form__input" name="numberOfColumns"
+												placeholder="Columns">
+										</div>
+									</div>
+									-->
+
+
+								</div>
+								<br>
+
+							</div>
+
+							<div class="col-12">
+								<div class="row">
+									<div class="col-12">
+										<input type="submit" value="Submit" class="form__btn" />
+										<input type="hidden" class="form__input" name="numberOfColumns"
+												value="0">
+										<input type="hidden" th:field="${hall.id}" name="hallid">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- end form -->
+			</div>
+		</div>
+	</main>
+
+
+</body>
+
+</html>

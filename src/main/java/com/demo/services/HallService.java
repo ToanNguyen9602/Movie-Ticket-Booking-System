@@ -21,4 +21,6 @@ public interface HallService {
 
 	public List<HallDTO> findHallDTObyCinemaID(int cinemaid);
 
+	public boolean delete(int id);
+
 }

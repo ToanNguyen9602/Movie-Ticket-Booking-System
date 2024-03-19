@@ -572,11 +572,11 @@ function init_BookingTwo() {
 
 	$('.sits__place').click(function(e) {
 		e.preventDefault();
+
 		var place = $(this).attr('data-place');
 		var ticketPrice = $(this).attr('data-price');
 		console.log("=== Seat ===")
-		console.log(place)
-		console.log(ticketPrice)
+
 		var totalSeats = 20;
 		var seatPerRow = 20;
 		var i = 65
@@ -613,6 +613,7 @@ function init_BookingTwo() {
 
 				$('.checked-result').text('$' + sum);
 			}
+
 		}
 
 		else {
@@ -636,8 +637,18 @@ function init_BookingTwo() {
 			}
 
 			$('.checked-result').text('$' + sum)
+
+
 		}
 
+		const seatIds = [];
+		for (var seat of $(".choosen-place")) {
+			console.log(seat)
+			seatIds.push(seat.innerHTML)
+		}
+		
+		localStorage.setItem("seatIds", JSON.stringify(seatIds))
+		
 		//data element init
 		var number = $('.checked-place').children().length;
 
@@ -2042,3 +2053,4 @@ function init_Trailer() {
 		$(this).parent().addClass('trailer-block--short').find('.hidden-content').slideDown(500);
 	})
 }
+

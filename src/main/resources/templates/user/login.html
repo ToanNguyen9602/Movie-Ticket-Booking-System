@@ -1,24 +1,16 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/user :: content('Login', ~{this :: .login})}">
-
-<head>
-	<title></title>
-</head>
-<form id="login-form" class="login"  th:action="@{/account/process-login}" method="post">
-		<p class="login__title">Log in <br><span class="login-edition">welcome to A.Movie</span></p>
+<form id="login-form" class="login" th:action="@{/account/process-login}" method="post">
+	<p class="login__title">Log in <br><span class="login-edition">welcome to A.Movie</span></p>
 
 
-		<div class="field-wrap">
-			<input type="text" placeholder="Username" name="username" required  
-				class="login__input">
-			<input type="password" placeholder="Password" name="password" required  
-				class="login__input">
-			 
-		</div>
+	<div class="field-wrap">
+		<input type="text" placeholder="Username" name="username" required class="login__input">
+		<input type="password" placeholder="Password" name="password" required class="login__input">
+	</div>
 
-		<div class="login__control">
-			<button type='submit' class="btn btn-md btn--warning btn--wider">sign in</button>
-			<a th:href="@{/user/forgetpassword}" class="login__tracker form__tracker">Forgot password?</a>
-		</div>
-	</form>
+	<div class="login__control">
+		<button type='submit' class="btn btn-md btn--warning btn--wider">sign in</button>
+		<a th:href="@{/user/forgetpassword}" class="login__tracker form__tracker">Forgot password?</a>
+	</div>
+</form>
 
-</html>

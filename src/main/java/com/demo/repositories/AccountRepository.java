@@ -34,7 +34,25 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 	public Page<Account> findAll(Pageable pageable);
 
 	@Query("SELECT a FROM Account a JOIN a.roles r WHERE a.username LIKE %:username% AND r.id = :id")
-	public List<Account> searchAccounts(@Param("username") String username,
-			@Param("id") int id);
+	public List<Account> searchAccounts(@Param("username") String username, @Param("id") int id);
+
+	@Query("SELECT COALESCE(SUM(bd.price)) FROM Account a JOIN a.bookings b JOIN b.bookingDetailses bd WHERE a.id = :accountId")
+	public Integer sumBookingPricesByAccountId(@Param("accountId") Integer accountId);
+
+	@Query("SELECT COALESCE(SUM(bd.price*bd.quantity))FROM Account a JOIN a.bookings b JOIN b.foodBookingDetailses bd WHERE a.id = :accountId")
+	public Integer sumFoodPricesByAccountId(@Param("accountId") Integer accountId);
+
+	@Query("SELECT COUNT(a) FROM Account a JOIN a.roles r WHERE r.id = ?1")
+	public Integer countAccountsWithRoleId(Integer roleId);
+
+	@Query("SELECT a, COALESCE(SUM(bd.price),0) + COALESCE(SUM(fbd.price*fbd.quantity),0) AS totalSum "
+			+ "FROM Account a " + "LEFT JOIN a.bookings b " + "LEFT JOIN b.bookingDetailses bd "
+			+ "LEFT JOIN b.foodBookingDetailses fbd " + "GROUP BY a " + "ORDER BY totalSum DESC LIMIT 10")
+	public List<Account> findTop5AccountsByTotalPriceWithLimit();
+
+	@Query("SELECT COALESCE(SUM(bd.price),0) + COALESCE(SUM(fbd.price*fbd.quantity),0) " + "FROM BookingDetails bd "
+			+ "JOIN bd.booking b " + "JOIN FoodBookingDetails fbd " + "ON bd.id.bookingId = fbd.id.bookingId "
+			+ "WHERE b.account.id = :accountId order by COALESCE(SUM(bd.price)) + COALESCE(SUM(fbd.price*fbd.quantity))")
+	public Integer getTotalPriceByAccountId(Integer accountId);
 
 }

@@ -166,6 +166,7 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
+
 	public Page<Movie> findNowShowingMovies(int pageNo, int pageSize) {
 		Date currentDate = new Date();
 		Pageable pageable = PageRequest.of(pageNo -1 , pageSize);
@@ -230,5 +231,13 @@ public class MovieServiceImpl implements MovieService {
 			return false;
 		}
 	}
+
+
+	public List<Movie> top5Movies() {
+		// TODO Auto-generated method stub
+		return movieRepository.findTop5MoviesByRevenue();
+	}
+
+	
 
 }

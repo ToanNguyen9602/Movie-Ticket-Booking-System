@@ -97,20 +97,20 @@
 
 
 
-					<form th:action="@{/admin/searchshows}" class="form" method="get">
-					<!--	<input type="date" class="form__input" name="startdate"> -->
-						<select class="js-example-basic-multiple" id="city" name="cityId">
-							<option value=""></option>
-							<option th:each="city:${cities}" th:value="${city.id}" th:text="${city.name}"></option>
-							<!-- Initial "Select Hall" option -->
-						</select>
-						<select class="js-example-basic-multiple" id="cinema">
-							<option value=""></option>
-						</select>
-						<input type="hidden" id="selectedCinemaId" name="selectedCinemaId" />
-						<input type="hidden" name="selectedMovieId" th:value="${movie.id}" />
-						<input type="submit" value="Submit" class="form__btn" />
-					</form>
+				<form th:action="@{/admin/searchshows}" class="form" method="get">
+					<input type="date" class="form__input" name="startdate">
+					<select class="js-example-basic-multiple" id="city" name="cityId">
+						<option value=""></option>
+						<option th:each="city:${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+						<!-- Initial "Select Hall" option -->
+					</select>
+					<select class="js-example-basic-multiple" id="cinema">
+						<option value=""></option>
+					</select>
+					<input type="hidden" id="selectedCinemaId" name="selectedCinemaId" />
+					<input type="hidden" name="selectedMovieId" th:value="${movie.id}" />
+					<input type="submit" value="Submit" class="form__btn" />
+				</form>
 
 
 				<th:block th:if="${shows!=null}">

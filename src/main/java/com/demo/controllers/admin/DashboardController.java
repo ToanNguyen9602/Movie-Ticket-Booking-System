@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,8 +50,10 @@ import com.demo.entities.Shows;
 import com.demo.helpers.FileHelper;
 import com.demo.services.AccountService;
 import com.demo.services.BlogsService;
+import com.demo.services.BookingDetailsService;
 import com.demo.services.CinemaService;
 import com.demo.services.CityService;
+import com.demo.services.FoodDetailsService;
 import com.demo.services.FoodService;
 import com.demo.services.HallService;
 import com.demo.services.MovieService;
@@ -88,9 +91,40 @@ public class DashboardController {
 	private RoleService roleService;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	@Autowired
+	private BookingDetailsService bookingDetailsService;
+
+	@Autowired
+	private FoodDetailsService foodDetailsService;
 
 	@RequestMapping(value = { "dashboard", "index", "" }, method = RequestMethod.GET)
-	public String index() {
+	public String index(ModelMap modelMap) {
+
+		modelMap.put("movieincome", bookingDetailsService.incomefromMovies());
+		modelMap.put("foodincome", foodDetailsService.incomefromFood());
+		modelMap.put("totalincome", bookingDetailsService.incomefromMovies() + foodDetailsService.incomefromFood());
+		modelMap.put("users", accountService.countAccountsWithRoleId(3));
+		modelMap.put("countedshows", showService.countShowsEnd());
+		modelMap.put("movies", movieService.top5Movies());
+		List<Movie> movies = movieService.top5Movies();
+		Map<Integer, Integer> sumOfPricesMap = new HashMap<>();
+		for (Movie movie : movies) {
+			Integer sumOfPrices = bookingDetailsService.sumOfPricesByMovieId(movie.getId());
+			sumOfPricesMap.put(movie.getId(), sumOfPrices);
+		}
+		modelMap.put("sumOfPricesMap", sumOfPricesMap);
+		modelMap.put("topaccounts", accountService.top5paid());
+
+		List<Account> topaccounts = accountService.top5paid();
+		Map<Integer, Integer> sumOfUserPaidMap = new HashMap<>();
+
+		for (Account account : topaccounts) {
+			Integer sumOfUserPaid = accountService.paidForMoviebyAccountId(account.getId())
+					+ accountService.sumFoodPricesByAccountId(account.getId());
+			sumOfUserPaidMap.put(account.getId(), sumOfUserPaid);
+		}
+		modelMap.put("sumOfUserPaidMap", sumOfUserPaidMap);
+
 		return "admin/dashboard";
 	}
 
@@ -736,7 +770,8 @@ public class DashboardController {
 			@RequestParam("numberOfColumns") int numberOfColumns) {
 		try {
 
-			char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l' };
+			char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
+					'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 			Cinema cinema = cinemaService.findById(cinemaid);
 			hall.setCinema(cinema);
 			Integer hallid = hallService.saveAndGetId(hall);
@@ -762,6 +797,56 @@ public class DashboardController {
 		}
 		return "redirect:/admin/cinema/" + cinemaid;
 
+	}
+
+	@RequestMapping(value = { "edithall/{id}/{cinemaid}" }, method = RequestMethod.GET)
+	public String EditHall(ModelMap modelMap, @PathVariable("id") int id, @PathVariable("cinemaid") int cinemaid) {
+		Hall hall = hallService.findHallbyId(id);
+		modelMap.put("hall", hall);
+		System.out.println("result of rows: " + seatsService.countUniqueRowsByHallId(id));
+		System.out.println("result of columns: " + seatsService.countUniqueColumnsByHallId(id));
+		return "admin/hall/edit";
+	}
+
+	@RequestMapping(value = "edithall/{hallid}", method = RequestMethod.POST)
+	public String updateHall(@ModelAttribute("hall") Hall hall, RedirectAttributes redirectAttributes,
+			ModelMap modelMap, @PathVariable("hallid") int hallid, @RequestParam("numberOfSeats") int numberOfRows,
+			@RequestParam("numberOfColumns") int numberOfColumns) {
+		try {
+			Hall existingHall = hallService.findHallbyId(hallid);
+
+			if (existingHall != null) {
+				char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+						'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+				int lastCharofRows = seatsService.countUniqueRowsByHallId(hallid);
+				int biggestnumberColumns = seatsService.countUniqueColumnsByHallId(hallid);
+				// numberOfColumns = 0;
+				for (int i = 0; i < numberOfRows; i++) {
+					char selectedRow = charArray[lastCharofRows + i];
+					for (int j = 1; j <= biggestnumberColumns; j++) {
+						Seats newSeat = new Seats(hall, String.valueOf(selectedRow), j);
+						seatsService.save(newSeat);
+					}
+				}
+
+//				for (int i = 0; i < numberOfColumns + biggestnumberColumns; i++) {
+//					char selectedColumns = charArray[lastCharofRows + i];
+//					for (int j = 1; j <= biggestnumberColumns + numberOfColumns; j++) {
+//						Seats newSeat = new Seats(hall, String.valueOf(selectedColumns), j + biggestnumberColumns);
+//						seatsService.save(newSeat);
+//					}
+//				}
+
+				redirectAttributes.addFlashAttribute("msg", "ok");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Fail");
+				return "redirect:/admin/edithall/" + hallid;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/admin/cinema/" + 1;
 	}
 
 	@RequestMapping(value = { "blogs/delete/{id}" }, method = RequestMethod.GET)
@@ -949,7 +1034,8 @@ public class DashboardController {
 	@RequestMapping(value = { "addshow/{movieid}" }, method = RequestMethod.POST)
 	public String addshow(@ModelAttribute("shows") Shows show, @RequestParam("starttime") String starttime,
 			@PathVariable("movieid") int movieid, RedirectAttributes redirectAttributes,
-			@RequestParam("selectedCinemaId") int selectedCinemaId, @RequestParam("selectedHallId") int selectedHallId
+			@RequestParam("selectedCinemaId") Integer selectedCinemaId,
+			@RequestParam("selectedHallId") Integer selectedHallId
 
 	) {
 		try {
@@ -981,14 +1067,22 @@ public class DashboardController {
 			System.out.println("hall: " + hall.getId());
 			movieid = movie.getId();
 
-			if (showService.save(show)) {
-				redirectAttributes.addFlashAttribute("msg", "ok");
+			LocalDateTime localDateTime = LocalDateTime.parse(starttime);
+			localDateTime = localDateTime.truncatedTo(ChronoUnit.MINUTES);
+			Date startTimeDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+			Shows checkedshow = showService.FindShowByTimeandHall(show.getHall().getId(), startTimeDate);
 
+			if (checkedshow != null) {
+				redirectAttributes.addFlashAttribute("msg", "This Hall has a show at that time");
 			} else {
-				redirectAttributes.addFlashAttribute("msg", "fail");
-				return "redirect:/admin/addshow/" + movieid;
-			}
+				if (showService.save(show)) {
+					redirectAttributes.addFlashAttribute("msg", "ok");
 
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+					return "redirect:admin/shows/" + movieid;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("msg", e.getMessage());
@@ -1027,6 +1121,7 @@ public class DashboardController {
 		modelMap.put("halls", hallService.findHallsByCinemaId(show.getCinema().getId()));
 
 		return "admin/shows/update";
+
 	}
 
 	@RequestMapping(value = "shows/update", method = RequestMethod.POST)
@@ -1046,20 +1141,23 @@ public class DashboardController {
 			show.setEndTime(calendar.getTime());
 			show.setCinema(showService.findShowsbyId(show.getId()).getCinema());
 
-//			System.out.println("id: " + show.getId());
-//			System.out.println("hall: " + show.getHall().getName());
-//			System.out.println("cinema: " + show.getCinema().getName());
-//			System.out.println("movie" + show.getMovie().getTitle());
-//			System.out.println("start: " + show.getStartTime());
-//			System.out.println("end: " + show.getEndTime());
-
-			if (showService.save(show)) {
-				redirectAttributes.addFlashAttribute("msg", "ok");
-
+			LocalDateTime localDateTime = LocalDateTime.parse(starttime);
+			localDateTime = localDateTime.truncatedTo(ChronoUnit.MINUTES);
+			Date startTimeDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+			Shows checkedshow = showService.FindShowByTimeandHall(show.getHall().getId(), startTimeDate);
+			if (checkedshow != null) {
+				redirectAttributes.addFlashAttribute("msg", "This Hall has a show at that time");
 			} else {
-				redirectAttributes.addFlashAttribute("msg", "fail");
-				return "redirect:/admin/index";
 
+				if (showService.save(show)) {
+					System.out.println("startitme saved: " + show.getStartTime());
+					redirectAttributes.addFlashAttribute("msg", "ok");
+
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+					return "redirect:/admin/listcinema";
+
+				}
 			}
 
 		} catch (Exception e) {
@@ -1076,7 +1174,7 @@ public class DashboardController {
 	public String searchshows(ModelMap modelMap,
 			@RequestParam(value = "selectedCinemaId", required = false) Integer selectedCinemaId,
 			@RequestParam("selectedMovieId") Integer selectedMovieId,
-			@RequestParam(value = "startdate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date startdate) {
+			@RequestParam(value = "startdate", required = false) String startdate) {
 		if (startdate == null) {
 			if (selectedCinemaId == null) {
 				modelMap.put("error", "Please select both city and cinema.");
@@ -1087,21 +1185,55 @@ public class DashboardController {
 			}
 
 		} else {
-			Date formatedDate;
 			try {
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-				formatedDate = dateFormat.parse(null);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date formattedStartDate = dateFormat.parse(startdate);
+				List<Shows> shows = showService.SearchShows(selectedMovieId, selectedCinemaId, formattedStartDate);
+				modelMap.put("shows", shows);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			List<Shows> shows = showService.SearchShows(selectedMovieId, selectedCinemaId, startdate);
-			modelMap.put("shows", shows);
+
 		}
 
 		modelMap.put("cities", cityService.findAll_ListCity());
 		modelMap.put("movie", movieService.findMovieById(selectedMovieId));
 		modelMap.put("selectedMovieId", selectedMovieId);
 		return "admin/shows/searchresult";
+	}
+
+	@RequestMapping(value = { "user/details/{id}" }, method = RequestMethod.GET)
+	public String userDetails(ModelMap modelMap, @PathVariable("id") int id) {
+		modelMap.put("shows", showService.findAllShowsByAccountId(id));
+		modelMap.put("account", accountService.find(id));
+		return "admin/account/details";
+
+	}
+
+	@RequestMapping(value = { "deletehall/{id}" }, method = RequestMethod.GET)
+	public String halldelete(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+		Hall hall = hallService.findHallbyId(id);
+		int cinemaId = hall.getCinema().getId();
+		if (hall.getShows().isEmpty() || hall.getShows() == null) {
+			try {
+				if (hall.getSeatses() != null) {
+					seatsService.delete(id);
+				}
+
+				if (hallService.delete(id)) {
+					redirectAttributes.addFlashAttribute("msg", "ok");
+				} else {
+					redirectAttributes.addFlashAttribute("msg", "fail");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			redirectAttributes.addFlashAttribute("msg", "cant delete this Hall because it has shows");
+
+		}
+		return "redirect:/admin/cinema/" + cinemaId;
 	}
 
 }

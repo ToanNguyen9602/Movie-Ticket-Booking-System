@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demo.entities.Account;
+import com.demo.entities.Booking;
 import com.demo.entities.Role;
 import com.demo.helpers.CodeHelper;
+import com.demo.repositories.BookingRepository2;
 import com.demo.services.AccountService;
+import com.demo.services.BookingService;
 import com.demo.services.MailService;
 import com.demo.services.RoleService;
+import com.demo.services.ShowService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -52,6 +57,11 @@ public class AccountController {
 
 	@Autowired
 	private Environment environment;
+
+	@Autowired
+	private BookingService bookingService;
+	@Autowired
+	private ShowService showService;
 
 	@RequestMapping(value = { "account" }, method = RequestMethod.GET)
 	public String index() {
@@ -136,21 +146,39 @@ public class AccountController {
 	public String accessdenied() {
 		return "user/accessdenied";
 	}
-	
+
 	@RequestMapping(value = { "/{username}" }, method = RequestMethod.GET)
-	public String updateuser(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
-		
-	    if (authentication == null || !authentication.isAuthenticated()) {
-	        return "redirect:/user/login";
-	    }
+	public String updateuser(ModelMap modelMap, @PathVariable("username") String username,
+			Authentication authentication) {
+
+		if (authentication == null || !authentication.isAuthenticated()) {
+			return "redirect:/user/login";
+		}
 		username = authentication.getName();
 		Account account = accountService.findbyusername(username);
+		Integer PaidforMovie = accountService.paidForMoviebyAccountId(account.getId());
+		Integer PaidforFood = accountService.sumFoodPricesByAccountId(account.getId());
+
+		if (PaidforMovie == null) {
+			PaidforMovie = 0;
+		}
+		if (PaidforFood == null) {
+			PaidforFood = 0;
+		}
+		int total=PaidforMovie+PaidforFood;
+		System.out.println("movie: "+PaidforMovie);
+		System.out.println("food: "+PaidforFood);
+		System.out.println("total: "+total);
+		
+		modelMap.put("shows", showService.findAllShowsByAccountId(account.getId()));
+		
+		
+		modelMap.put("Paid", total);
 		modelMap.put("account", account);
+
 		return "user/account";
 
 	}
-	
-
 
 //	@RequestMapping(value = { "update/{username}" }, method = RequestMethod.GET)
 //	public String update(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
@@ -230,6 +258,18 @@ public class AccountController {
 			}
 			return "redirect:/user/login";
 		}
+	}
+
+	@RequestMapping(value = { "/history/{username}" }, method = RequestMethod.GET)
+	public String history(ModelMap modelMap, @PathVariable("username") String username, Authentication authentication) {
+
+		if (authentication == null || !authentication.isAuthenticated()) {
+			return "redirect:/user/login";
+		}
+		username = authentication.getName();
+		Account account = accountService.findbyusername(username);
+		modelMap.put("account", account);
+		return "user/account";
 
 	}
 }

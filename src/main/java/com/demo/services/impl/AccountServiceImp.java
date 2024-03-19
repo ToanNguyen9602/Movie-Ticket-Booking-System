@@ -29,8 +29,6 @@ public class AccountServiceImp implements AccountService {
 	@Autowired
 	private AccountRepository accountRepository;
 
-	
-
 	@Override
 	public boolean save(Account account) {
 		try {
@@ -104,31 +102,25 @@ public class AccountServiceImp implements AccountService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account account= accountRepository.findbyusername(username);
-		if(account==null)
-		{
+		Account account = accountRepository.findbyusername(username);
+		if (account == null) {
 			throw new UsernameNotFoundException("username not found");
 		}
-		if(!account.isStatus())
-		{
+		if (!account.isStatus()) {
 			throw new UsernameNotFoundException("this user is blocked");
-		}
-		else
-		{
-			List<GrantedAuthority> authorities= new ArrayList<GrantedAuthority>();
-			for(Role role: account.getRoles())
-			{
+		} else {
+			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+			for (Role role : account.getRoles()) {
 				authorities.add(new SimpleGrantedAuthority(role.getName()));
 			}
-			return new User(username,account.getPassword(), authorities);
+			return new User(username, account.getPassword(), authorities);
 		}
 
 	}
 
 	@Override
 	public boolean checkexistence(String username) {
-		if(accountRepository.findbyusername(username) !=null)
-		{
+		if (accountRepository.findbyusername(username) != null) {
 			return true;
 		}
 		return false;
@@ -136,8 +128,7 @@ public class AccountServiceImp implements AccountService {
 
 	@Override
 	public boolean checkphone(String phone) {
-		if(accountRepository.findbyphone(phone) !=null)
-		{
+		if (accountRepository.findbyphone(phone) != null) {
 			return true;
 		}
 		return false;
@@ -145,14 +136,14 @@ public class AccountServiceImp implements AccountService {
 
 	@Override
 	public boolean checkemail(String email) {
-		if(accountRepository.findbyemail(email) !=null)
-		{
+		if (accountRepository.findbyemail(email) != null) {
 			return true;
 		}
 		return false;
 	}
 
 	@Override
+
     public Page<Account> findAllByRole(int n, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         Page<Account> accounts = accountRepository.findAll(pageable);
@@ -169,6 +160,21 @@ public class AccountServiceImp implements AccountService {
         return new PageImpl<>(accountsByRole, pageable, accountsByRole.size());
     }
 	
+
+	public List<Account> findAllByRole(int n) {
+		List<Account> accounts = accountRepository.findAll();
+		List<Account> accountsByRole = new ArrayList<>();
+		for (Account account : accounts) {
+			Set<Role> roles = account.getRoles();
+			for (Role role : roles) {
+				if (role.getId() == n) {
+					accountsByRole.add(account);
+				}
+			}
+		}
+		return accountsByRole;
+	}
+
 	public String getpassword(String username) {
 		Account account = accountRepository.findbyusername(username);
 		return account.getPassword();
@@ -186,6 +192,7 @@ public class AccountServiceImp implements AccountService {
 	}
 
 	@Override
+
 	public Page<Account> findAccount(String kw, int id, int pageNo, int pageSize) {
 		List list = this.findAccount1(kw,id);
 		
@@ -197,6 +204,33 @@ public class AccountServiceImp implements AccountService {
 		return new PageImpl<Account>(list, pageable, this.findAccount1(kw,id).size());
 	}
 
+	public Integer paidForMoviebyAccountId(int id) {
+		Integer sum = accountRepository.sumBookingPricesByAccountId(id);
+		return sum != null ? sum : 0;
+	}
 
+	@Override
+	public Integer sumFoodPricesByAccountId(int id) {
+		Integer sum = accountRepository.sumFoodPricesByAccountId(id);
+		return sum != null ? sum : 0;
+	}
+
+	@Override
+	public Integer countAccountsWithRoleId(int id) {
+		Integer sum = accountRepository.countAccountsWithRoleId(id);
+		return sum != null ? sum : 0;
+	}
+
+	@Override
+	public List<Account> top5paid() {
+		// TODO Auto-generated method stub
+		return accountRepository.findTop5AccountsByTotalPriceWithLimit();
+	}
+
+	@Override
+	public Integer allPaidbyAccountId(int accountId) {
+		Integer sum = accountRepository.getTotalPriceByAccountId(accountId);
+		return sum != null ? sum : 0;
+	}
 
 }
