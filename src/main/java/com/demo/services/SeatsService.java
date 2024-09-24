@@ -19,6 +19,8 @@ public interface SeatsService {
 	public Integer countUniqueColumnsByHallId(int hallId);
 	
 	public boolean delete(int id);
+	
+	public Seats findSeatId(int hallId, String row, int number);
 
 
 }

@@ -67,10 +67,15 @@ public class MovieServiceImpl implements MovieService {
 		List<Shows> shows = getShowsByCinemaAndMovie(new Cinema(cinemaId), new Movie(movieId));
 		if (date != null) {
 			LocalDate comparisonDate = mapFromDate(date);
-			shows = shows.stream().filter(show -> {
-				LocalDate showDate = mapFromDate(show.getStartTime());
-				return showDate.compareTo(comparisonDate) == 0;
-			}).collect(Collectors.toList());
+			shows = shows.stream()
+					.filter(show -> {
+						LocalDate showDate = mapFromDate(show.getStartTime());
+						return showDate.compareTo(comparisonDate) == 0;
+					})
+					.filter(show -> {
+						return show.getStartTime().compareTo(new Date()) > 0;
+					})
+					.collect(Collectors.toList());
 		}
 		shows.sort((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()));
 		return shows;

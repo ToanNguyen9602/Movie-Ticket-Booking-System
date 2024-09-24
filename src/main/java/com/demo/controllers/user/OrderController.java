@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.demo.dtos.OrderSeat;
+import com.demo.dtos.ShowSeatsOrderingStatus;
 import com.demo.entities.Seats;
+import com.demo.entities.Shows;
 import com.demo.enums.SeatOrderingStatus;
 import com.demo.services.FoodService;
+import com.demo.services.SeatsService;
 import com.demo.services.ShowService;
 import com.demo.services.impl.ShowServiceImpl;
 
@@ -34,73 +37,59 @@ public class OrderController {
 
 	@Autowired
 	private ShowService showService;
-	
+
 	@Autowired
 	private FoodService foodService;
+
+	@Autowired
+	private SeatsService seatsService;
 	
+
+	
+
+ // day ha  n?O  do
 	@GetMapping("order-seats")
-	public String orderSeats(ModelMap modelMap,
-			@RequestParam("showId") Integer showId) {
+	public String orderSeats(ModelMap modelMap, @RequestParam("showId") Integer showId) {
 		modelMap.put("seatPrice", showService.findPrice(showId));
-		modelMap.put("seatInformation", showService.findSeatOrderingStatusOfAShow(showId, SeatOrderingStatus.ORDERED)); 
+		modelMap.put("seatInformation", showService.findSeatOrderingStatusOfAShow(showId, SeatOrderingStatus.ORDERED));
 		modelMap.put("service", showService);
 		modelMap.put("showId", showId);
+
+		modelMap.put("seatservice", seatsService);
+		Shows show = showService.findShowsbyId(showId);
+		Integer hallId = show.getHall().getId();
+		modelMap.put("hallId", hallId);
 		return "order/order-seat";
 	}
-	
+
 	@PostMapping("order-seats")
 	public String orderSeats(@RequestBody OrderSeat orderingSeat, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        List<Seats> seats = showService.mapToSeat(orderingSeat);
-        seats.forEach(System.out::println);
-        return "redirect:/order/order-food";
+		List<Seats> seats = showService.mapToSeat(orderingSeat);
+		seats.forEach(System.out::println); 
+		return "redirect:order/order-food";
+
 	}
 
 	@GetMapping("order-food")
 	public String foodOrdering(ModelMap modelMap) {
-		foodService.findAll_ListFood()
-			.stream()
-			.forEach(System.out::println);
+		foodService.findAll_ListFood().stream().forEach(System.out::println);
 		modelMap.put("foods", foodService.findAll_ListFood());
 		return "order/order-food";
 	}
-	
+
 	@GetMapping("checkout")
-	 public String checkout(ModelMap modelMap) {
-		 
+	public String checkout(ModelMap modelMap) {
+
 		return "order/checkout";
 	}
-	@GetMapping("savethank")
-	@ResponseBody
-	public Map<String, Object> savethank(HttpServletRequest request, Model model,HttpSession httpSession,
-			@RequestParam("showPrice") String showPrice, 
-			@RequestParam("showId") String showId, 
-			@RequestParam("foods") String foods, 
-			@RequestParam("seatIds") String seatIds){
-		httpSession.setAttribute("showPrice", showPrice);
-		httpSession.setAttribute("showId", showId);
-		httpSession.setAttribute("foods", foods);
-		httpSession.setAttribute("seatIds", seatIds);
-		 Map<String, Object> response = new HashMap<>();
-		    response.put("status", "success");
-		    response.put("message", "Data saved successfully");
 
-		    return response;
-		
-	}
 	@GetMapping("thank")
-	public String Notification(HttpServletRequest request, ModelMap modelMap, @RequestParam("showId") Integer showId, 
-			@PathVariable("id") int id){
+	public String Notification(HttpServletRequest request, Model model) {
 		String transactionStatus = request.getParameter("vnp_TransactionStatus");
 		String paymentCode = request.getParameter("vnp_TmnCode");
-		modelMap.addAttribute("status", transactionStatus);
-		modelMap.addAttribute("_bill_payment_code", paymentCode); 
-		
-		modelMap.put("seatPrice", showService.findPrice(showId));
-		modelMap.put("seatInformation", showService.findSeatOrderingStatusOfAShow(showId, SeatOrderingStatus.ORDERED)); 
-		modelMap.put("service", showService);
-		modelMap.put("showId", showId);
-		modelMap.put("foods", foodService.find(id));
+		model.addAttribute("status", transactionStatus);
+		model.addAttribute("_bill_payment_code", paymentCode);
+
 		return "order/thank";
 	}
 }

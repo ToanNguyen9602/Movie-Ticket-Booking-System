@@ -1,12 +1,21 @@
 package com.demo.services.impl;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.demo.dtos.BookingDTO;
+import com.demo.dtos.FoodBookingDTO;
+import com.demo.entities.Account;
 import com.demo.entities.Blogs;
+import com.demo.entities.Booking;
+import com.demo.entities.BookingDetails;
+import com.demo.entities.FoodBookingDetails;
+import com.demo.entities.FoodMenu;
 import com.demo.repositories.BlogsRepository;
 import com.demo.services.BlogsService;
 
@@ -15,7 +24,7 @@ public class BlogsServiceImpl implements BlogsService {
 
 	@Autowired
 	private BlogsRepository blogsRepository;
-
+	
 	@Override
 	public boolean save(Blogs blogs) {
 		try {
@@ -64,5 +73,7 @@ public class BlogsServiceImpl implements BlogsService {
 		// TODO Auto-generated method stub
 		return blogsRepository.findallbytitle(title);
 	}
+
+	
 
 }

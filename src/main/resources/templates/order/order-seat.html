@@ -4,7 +4,8 @@
 <section class="container">
 	<div class="order-container">
 		<div class="order" style="margin-top: 50;">
-					<img class="order__images" style="position: absolute; left: 400;  " alt='' th:src="@{/user/images/tickets.png}">
+			<img class="order__images" style="position: absolute; left: 400;  " alt=''
+				th:src="@{/user/images/tickets.png}">
 			<p class="order__title">Book a ticket <br><span class="order__descript">and have fun movie time</span></p>
 			<div class="order__control">
 				<a href="#" class="order__control-btn active">Purchase</a>
@@ -41,12 +42,12 @@
 						<span th:each="row : ${seatInformation.rowNames}" class="sits__indecator"
 							th:text="${row}"></span>
 
-					</aside>
+					</aside>truo
 
 					<div class="sits__row" th:each="entry : ${seatInformation.rowAndMaxRowNumberMap}">
-						<span th:each="i : ${#numbers.sequence(1, entry.value)}"
-							th:with="isOrdered=${service.isSeatAnOrderedSeats(seatInformation.seats, entry.key, i)}">
-							<span th:if="${!isOrdered}" th:text="${entry.key + i}" th:data-place="${entry.key + i}"
+						<span th:each="i : ${#numbers.sequence(1, entry.value)}" th:with="isOrdered=${service.isSeatAnOrderedSeats(seatInformation.seats, entry.key, i)},
+							seat=${seatservice.findSeatId(hallId, entry.key, i)}">
+							<span th:if="${!isOrdered}" th:text="${entry.key + i}" th:data-place="${entry.key+ i}"
 								th:data-price="${seatPrice}" class="sits__place sits-price--cheap">
 							</span>
 							<span th:if="${isOrdered}" th:text="${entry.key + i}" class="sits__place sits-state--not">
@@ -57,7 +58,7 @@
 					<aside class="sits__checked">
 						<div class="checked-place">
 						</div>
-						 
+
 					</aside>
 					<footer class="sits__number">
 						<span th:each="number : ${seatInformation.maxNumbers}" class="sits__indecator"
@@ -75,12 +76,19 @@
 						next
 					</button>
 					<script>
-						function onNext(){
+						let selectedSeats = [];
+						const seatId = seat.id;
+						const index = selectedSeats.indexOf(seatId);
+						
+						localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+
+					
+						function onNext() {
 							console.log($("#seat-price")[0].innerHTML)
 							const text = $("#seat-price")[0].innerHTML;
 							const index$ = text.indexOf("$")
-							const price = parseInt(text.substring(index$+1))
-							localStorage.setItem("showPrice",JSON.stringify(price))
+							const price = parseInt(text.substring(index$ + 1))
+							localStorage.setItem("showPrice", JSON.stringify(price))
 							window.location.href = "/order/order-food"
 						}
 					</script>

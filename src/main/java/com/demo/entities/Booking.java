@@ -14,6 +14,7 @@ import jakarta.persistence.*;
 public class Booking implements java.io.Serializable {
 
 	private Integer id;
+	private Integer accountId;
 	private Account account;
 	private Date created;
 	private boolean status;
@@ -23,7 +24,11 @@ public class Booking implements java.io.Serializable {
 
 	public Booking() {
 	}
-
+	public Booking(Integer accountId) {
+		this.accountId = accountId;
+		//this.created = created;
+		this.status = true;
+	}
 	public Booking(Account account, Date created, boolean status) {
 		this.account = account;
 		this.created = created;

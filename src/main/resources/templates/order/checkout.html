@@ -15,7 +15,7 @@
 		<div class="order-step second--step order-step--disable">2. Choose a sit</div>
 		<div class="order-step third--step">3. Check out</div>
 	</div>
-
+// ban mo cho minh cai cho save data vao localsdtoreg voi 
 	<div class="col-sm-12">
 		<div class="checkout-wrapper" id="totalList">
 			<h2 class="page-heading">Price</h2>
@@ -45,6 +45,7 @@
 			<script th:inline="javascript">
 				const showId = JSON.parse(localStorage.getItem("showId"));
 				const foods = JSON.parse(localStorage.getItem("foods"));
+
 				const seatIds = JSON.parse(localStorage.getItem("seatIds"));
 				const showPrice = JSON.parse(localStorage.getItem("showPrice"));
 				console.log("book-final")
@@ -92,11 +93,15 @@
 				
 				function paymentFlight() {
 					var payment = parseFloat(totalCostBill);
-
+					// oke r do chay di 
+					// oke roi 1 cai nua la payload dang bi sai, dang bi thieu seat va food id thieu trong payload  =))
+					//mk biet loi ơ dau roi , mk lay 150k ban xem sa? ok ,oke nhe lat minh giai thich cho luon
+					//nhung cai booking detail no van chua duoc luu vao ma ban , log BE y  , neu chua luu thi co the do BE chua viet doan day, con ko luu thi no phai show loi chu ]
+					console.log();
 					$.ajax({
 						type: "POST",
-						url: "api/vnpay",
-						data: {payment},
+						url: `api/vnpay/${payment}`,
+						data: {},
 						dataType: 'JSON',
 						success: function (res) {
 							if (res.code === '00') {

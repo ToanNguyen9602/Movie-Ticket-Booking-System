@@ -20,6 +20,7 @@ public class Shows implements java.io.Serializable {
 	private Date startTime;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date endTime;
+	@OneToMany(mappedBy = "shows")
 	private Set<BookingDetails> bookingDetailses = new HashSet<BookingDetails>(0);
 
 	public Shows() {

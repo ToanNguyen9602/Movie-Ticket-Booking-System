@@ -18,6 +18,10 @@ public class FoodBookingDetails implements java.io.Serializable {
 
 	public FoodBookingDetails() {
 	}
+	
+	public FoodBookingDetails(FoodBookingDetailsId id) {
+		this.id = id;
+	}
 
 	public FoodBookingDetails(FoodBookingDetailsId id, Booking booking, FoodMenu foodMenu, Integer quantity, Integer price) {
 		this.id = id;

@@ -2,6 +2,7 @@ package com.demo.services;
 
 import java.util.List;
 
+import com.demo.dtos.BookingDTO;
 import com.demo.entities.Blogs;
 
 public interface BlogsService {

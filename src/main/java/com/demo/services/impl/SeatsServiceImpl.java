@@ -16,6 +16,7 @@ import com.demo.repositories.CinemaRepository;
 import com.demo.repositories.CityRepository;
 import com.demo.repositories.HallRepository;
 import com.demo.repositories.SeatsRepository;
+import com.demo.repositories.ShowsRepository;
 import com.demo.services.BlogsService;
 import com.demo.services.CityService;
 import com.demo.services.HallService;
@@ -26,6 +27,9 @@ public class SeatsServiceImpl implements SeatsService {
 
 	@Autowired
 	private SeatsRepository seatsRepository;
+	
+	@Autowired
+	private ShowsRepository showsRepository;
 
 	@Override
 	public boolean save(Seats seats) {
@@ -67,6 +71,11 @@ public class SeatsServiceImpl implements SeatsService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public Seats findSeatId(int hallId, String row, int number) {
+		return seatsRepository.findSeatId(hallId, row, number);
 	}
 	
 

@@ -57,31 +57,31 @@
 		const showPrice = JSON.parse(localStorage.getItem("showPrice"));
 		const status = $("#status").val();
 
-
-		
 		function insertBill() {
-			console.log(status)
-			var payment = parseFloat(totalCostBill);
-			
-		//	$.ajax({
-			//	type: "POST",
-			//	url: "order/savethank",
-			//	data: {
-			//		showPrice: localStorage.getItem('showPrice'),
-			//		showId: localStorage.getItem('showId'),
-			//		foods: localStorage.getItem('foods'),
-		//	seatIds: localStorage.getItem('seatIds'),
-					
-			//		},
-			//	dataType: 'JSON',
-			//	success: function (res) {
-					
-				//}, error: function (res) {
-				//	console.log("Fail");
-				//}
-			//});
-		}
-		insertBill();
+			const obj = {
+					showPrice: showPrice,
+					showId: showId,
+					foods: foods,
+					seatIds: seatIds	
+			}
+			console.log(obj)
+			$.ajax({
+                type: "POST",
+                url: "api/savethank",
+                data: JSON.stringify(obj),
+               contentType:'application/json',
+                success: function (res) {
+                    console.log(res);
+                    // Update the UI with the response data
+                    $('.ticket__cost').text(res.totalPrice); // Assuming totalPrice is the field in the response
+                }, 
+                error: function (res) {
+                    console.log(res)
+                    console.log("Fail");
+                }
+            });
+        }
+        insertBill();
 	</script>
 </section>
 

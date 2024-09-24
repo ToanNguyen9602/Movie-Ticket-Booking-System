@@ -34,5 +34,8 @@ public interface ShowsRepository extends JpaRepository<Shows, Integer> {
 	
     @Query("SELECT COUNT(s) FROM Shows s WHERE s.endTime < CURRENT_TIMESTAMP")
     public Integer countShowsWithEndTimeBeforeNow();
+    
+    @Query("from Shows where id=:showId")
+    public Shows findshowByShowId(@Param("showId") Integer showId);
 
 }

@@ -11,10 +11,12 @@ import com.demo.entities.Booking;
 import com.demo.entities.City;
 import com.demo.entities.Hall;
 
-public interface BookingRepository2  extends CrudRepository<Booking, Integer>{
-	
+public interface BookingRepository2 extends CrudRepository<Booking, Integer> {
+
 	@Query("from Booking where account.id = :accountId")
 	public List<Booking> findBookingbyAccountId(@Param("accountId") int accountId);
 
+	@Query("from Booking where id=:bookingId")
+	public Booking findBookingbyBookingId(@Param("bookingId") int bookingId);
 
 }

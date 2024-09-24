@@ -56,7 +56,6 @@
 												<table class="main__table">
 													<thead>
 														<tr>
-															<th>Id</th>
 															<th>Movie</th>
 															<th>Date</th>
 														</tr>
@@ -64,10 +63,7 @@
 
 													<tbody>
 														<tr th:each="show : ${shows}">
-															<td>
-																<div class="main__table-text main__table-text--rate"
-																	th:text="${show.id}"></div>
-															</td>
+															 
 
 															<td>
 																<div class="main__table-text"

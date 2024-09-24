@@ -19,6 +19,7 @@ import com.demo.dtos.ShowSeatsOrderingStatus;
 import com.demo.entities.Account;
 import com.demo.entities.Booking;
 import com.demo.entities.BookingDetails;
+import com.demo.entities.City;
 import com.demo.entities.Hall;
 import com.demo.entities.Seats;
 import com.demo.entities.Shows;
@@ -52,5 +53,15 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 		Integer sum = bookingDetailRepository.sumOfPricesByMovieId(id);
 		return sum != null ? sum : 0;
 	}
+
+	@Override
+	public boolean save(BookingDetails bookingdetails) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+
 
 }
